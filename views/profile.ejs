@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>IRSA</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <img id="profileimg" src="/images/blankprofile.png" />
+    <h1><%= name %></h1>
+    <p>Email: <%= name.toLowerCase().replace(" ", ".") + "@gmail.com" %></p>
+    <p>Waiver: <button id="viewpdf">View</button> <a href="/files/waiver.pdf" download><button>Download</button></a></p>
+    <iframe id="pdfframe" src="/files/waiver.pdf#toolbar=0" width="100%" height="500px" style="display: none;"></iframe>
+  </body>
+  <script>
+    document.getElementById('viewpdf').onclick = function() {
+      document.getElementById('pdfframe').style.display = 'block';
+    }
+  </script>
+</html>

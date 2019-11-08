@@ -16,3 +16,9 @@ table.sortable th:not(.sorttable_sorted):not(.sorttable_sorted_reverse):not(.sor
   height: 64px;
   width: 64px;
 }
+
+#profileimg {
+  display: block;
+  height: 128px;
+  width: 128px;
+}
