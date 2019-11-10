@@ -22,3 +22,16 @@ table.sortable th:not(.sorttable_sorted):not(.sorttable_sorted_reverse):not(.sor
   height: 128px;
   width: 128px;
 }
+#profileimg img {
+  display: block;
+  height: 128px;
+  width: 128px;
+}
+
+/* Sortable tables */
+table.sortable thead {
+    background-color:#eee;
+    color:#666666;
+    font-weight: bold;
+    cursor: default;
+}
