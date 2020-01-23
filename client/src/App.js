@@ -27,6 +27,7 @@ function updateData() {
   ];
 }
 
+// TODO: Needs correct number of columns and a pfp
 // Gets data and makes a row
 class UserRow extends React.Component {
   i = this.props.value;
@@ -45,8 +46,7 @@ class UserRow extends React.Component {
 
 // Will create a sortable table with a row for each data element
 class UserTable extends React.Component {
-  
-  // TODO: Implement sorting
+  // TODO: Implement sorting and meaningful column titles with sort arrows
   render() {
     return (
       <Table striped bordered hover>
