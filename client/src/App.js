@@ -1,25 +1,39 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.css'
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <p>IRSACMS</p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <table striped bordered hover>
+        <thead>
+          <th>#</th>
+          <th>data</th>
+          <th>data</th>
+          <th>data</th>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>test</td>
+            <td>test</td>
+            <td>test</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>test</td>
+            <td>test</td>
+            <td>test</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>test</td>
+            <td>test</td>
+            <td>test</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   );
 }
