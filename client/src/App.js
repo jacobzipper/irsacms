@@ -30,10 +30,10 @@ class UserRow extends React.Component {
   render() {
     return (
       <tr onClick={() => alert("Click!!")}>
-        <td> {i + 1} </td>
-        <td> {this.data[i].id} </td>
-        <td> {this.data[i].name} </td>
-        <td> {this.data[i].info} </td>
+        <td> {this.i + 1} </td>
+        <td> {this.data[this.i].id} </td>
+        <td> {this.data[this.i].name} </td>
+        <td> {this.data[this.i].info} </td>
       </tr>
     );
   }
