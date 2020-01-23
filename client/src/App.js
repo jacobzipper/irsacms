@@ -15,7 +15,7 @@ class UserRow extends React.Component {
   // TODO: <tr> needs onClick()
   render() {
     return (
-      <tr onClick={() => alert('Click!!')}>
+      <tr onClick={() => alert("Click!!")}>
         <td> {this.props.value} </td>
         <td> {this.data.id} </td>
         <td> {this.data.name} </td>
@@ -39,7 +39,7 @@ class UserTable extends React.Component {
           <th>data</th>
         </thead>
         <tbody>
-          {this.phRow.keys().map(index => (
+          {Array.from(this.phRow.keys()).map(index => (
             <UserRow value={index} />
           ))}
         </tbody>
