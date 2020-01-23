@@ -4,31 +4,42 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.css";
 import Table from "react-bootstrap/Table";
 
-class UserRow extends React.Component {
-  // TODO: be populated by data from backend
-  data = {
+// The data exists here. Needs to be updated on app load
+var data;
+
+// This will return the data from the backend
+function updateData() {
+  data = [{
     id: 1337,
     name: "test",
     info: "test"
-  };
+  },{
+    id: 1456,
+    name: "test",
+    info: "test"
+  },{
+    id: 1066,
+    name: "test",
+    info: "test"
+  }]
+}
 
-  // TODO: <tr> needs onClick()
+class UserRow extends React.Component {
+  i = this.props.value;
+  
   render() {
     return (
       <tr onClick={() => alert("Click!!")}>
-        <td> {this.props.value} </td>
-        <td> {this.data.id} </td>
-        <td> {this.data.name} </td>
-        <td> {this.data.info} </td>
+        <td> {i + 1} </td>
+        <td> {this.data[i].id} </td>
+        <td> {this.data[i].name} </td>
+        <td> {this.data[i].info} </td>
       </tr>
     );
   }
 }
 
 class UserTable extends React.Component {
-  // Placeholder for number of rows
-  phRow = [8, 9, 3, 6, 0];
-  // TODO: needs to know how many row to make
   render() {
     return (
       <Table striped bordered hover>
@@ -39,7 +50,7 @@ class UserTable extends React.Component {
           <th>data</th>
         </thead>
         <tbody>
-          {Array.from(this.phRow.keys()).map(index => (
+          {Array.from(this.data.keys()).map(index => (
             <UserRow value={index} />
           ))}
         </tbody>
@@ -49,6 +60,7 @@ class UserTable extends React.Component {
 }
 
 function App() {
+  updateData();
   return (
     <div className="m-4">
       <UserTable />
