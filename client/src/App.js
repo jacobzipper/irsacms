@@ -1,32 +1,35 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.css";
 import Table from "react-bootstrap/Table";
 
 // The data exists here. Needs to be updated on app load
-var data;
+var data = [];
 
 // This will return the data from the backend
 function updateData() {
-  data = [{
-    id: 1337,
-    name: "test",
-    info: "test"
-  },{
-    id: 1456,
-    name: "test",
-    info: "test"
-  },{
-    id: 1066,
-    name: "test",
-    info: "test"
-  }]
+  data = [
+    {
+      id: 1337,
+      name: "test",
+      info: "test"
+    },
+    {
+      id: 1456,
+      name: "test",
+      info: "test"
+    },
+    {
+      id: 1066,
+      name: "test",
+      info: "test"
+    }
+  ];
 }
 
 class UserRow extends React.Component {
   i = this.props.value;
-  
+
   render() {
     return (
       <tr onClick={() => alert("Click!!")}>
