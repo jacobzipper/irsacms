@@ -3,9 +3,6 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.css";
 import Table from "react-bootstrap/Table";
 
-// The data exists here. Needs to be updated on app load
-var data = new Array(1);
-
 // This will return the data from the backend
 function updateData() {
   data = [
@@ -27,10 +24,13 @@ function updateData() {
   ];
 }
 
+// The data exists here. Needs to be updated on app load
+var data = updateData();
+
+// Gets data and makes a row
 class UserRow extends React.Component {
   i = this.props.value;
 
-  // Gets data and makes a row
   render() {
     return (
       <tr onClick={() => alert("Click!!")}>
