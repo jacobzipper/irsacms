@@ -5,23 +5,30 @@ import "bootstrap/dist/css/bootstrap.css";
 import Table from "react-bootstrap/Table";
 
 class UserRow extends React.Component {
-  state = {
-    imageUrl: 'https://picsum.photo/100'
+  // TODO: be populated by data from backend
+  data = {
+    id: 1337,
+    name: 'test',
+    info: 'test'
   };
   
+  // TODO: <tr> needs onClick()
   render() {
     return (
       <tr>
-        <td>1</td>
-        <td><img src={this.state.imageUrl}  alt="" /></td>
-        <td>test</td>
-        <td>test</td>
+        <td> {this.props.value} </td>
+        <td> {this.data.id} </td>
+        <td> {this.data.name} </td>
+        <td> {this.data.info} </td>
       </tr>
     );
   }
 }
 
 class UserTable extends React.Component {
+  // Placeholder for number of rows
+  phRow = [8, 9, 3, 6, 0]
+  // TODO: needs to know how many row to make
   render() {
     return (
       <Table striped bordered hover>
@@ -32,9 +39,7 @@ class UserTable extends React.Component {
           <th>data</th>
         </thead>
         <tbody>
-          <UserRow />
-          <UserRow />
-          <UserRow />
+          { this.phRow.map(row => <UserRow value={ row.index } />) }
         </tbody>
       </Table>
     );
@@ -42,6 +47,7 @@ class UserTable extends React.Component {
 }
 
 function App() {
+  
   return (
     <div className="m-4">
       <UserTable />
