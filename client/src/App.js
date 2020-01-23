@@ -39,7 +39,7 @@ class UserTable extends React.Component {
           <th>data</th>
         </thead>
         <tbody>
-          {this.phRow.map(row, index => (
+          {this.phRow.map(index => (
             <UserRow value={index} />
           ))}
         </tbody>
