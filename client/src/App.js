@@ -8,10 +8,10 @@ class UserRow extends React.Component {
   // TODO: be populated by data from backend
   data = {
     id: 1337,
-    name: 'test',
-    info: 'test'
+    name: "test",
+    info: "test"
   };
-  
+
   // TODO: <tr> needs onClick()
   render() {
     return (
@@ -27,7 +27,7 @@ class UserRow extends React.Component {
 
 class UserTable extends React.Component {
   // Placeholder for number of rows
-  phRow = [8, 9, 3, 6, 0]
+  phRow = [8, 9, 3, 6, 0];
   // TODO: needs to know how many row to make
   render() {
     return (
@@ -39,7 +39,9 @@ class UserTable extends React.Component {
           <th>data</th>
         </thead>
         <tbody>
-          { this.phRow.map(row => <UserRow value={ row.index.toString() } />) }
+          {this.phRow.map(row, index => (
+            <UserRow value={index} />
+          ))}
         </tbody>
       </Table>
     );
@@ -47,7 +49,6 @@ class UserTable extends React.Component {
 }
 
 function App() {
-  
   return (
     <div className="m-4">
       <UserTable />
