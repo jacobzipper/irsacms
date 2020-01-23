@@ -3,6 +3,9 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.css";
 import Table from "react-bootstrap/Table";
 
+// The data exists here. Needs to be updated on app load
+var data = new Array(1);
+
 // This will return the data from the backend
 function updateData() {
   data = [
@@ -24,9 +27,6 @@ function updateData() {
   ];
 }
 
-// The data exists here. Needs to be updated on app load
-var data = updateData();
-
 // Gets data and makes a row
 class UserRow extends React.Component {
   i = this.props.value;
@@ -45,6 +45,7 @@ class UserRow extends React.Component {
 
 // Will create a sortable table with a row for each data element
 class UserTable extends React.Component {
+  
   // TODO: Implement sorting
   render() {
     return (
@@ -56,7 +57,7 @@ class UserTable extends React.Component {
           <th>data</th>
         </thead>
         <tbody>
-          {Array.from(this.data.keys()).map(index => (
+          {Array.from(data.keys()).map(index => (
             <UserRow value={index} />
           ))}
         </tbody>
