@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 function App() {
   return (
     <div className="App">
-      <table striped bordered hover>
+      <Table striped bordered hover>
         <thead>
           <th>#</th>
           <th>data</th>
@@ -33,7 +33,7 @@ function App() {
             <td>test</td>
           </tr>
         </tbody>
-      </table>
+      </Table>
     </div>
   );
 }
