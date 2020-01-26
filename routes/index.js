@@ -1,9 +1,17 @@
-var express = require('express');
-var router = express.Router();
+const  express = require('express');
+const router = express.Router();
 
+const { Pool, Client } = require('pg');
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: true,
+})
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index');
+router.get('/', async function(req, res, next) {
+  const students = await pool.query('SELECT * FROM STUDENTS');
+  console.log(students.rows);
+  res.json(students.rows);
 });
 
 /* GET profile page. */
