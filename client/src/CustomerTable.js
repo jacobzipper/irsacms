@@ -1,8 +1,7 @@
 import React from "react";
-import Table from "react-bootstrap/Table";
+import BootstrapTable from 'react-bootstrap-table-next';
 import ProfileModal from "./ProfileModal";
-import generateSampleData from "./sampleData";
-
+import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 
 // TODO: make this a functional component
 class CustomerTable extends React.Component {
@@ -21,62 +20,82 @@ class CustomerTable extends React.Component {
     modalShow:bool
   })
 
-  handleRowClick(data) {
-    this.setState({
-    ...this,
-    modalShow:true,
-    lastSelectedStudent : data,
-    })
-  }
-
-  // TODO: make backend api call to update state
-  // This will fetch latest customer from backend
-  fetchCustomerList() {
-    this.data = generateSampleData();
-  }
   
-  // given an object represnting info of a single customer,
-  // return a formatted row for the table
-  makeTableRow(rowData) {
-    return (
-      <tr onClick={() => this.handleRowClick(rowData)}>
-        <td> {rowData.id} </td>
-        <td> {rowData.name} </td>
-        <td> {rowData.contact} </td>
-        <td> {rowData.paymentStatus} </td>
-      </tr>
+  componentDidMount() {
+    fetch('/api')
+      .then(res => res.json())
+      .then( (res) => { 
+        this.setState({
+          ...this.state,
+          data: res
+        })
+      }
     );
   }
 
-  // TODO: Implement sorting
   render() {
-    this.fetchCustomerList();
-    let show = this.state.show
-    let handleClose = this.handleClose
+    // column definitions
+    const columns = [
+      {
+        dataField: 'id',
+        text: 'Customer ID ',
+        sort: true
+      }, 
+      {
+        dataField: 'img',
+        text: 'Picture ',
+      }, 
+      {
+        dataField: 'name',
+        text: 'Name',
+        sort: true
+      },
+      {
+        dataField: 'reg',
+        text: 'Registration Date',
+        sort: true
+      },
+      {
+        dataField: 'waiver',
+        text: 'Documents Pending?',
+        sort: true
+      },
+      {
+        dataField: 'payment',
+        text: 'Payment Pending?',
+        sort: true
+      }, 
+    ];
+
+    // event handler for clicking on a row
+    const rowEvents = {
+      onClick: (e, row, rowIndex) => {
+        this.setState({
+          ...this,
+          modalShow:true,
+          lastSelectedStudent : row,
+          })
+      }
+    };
+
+
     return (
-    <>
-      <Table striped bordered hover>
-
-        <thead>
-          <th>Customer ID: </th>
-          <th>Name: </th>
-          <th>Preferred Contact: </th>
-          <th>Payment Status: </th>
-        </thead>
-
-        <tbody>
-          { this.data.map(row => this.makeTableRow(row)) }
-        </tbody>
-
-      </Table>
-
-      <ProfileModal
-        show={this.state.modalShow}
-        onHide={() => this.setModalShow(false)}
-        data={this.state.lastSelectedStudent}
-      />
-
-    </>
+      <>
+        <BootstrapTable
+          keyField='id'
+          data={ this.state.data == undefined ? []: this.state.data }
+          columns={ columns }
+          rowEvents={ rowEvents }
+          striped
+          hover
+          bootstrap4
+        />
+        <ProfileModal
+          show={this.state.modalShow}
+          onHide={() => this.setModalShow(false)}
+          data={this.state.lastSelectedStudent}
+        />
+      </>
     );
   }
 }

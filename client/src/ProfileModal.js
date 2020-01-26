@@ -19,7 +19,7 @@ function ProfileModal(props) {
       </Modal.Header>
 
       <Modal.Body>
-
+        {/* TODO: format json into nicer html here */}
         {JSON.stringify(data)}
 
       </Modal.Body>
