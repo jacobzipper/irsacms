@@ -3,6 +3,7 @@ import "./App.css";
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import "bootstrap/dist/css/bootstrap.css";
 import CustomerTable from './CustomerTable'
+import Login from './Login'
 import Jumbotron from "react-bootstrap/Jumbotron";
 
 
@@ -29,6 +30,9 @@ function App() {
 
     <div className="m-4">
       <CustomerTable />
+    </div>
+    <div className="login">
+      <Login />
     </div>
    </>
   );
