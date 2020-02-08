@@ -1,10 +1,35 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import {
+  BrowserRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom'
+
+class Page extends Component {
+  render() {
+    return (
+      <Router>
+        <div>
+          <h2>IRSACMS </h2>
+            <ul>
+              <li> <Link to="/"> Students</Link></li>
+              <li> <Link to="/login"> Login</Link></li>
+            </ul>
+
+            <Route path='/' component={App} />
+        </div>
+      </Router>
+    )
+  }
+}
+
+// ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<Page />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
