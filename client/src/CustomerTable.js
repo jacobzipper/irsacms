@@ -1,70 +1,68 @@
 import React from "react";
-import BootstrapTable from 'react-bootstrap-table-next';
+import BootstrapTable from "react-bootstrap-table-next";
 import ProfileModal from "./ProfileModal";
-import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
+import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 
 // TODO: make this a functional component
 class CustomerTable extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
-      modalShow : false, // needed to toggle modal
-      lastSelectedStudent : null, // needed to pass clicked student to modal
+      modalShow: false, // needed to toggle modal
+      lastSelectedStudent: null // needed to pass clicked student to modal
     };
   }
-  
-  // function used to toggle Profile Modal
-  setModalShow = (bool) => this.setState({
-    ...this,
-    modalShow:bool
-  })
 
-  
+  // function used to toggle Profile Modal
+  setModalShow = bool =>
+    this.setState({
+      ...this,
+      modalShow: bool
+    });
+
   componentDidMount() {
-    fetch('/api')
+    fetch("/api")
       .then(res => res.json())
-      .then( (res) => { 
+      .then(res => {
         this.setState({
           ...this.state,
           data: res
-        })
-      }
-    );
+        });
+      });
   }
 
   render() {
     // column definitions
     const columns = [
       {
-        dataField: 'id',
-        text: 'Customer ID ',
-        sort: true
-      }, 
-      {
-        dataField: 'img',
-        text: 'Picture ',
-      }, 
-      {
-        dataField: 'name',
-        text: 'Name',
+        dataField: "id",
+        text: "Customer ID ",
         sort: true
       },
       {
-        dataField: 'reg',
-        text: 'Registration Date',
+        dataField: "img",
+        text: "Picture "
+      },
+      {
+        dataField: "name",
+        text: "Name",
         sort: true
       },
       {
-        dataField: 'waiver',
-        text: 'Documents Pending?',
+        dataField: "reg",
+        text: "Registration Date",
         sort: true
       },
       {
-        dataField: 'payment',
-        text: 'Payment Pending?',
+        dataField: "waiver",
+        text: "Documents Pending?",
         sort: true
-      }, 
+      },
+      {
+        dataField: "payment",
+        text: "Payment Pending?",
+        sort: true
+      }
     ];
 
     // event handler for clicking on a row
@@ -72,20 +70,19 @@ class CustomerTable extends React.Component {
       onClick: (e, row, rowIndex) => {
         this.setState({
           ...this,
-          modalShow:true,
-          lastSelectedStudent : row,
-          })
+          modalShow: true,
+          lastSelectedStudent: row
+        });
       }
     };
-
 
     return (
       <>
         <BootstrapTable
-          keyField='id'
-          data={ this.state.data == undefined ? []: this.state.data }
-          columns={ columns }
-          rowEvents={ rowEvents }
+          keyField="id"
+          data={this.state.data == undefined ? [] : this.state.data}
+          columns={columns}
+          rowEvents={rowEvents}
           striped
           hover
           bootstrap4
@@ -99,5 +96,5 @@ class CustomerTable extends React.Component {
     );
   }
 }
-      
+
 export default CustomerTable;

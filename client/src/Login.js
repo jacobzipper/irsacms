@@ -1,17 +1,16 @@
 import React from "react";
 
-import Form from 'react-bootstrap/Form';
+import Form from "react-bootstrap/Form";
 
-import { Button, Jumbotron} from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { Button, Jumbotron } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 // TODO: make this a functional component
 class Login extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
-      passwordVisible: false,
+      passwordVisible: false
     };
   }
 
@@ -20,12 +19,10 @@ class Login extends React.Component {
   }
 
   render() {
-
     function handleSubmit(event) {
       event.preventDefault();
       console.log("pressed submit!");
     }
-
 
     return (
       <>
@@ -33,7 +30,7 @@ class Login extends React.Component {
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="formBasicEmail">
               <Form.Label>Email address</Form.Label>
-              <Form.Control type="email" placeholder="Enter email" /> 
+              <Form.Control type="email" placeholder="Enter email" />
               <Form.Text className="text-muted">
                 We'll never share your email with anyone else.
               </Form.Text>
@@ -55,5 +52,5 @@ class Login extends React.Component {
     );
   }
 }
-      
+
 export default Login;
