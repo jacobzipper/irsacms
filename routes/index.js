@@ -8,7 +8,7 @@ const pool = new Pool({
   ssl: true,
 })
 /* GET home page. */
-router.get('/', async function(req, res, next) {
+router.get('/customers', async function(req, res, next) {
   const students = await pool.query('SELECT * FROM STUDENTS');
   res.json(students.rows);
 });
