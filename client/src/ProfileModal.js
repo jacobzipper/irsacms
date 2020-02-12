@@ -26,16 +26,17 @@ function ProfileModal(props) {
 
       <Modal.Body>
         {/* TODO: format json into nicer html here */}
+        
         {img}
-        <p>Name: {data.name} </p>
-        <p>Registration Date: {data.reg} </p>
-        <p>Waiver Status: {waiver} </p>
-        <p>Payment Status: {payment} </p>
+        <p>Name: {data.name} </p> 
+        <p>Registration Date: {data.reg}</p>
+        <p>Waiver Status: {waiver}  </p>
+        <p>Payment Status: {payment} {/* <Button className="float-right" onClick={props.onHide}>Edit</Button>*/} </p>
         {JSON.stringify(data)}
       </Modal.Body>
 
       <Modal.Footer>
-        <Button onClick={props.onHide}>Close</Button>
+        <Button href={waiver}>Download Waiver</Button> <Button onClick={props.onHide}>Email</Button><Button onClick={props.onHide}>Close</Button>
       </Modal.Footer>
     </Modal>
   );
