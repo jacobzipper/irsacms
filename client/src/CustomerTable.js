@@ -22,7 +22,7 @@ class CustomerTable extends React.Component {
 
   
   componentDidMount() {
-    fetch('/api')
+    fetch('/api/customers')
       .then(res => res.json())
       .then( (res) => { 
         this.setState({

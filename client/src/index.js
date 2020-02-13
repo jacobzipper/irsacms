@@ -11,20 +11,37 @@ import {
   Link
 } from 'react-router-dom'
 
+import Navbar from 'react-bootstrap/Navbar'
+import Nav from 'react-bootstrap/Nav'
+
 class Page extends Component {
   render() {
     return (
       <Router>
+
         <div>
-          <h2>IRSACMS </h2>
-            <ul>
-              <li> <Link to="/"> Students</Link></li>
-              <li> <Link to="/login"> Login</Link></li>
-            </ul>
+          {/* Navigation Bar with Routes */}
+          <Navbar bg="light" expand="lg">
+
+            {/* Navbar elements that links to home */}
+            <Navbar.Brand> <Link to="/"> IRSACMS </Link></Navbar.Brand>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+
+            {/* Things in here will collapse if viewport is smol */}
+            <Navbar.Collapse id="basic-navbar-nav">
+              <Nav className="mr-auto">
+                <Nav.Link> <Link to="/"> Students </Link> </Nav.Link>
+                <Nav.Link> <Link to="/login"> Login </Link> </Nav.Link>
+              </Nav>
+            </Navbar.Collapse>
+
+          </Navbar>
+
 
             <Route exact path='/' component={App} />
             <Route path='/login' component={Login} />
         </div>
+
       </Router>
     )
   }

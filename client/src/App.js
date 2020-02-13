@@ -3,13 +3,15 @@ import "./App.css";
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import "bootstrap/dist/css/bootstrap.css";
 import CustomerTable from './CustomerTable'
-import Login from './Login'
 import Jumbotron from "react-bootstrap/Jumbotron";
+import Container from 'react-bootstrap/Container'
 
 
 function App() {
   return (
   <>
+    
+    {/* Just some text. */}
     <Jumbotron>
       <h1>IRSA Client Management System v0</h1>
       <p>
@@ -28,9 +30,12 @@ function App() {
       </p>
     </Jumbotron>
 
-    <div className="m-4">
+    {/*  */}
+    {/* <div className="m-4"> */}
+    <Container>
       <CustomerTable />
-    </div>
+    </Container>
+    {/* </div> */}
    </>
   );
 }
