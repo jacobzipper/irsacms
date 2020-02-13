@@ -34,6 +34,12 @@ class CustomerTable extends React.Component {
   }
 
   render() {
+    // post
+    fetch("/api/customer", {method: 'POST', body: {"id":1,"name":"Cool Dude","img":null,"reg":"1999-01-12T00:00:00.000Z","waiver":false,"payment":false}})
+    .then(res2 => {
+      console.log(res2.body);
+    });
+
     // column definitions
     const columns = [
       {
