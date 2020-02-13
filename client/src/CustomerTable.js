@@ -59,7 +59,21 @@ class CustomerTable extends React.Component {
       {
         dataField: 'reg',
         text: 'Registration Date',
-        sort: true
+        sort: true,
+        // sortFunc not necessary -- just sort by original date and format the visual output instead
+        // sortFunc: (a, b, order) => {
+        //   console.log(a);
+        //   console.log(b);
+        //   console.log(order);
+        //   return Math.floor(Math.random() * 99);
+        // },
+        formatter: function(cell, row){
+          var dateObj = new Date(Date.parse(cell));
+          var month = dateObj.getUTCMonth() + 1; //months from 1-12
+          var day = dateObj.getUTCDate();
+          var year = dateObj.getUTCFullYear();
+          return year + "/" + month + "/" + day;
+        }
       },
       {
         dataField: 'waiver',
