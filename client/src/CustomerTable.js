@@ -1,6 +1,7 @@
 import React from "react";
 import BootstrapTable from 'react-bootstrap-table-next';
 import ProfileModal from "./ProfileModal";
+import ProfileEdit from "./ProfileEdit";
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 
 // TODO: make this a functional component
@@ -60,6 +61,8 @@ class CustomerTable extends React.Component {
         dataField: 'reg',
         text: 'Registration Date',
         sort: true,
+        
+        // https://react-bootstrap-table.github.io/react-bootstrap-table2/docs/basic-sort.html
         // sortFunc not necessary -- just sort by original date and format the visual output instead
         // sortFunc: (a, b, order) => {
         //   console.log(a);
@@ -67,6 +70,8 @@ class CustomerTable extends React.Component {
         //   console.log(order);
         //   return Math.floor(Math.random() * 99);
         // },
+        
+        // https://react-bootstrap-table.github.io/react-bootstrap-table2/docs/column-props.html#columnformatter-function
         formatter: function(cell, row){
           var dateObj = new Date(Date.parse(cell));
           var month = dateObj.getUTCMonth() + 1; //months from 1-12
@@ -110,7 +115,9 @@ class CustomerTable extends React.Component {
           hover
           bootstrap4
         />
-        <ProfileModal
+
+        {/* Change to ProfileModal for alternate look */}
+        <ProfileEdit
           show={this.state.modalShow}
           onHide={() => this.setModalShow(false)}
           data={this.state.lastSelectedStudent}
