@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import Login from './Login';
 import * as serviceWorker from './serviceWorker';
 
 import {
@@ -21,7 +22,8 @@ class Page extends Component {
               <li> <Link to="/login"> Login</Link></li>
             </ul>
 
-            <Route path='/' component={App} />
+            <Route exact path='/' component={App} />
+            <Route path='/login' component={Login} />
         </div>
       </Router>
     )

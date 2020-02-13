@@ -31,9 +31,6 @@ function App() {
     <div className="m-4">
       <CustomerTable />
     </div>
-    <div className="login">
-      <Login />
-    </div>
    </>
   );
 }
