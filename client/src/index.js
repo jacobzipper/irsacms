@@ -1,54 +1,59 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import Login from './Login';
+import './index.css'
 import * as serviceWorker from './serviceWorker';
-
 import {
   BrowserRouter as Router,
-  Route,
   Link
 } from 'react-router-dom'
 
-import Navbar from 'react-bootstrap/Navbar'
-import Nav from 'react-bootstrap/Nav'
+import { Nav, Navbar} from "react-bootstrap";
+import { LinkContainer } from "react-router-bootstrap";
+
+import Routes from './Routes';
 
 class Page extends Component {
   render() {
     return (
       <Router>
-
         <div>
           {/* Navigation Bar with Routes */}
-          <Navbar bg="light" expand="lg">
-
-            {/* Navbar elements that links to home */}
-            <Navbar.Brand> <Link to="/"> IRSACMS </Link></Navbar.Brand>
+          <Navbar bg="dark" variant="dark" expand="lg">
+            {/* Nav bar properties for responsiveness (i think ?)  */}
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
 
-            {/* Things in here will collapse if viewport is smol */}
+            {/* Navbar elements that link to places */}
             <Navbar.Collapse id="basic-navbar-nav">
-              <Nav className="mr-auto">
-                <Nav.Link> <Link to="/"> Students </Link> </Nav.Link>
-                <Nav.Link> <Link to="/login"> Login </Link> </Nav.Link>
+              <Nav>
+
+                <LinkContainer to="/home">
+                  <Nav.Link>IRSA Client Manager</Nav.Link>
+                </LinkContainer>
+
+                <LinkContainer to="/students">
+                  <Nav.Link> Students </Nav.Link>
+                </LinkContainer>
+
+                <LinkContainer to="/login">
+                  <Nav.Link> Login </Nav.Link>
+                </LinkContainer> 
+
               </Nav>
             </Navbar.Collapse>
 
           </Navbar>
 
+          {/* ACTUAL pages that are routed to */}
+          <Routes />
 
-            <Route exact path='/' component={App} />
-            <Route path='/login' component={Login} />
+          
         </div>
-
       </Router>
-    )
+    );
   }
 }
 
-// ReactDOM.render(<App />, document.getElementById('root'));
-ReactDOM.render(<Page />, document.getElementById('root'));
+ReactDOM.render(<Page />, document.getElementById('root') );
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

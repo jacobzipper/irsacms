@@ -7,6 +7,7 @@ import Jumbotron from "react-bootstrap/Jumbotron";
 import Container from 'react-bootstrap/Container'
 
 
+// TODO: refactor this as students page, and make app be the routing with navbar page
 function App() {
   return (
   <>
