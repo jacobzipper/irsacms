@@ -1,21 +1,29 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
-import { BrowserRouter as Router } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 
 import Navbar from "./Navbar";
-import Routes from './Routes';
+import StudentPage from './student-page/StudentPage';
+import LoginPage from './login-page/LoginPage';
 
 
 function App() {
+  const [auth, setAuth] = React.useState(false);
+
   return (
     <Router>
         {/* This is the Navbar, add more links to places in the app here */}
         <Navbar /> 
-        
-        {/* Any new components/pages added need to have corresponding route
-            added in this Routes component. */}
-        <Routes />
+
+        <Switch>
+          {/* TODO: make / route to a homepage */}
+          <Route exact path='/' component={StudentPage} />
+          <Route exact path='/students' component={StudentPage} />
+          <Route exact path='/login' component={LoginPage} />
+          {/* <Route component={NotFound} /> */}
+      </Switch>
+
     </Router>
   );
 }

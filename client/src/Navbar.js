@@ -13,7 +13,7 @@ export default function NavBar() {
       <Navbar.Collapse id="basic-navbar-nav">
 
         <Nav>
-          <LinkContainer to="/home">
+          <LinkContainer to="/">
           <Nav.Link>IRSA Client Manager</Nav.Link>
           </LinkContainer>
           
