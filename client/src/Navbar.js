@@ -4,8 +4,9 @@ import { Nav, Navbar} from "react-bootstrap";
 
 // note: need to call it NavBar instead of Navbar because of import 'Navbar"
 // from react bootstrap. However, this is not necessary outside of this module.
-function NavBar() {
+export default function NavBar() {
   return (
+
     <Navbar bg="dark" variant="dark" expand="lg">
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
     
@@ -28,9 +29,6 @@ function NavBar() {
       </Navbar.Collapse>
     
     </Navbar>  
+    
   );
 }
-  
-// note: need to call it NavBar instead of Navbar because of import 'Navbar"
-// from react bootstrap. However, this is not necessary outside of this module.
-export default NavBar;

@@ -1,8 +1,8 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 
-import StudentPage from './StudentPage';
-import LoginPage from './LoginPage';
+import StudentPage from './student-page/StudentPage';
+import LoginPage from './login-page/LoginPage';
 
 
 export default function Routes() {
@@ -14,5 +14,5 @@ export default function Routes() {
       <Route exact path='/login' component={LoginPage} />
       {/* <Route component={NotFound} /> */}
     </Switch>
-    );
-  }
+  );
+}
