@@ -2,7 +2,7 @@ import React from "react";
 
 import Form from "react-bootstrap/Form";
 
-import { Button, Jumbotron } from "react-bootstrap";
+import { Button, Jumbotron, Container, Row, Col} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 // TODO: make this a functional component
@@ -11,8 +11,8 @@ class Login extends React.Component {
     super(props);
     this.state = {
       passwordVisible: false,
-      email: "DEFAULTEMAIL",
-      password: "DEFAULTPASSWORD"
+      email: "",
+      password: ""
     };
 
     this.handleEmailChange = this.handleEmailChange.bind(this);
@@ -68,7 +68,12 @@ class Login extends React.Component {
 
     return (
       <>
-        <Jumbotron>
+        <Container>
+        <h1>Login</h1>
+          <Jumbotron>
+        <Row>
+          <Col />
+          <Col xs={6}>
           <Form onSubmit={this.handleSubmit}>
             <Form.Group controlId="formBasicEmail">
               <Form.Label>Email address</Form.Label>
@@ -89,8 +94,11 @@ class Login extends React.Component {
               Submit
             </Button>
           </Form>
-          
+          </Col>
+          <Col />
+        </Row>
         </Jumbotron>
+        </Container>
       </>
     );
   }
