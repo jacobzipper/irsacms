@@ -43,10 +43,12 @@ class Login extends React.Component {
 
 
     // test code
-    fetch("/api/login", {method: 'POST', body: {username: this.state.email, password: this.state.password}})
+    fetch("/api/login", {method: 'POST', body: JSON.stringify({username: "tony", password: "tonybarajas123"})})
+    .then(res => res.json())
     .then(res => {
       console.log("RES:");
       console.log(res);
+      
     });
 
     // fetch('/api/')
@@ -55,15 +57,8 @@ class Login extends React.Component {
     //   }
     // );
 
-
-    // login code
-    // const { name, value } = event.target;
-    // console.log(name);
-    // console.log(value);
-    // console.log(event.target);
-
-    console.log(this.state.email + "!");
-    console.log(this.state.password + "!");
+    console.log(this.state.email);
+    console.log(this.state.password);
 
 
     const cookies = new Cookies();
@@ -86,7 +81,7 @@ class Login extends React.Component {
           <Form onSubmit={this.handleSubmit}>
             <Form.Group controlId="formBasicEmail">
               <Form.Label>Email address</Form.Label>
-              <Form.Control type="email" placeholder="Enter email" value={this.state.email} onChange={this.handleEmailChange}/>
+              <Form.Control placeholder="Enter email" value={this.state.email} onChange={this.handleEmailChange}/>
               <Form.Text className="text-muted">
                 We'll never share your email with anyone else.
               </Form.Text>
