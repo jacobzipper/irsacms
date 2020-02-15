@@ -43,9 +43,9 @@ class Login extends React.Component {
 
 
     // test code
-    fetch("/api")
+    fetch("/api/login", {method: 'POST', body: {username: this.state.email, password: this.state.password}})
     .then(res => {
-      console.log('res:');
+      console.log("RES:");
       console.log(res);
     });
 
