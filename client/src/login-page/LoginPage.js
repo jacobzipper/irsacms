@@ -39,16 +39,32 @@ class Login extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    console.log("pressed submit!");
 
-
+    var data = {username: this.state.email, password: this.state.password};
     // test code
-    fetch("/api/login", {method: 'POST', body: JSON.stringify({username: "tony", password: "tonybarajas123"})})
+    fetch("/api/login", {
+      method: 'POST', 
+      credentials: 'same-origin', // include, *same-origin, omit
+      headers: {
+        'Content-Type': 'application/json'
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: JSON.stringify(data),
+    })
     .then(res => res.json())
     .then(res => {
-      console.log("RES:");
       console.log(res);
-      
+      const cookies = new Cookies();
+      if (res.auth) {
+        console.log("login succeeded!");
+        cookies.set('loginSuccess', 'true', { path: '/' });
+        console.log(cookies.get('loginSuccess')); // true
+      }
+      else {
+        console.log("login failed!");
+        cookies.set('loginSuccess', 'false', { path: '/' });
+        console.log(cookies.get('loginSuccess')); // true
+      }
     });
 
     // fetch('/api/')
@@ -61,9 +77,9 @@ class Login extends React.Component {
     console.log(this.state.password);
 
 
-    const cookies = new Cookies();
-    cookies.set('loginSuccess', 'true', { path: '/' });
-    console.log(cookies.get('loginSuccess')); // true
+    // const cookies = new Cookies();
+    // cookies.set('loginSuccess', 'true', { path: '/' });
+    // console.log(cookies.get('loginSuccess')); // true
 
     
   }

@@ -7,6 +7,18 @@ import Navbar from "./Navbar";
 import StudentPage from './student-page/StudentPage';
 import LoginPage from './login-page/LoginPage';
 
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
+
+
+var isLoggedIn = function() {
+  var b = cookies.get('loginSuccess');
+  console.log("b: " + b);
+  console.log("b == 'true':" + (b=='true'));
+  console.log(cookies.getAll());
+  return (b == "true")
+
+}
 
 function App() {
   const [auth, setAuth] = React.useState(false);
@@ -19,7 +31,17 @@ function App() {
         <Switch>
           {/* TODO: make / route to a homepage */}
           <Route exact path='/' component={StudentPage} />
-          <Route exact path='/students' component={StudentPage} />
+
+          <Route exact path='/students'
+            render={props =>
+              isLoggedIn() ? (
+                <StudentPage/>
+              ) : (
+                <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+              )
+            }
+          />
+
           <Route exact path='/login' component={LoginPage} />
           {/* <Route component={NotFound} /> */}
       </Switch>
