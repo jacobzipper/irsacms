@@ -5,6 +5,11 @@ import Form from "react-bootstrap/Form";
 import { Button, Jumbotron, Container, Row, Col} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
+import Cookies from 'universal-cookie';
+ 
+
+
+
 // TODO: make this a functional component
 class Login extends React.Component {
   constructor(props) {
@@ -39,27 +44,31 @@ class Login extends React.Component {
 
     // test code
     fetch("/api")
-    .then(res => res.json())
     .then(res => {
+      console.log('res:');
       console.log(res);
-      
-      // post
-      fetch("/api", {method: 'POST', body: {"id":1,"name":"Cool Dude","img":null,"reg":"1999-01-12T00:00:00.000Z","waiver":false,"payment":false}})
-      .then(res2 => {
-        console.log(res2);
-      });
-
     });
+
+    // fetch('/api/')
+    //   .then( (res) => { 
+    //     console.log(res);
+    //   }
+    // );
 
 
     // login code
-    const { name, value } = event.target;
-    console.log(name);
-    console.log(value);
-    console.log(event.target);
+    // const { name, value } = event.target;
+    // console.log(name);
+    // console.log(value);
+    // console.log(event.target);
 
-    console.log(this.state.email + " !!!!!");
-    console.log(this.state.password + " !!!!!");
+    console.log(this.state.email + "!");
+    console.log(this.state.password + "!");
+
+
+    const cookies = new Cookies();
+    cookies.set('loginSuccess', 'true', { path: '/' });
+    console.log(cookies.get('loginSuccess')); // true
 
     
   }
