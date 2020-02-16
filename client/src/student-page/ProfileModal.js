@@ -50,7 +50,7 @@ function ProfileModal(props) {
           </tbody>
         </Table>
 
-        {JSON.stringify(data)}
+        {/* {JSON.stringify(data)} */}
       </Modal.Body>
 
       <Modal.Footer>
