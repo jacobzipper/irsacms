@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-d
 import Navbar from "./Navbar";
 import StudentPage from './student-page/StudentPage';
 import LoginPage from './login-page/LoginPage';
+import HomePage from './home-page/HomePage';
 
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
@@ -30,7 +31,7 @@ function App() {
 
         <Switch>
           {/* TODO: make / route to a homepage */}
-          <Route exact path='/' component={StudentPage} />
+          <Route exact path='/' component={HomePage} />
 
           <Route exact path='/students'
             render={props =>
