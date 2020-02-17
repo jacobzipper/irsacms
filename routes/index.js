@@ -6,7 +6,9 @@ const { Pool, Client } = require('pg');
 
 const pool = new Pool({
   connectionString: 'postgres://tqllpteomwboyb:e3c93587ac0d814ce88f7e581805777c62b5cb9ab280ee0e1fe30548481e6c52@ec2-174-129-33-25.compute-1.amazonaws.com:5432/d9bbj8skuurfpq',
-  ssl: true,
+  ssl: {
+    rejectUnauthorized: false,
+  },  
 });
 
 async function verifyUser(username, password) {
@@ -38,6 +40,15 @@ router.post('/login', async function(req, res, next){
   } else {
     res.json({auth: false});
   }
+});
+
+router.post('/edituser', async function(req, res, next){
+  await pool.query(
+    {
+      text: 'UPDATE students SET img=$1, reg=$2, waiver=$3, payment=$4, name=$5 WHERE username=$6',
+      values: [req.body.img, req.body.reg, req.body.waiver, req.body.payment, req.body.name, req.body.username]
+    });
+  res.sendStatus(200);
 });
 
 module.exports = router;
