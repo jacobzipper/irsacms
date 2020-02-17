@@ -2,8 +2,13 @@ import React from "react";
 
 import Form from "react-bootstrap/Form";
 
-import { Button, Jumbotron } from "react-bootstrap";
+import { Button, Jumbotron, Container, Row, Col} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+
+import Cookies from 'universal-cookie';
+ 
+
+
 
 // TODO: make this a functional component
 class Login extends React.Component {
@@ -11,8 +16,8 @@ class Login extends React.Component {
     super(props);
     this.state = {
       passwordVisible: false,
-      email: "DEFAULTEMAIL",
-      password: "DEFAULTPASSWORD"
+      email: "",
+      password: ""
     };
 
     this.handleEmailChange = this.handleEmailChange.bind(this);
@@ -34,32 +39,47 @@ class Login extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    console.log("pressed submit!");
 
-
+    var data = {username: this.state.email, password: this.state.password};
     // test code
-    fetch("/api")
+    fetch("/api/login", {
+      method: 'POST', 
+      credentials: 'same-origin', // include, *same-origin, omit
+      headers: {
+        'Content-Type': 'application/json'
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: JSON.stringify(data),
+    })
     .then(res => res.json())
     .then(res => {
       console.log(res);
-      
-      // post
-      fetch("/api", {method: 'POST', body: {"id":1,"name":"Cool Dude","img":null,"reg":"1999-01-12T00:00:00.000Z","waiver":false,"payment":false}})
-      .then(res2 => {
-        console.log(res2);
-      });
-
+      const cookies = new Cookies();
+      if (res.auth) {
+        console.log("login succeeded!");
+        cookies.set('loginSuccess', 'true', { path: '/' });
+        console.log(cookies.get('loginSuccess')); // true
+      }
+      else {
+        console.log("login failed!");
+        cookies.set('loginSuccess', 'false', { path: '/' });
+        console.log(cookies.get('loginSuccess')); // true
+      }
     });
 
+    // fetch('/api/')
+    //   .then( (res) => { 
+    //     console.log(res);
+    //   }
+    // );
 
-    // login code
-    const { name, value } = event.target;
-    console.log(name);
-    console.log(value);
-    console.log(event.target);
+    console.log(this.state.email);
+    console.log(this.state.password);
 
-    console.log(this.state.email + " !!!!!");
-    console.log(this.state.password + " !!!!!");
+
+    // const cookies = new Cookies();
+    // cookies.set('loginSuccess', 'true', { path: '/' });
+    // console.log(cookies.get('loginSuccess')); // true
 
     
   }
@@ -68,11 +88,16 @@ class Login extends React.Component {
 
     return (
       <>
-        <Jumbotron>
+        <Container>
+        <h1>Login</h1>
+          <Jumbotron>
+        <Row>
+          <Col />
+          <Col xs={6}>
           <Form onSubmit={this.handleSubmit}>
             <Form.Group controlId="formBasicEmail">
               <Form.Label>Email address</Form.Label>
-              <Form.Control type="email" placeholder="Enter email" value={this.state.email} onChange={this.handleEmailChange}/>
+              <Form.Control placeholder="Enter email" value={this.state.email} onChange={this.handleEmailChange}/>
               <Form.Text className="text-muted">
                 We'll never share your email with anyone else.
               </Form.Text>
@@ -89,8 +114,11 @@ class Login extends React.Component {
               Submit
             </Button>
           </Form>
-          
+          </Col>
+          <Col />
+        </Row>
         </Jumbotron>
+        </Container>
       </>
     );
   }
