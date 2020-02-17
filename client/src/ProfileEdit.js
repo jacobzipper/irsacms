@@ -26,6 +26,7 @@ function ProfileEdit(props) {
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
+      {/* TODO: Handle route to prifile page */}
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
           {data.name}
@@ -39,6 +40,7 @@ function ProfileEdit(props) {
         <Table responsive>
           <tbody>
             <tr>
+              {/* Name */}
               <InputGroup className="mb-3">
                 <InputGroup.Prepend>
                   <InputGroup.Text id="basic-addon3">Name:</InputGroup.Text>
@@ -47,6 +49,7 @@ function ProfileEdit(props) {
               </InputGroup>
             </tr>
             <tr>
+              {/* Email */}
               <InputGroup className="mb-3">
                 <InputGroup.Prepend>
                   <InputGroup.Text id="basic-addon3">Email:</InputGroup.Text>
@@ -60,12 +63,16 @@ function ProfileEdit(props) {
           </tbody>
         </Table>
 
+        {/* TODO: DEBUG */}
         {JSON.stringify(data)}
       </Modal.Body>
 
       <Modal.Footer>
+        {/* TODO: Handle waiver */}
         <Button href={waiver}>Download Waiver</Button>
+        {/* TODO: Handle server call and route to profile page */}
         <Button onClick={props.onHide}>Submit</Button>
+        {/* TODO: Handle route to prifile page */}
         <Button onClick={props.onHide}>Close</Button>
       </Modal.Footer>
     </Modal>
