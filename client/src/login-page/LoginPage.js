@@ -59,11 +59,13 @@ class Login extends React.Component {
         console.log("login succeeded!");
         cookies.set('loginSuccess', 'true', { path: '/' });
         console.log(cookies.get('loginSuccess')); // true
+        alert("Logged in! You can now navigate to other parts of the app.")
       }
       else {
         console.log("login failed!");
         cookies.set('loginSuccess', 'false', { path: '/' });
         console.log(cookies.get('loginSuccess')); // true
+        alert("Incorrect Username or Password")
       }
     });
 
