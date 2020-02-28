@@ -18,6 +18,25 @@ function ProfileEdit(props) {
   let payment = data.payment ? "Has Payed" : "Has Not Payed!";
 
   //   TODO: Handle pushing data
+  // Handle route to profile
+  function toProfile() {
+
+  }
+
+  // Tries to send the edits to the backend
+  function submitEdit() {
+
+  }
+
+  // Will display a modal for link for now
+  function imageHandle() {
+
+  }
+
+  // TODO: PDF Upload?
+  function waiverHandle() {
+    return null
+  }
 
   return (
     <Modal
