@@ -3,6 +3,7 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import ProfileModal from "./ProfileModal";
 import ProfileEdit from "./ProfileEdit";
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
+import AdminView from "../admin-view-page/AdminView";
 
 // TODO: make this a functional component
 class CustomerTable extends React.Component {
@@ -115,6 +116,10 @@ class CustomerTable extends React.Component {
           show={this.state.modalShow}
           onHide={() => this.setModalShow(false)}
           data={this.state.lastSelectedStudent}
+        />
+
+        <AdminView 
+          data={this.state[0]}
         />
       </>
     );
