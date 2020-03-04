@@ -1,6 +1,5 @@
 import React from "react";
 import BootstrapTable from 'react-bootstrap-table-next';
-import ProfileModal from "./ProfileModal";
 import ProfileEdit from "./ProfileEdit";
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import AdminView from "../admin-view-page/AdminView";

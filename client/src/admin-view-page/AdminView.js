@@ -2,7 +2,7 @@ import React from "react";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 import { Container } from "react-bootstrap/lib/Tab";
-import AdminView from "./admin-view-page/AdminView"
+
 
 function AdminView(props) {
   // DEBUG
