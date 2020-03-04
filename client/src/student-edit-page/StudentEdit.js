@@ -51,7 +51,7 @@ function StudentEdit(props) {
     <Jumbotron>
       <h1>{data.name}</h1>
       {img}
-      <Button onClick={handleImage}>Upload Image</Button>
+      <Button onClick={handleImage} className="p-1">Upload Image</Button>
       <Table responsive>
         <tbody>
           <tr>
@@ -74,11 +74,11 @@ function StudentEdit(props) {
           </tr>
           <tr>
             {/* TODO: Waiver default handling */}
-            <label>Has Waiver:</label> <input type="checkbox"></input>
+            <label>Has Waiver: </label> <input type="checkbox"></input>
           </tr>
           <tr>
             {/* TODO: Payment default handling */}
-            <label>Has Payed:</label> <input type="checkbox"></input>
+            <label>Has Payed: </label> <input type="checkbox"></input>
           </tr>
         </tbody>
       </Table>
