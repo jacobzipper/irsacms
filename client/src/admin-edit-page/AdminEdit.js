@@ -1,6 +1,5 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
 import Table from "react-bootstrap/Table";
 import InputGroup from "react-bootstrap/InputGroup";
 import Form from "react-bootstrap/Form";
@@ -8,13 +7,21 @@ import { Jumbotron } from "react-bootstrap";
 
 function AdminEdit(props) {
   // DEBUG
-  let data = {"id":8,"name":"Bill Euler","img":null,"reg":"2019-02-20T00:00:00.000Z","waiver":false,"payment":true,"username":"beuler1"}
+  let data = {
+    id: 8,
+    name: "Bill Euler",
+    img: null,
+    reg: "2019-02-20T00:00:00.000Z",
+    waiver: false,
+    payment: true,
+    username: "beuler1"
+  };
   // let data = props.data ? props.data : {}; // prevents null ptr exception.
 
   // Handles data conditionals
   // TODO: Use <Image> tag
   // TODO: Have a default no image
-  // TODO: Format date field
+  // TODO: Checkbox default
   let img = data.img ? (
     <img src={data.img} alt="Profile Image" />
   ) : (
@@ -25,19 +32,19 @@ function AdminEdit(props) {
 
   // TODO: Handle buttons
   function handleCancel(e) {
-    console.log('adminEdit.cancel')
+    console.log("adminEdit.cancel");
   }
   function handleDelete(e) {
-    console.log('adminEdit.delete')
+    console.log("adminEdit.delete");
   }
   function handleImage(e) {
-    console.log('adminEdit.image')
+    console.log("adminEdit.image");
   }
   function handleSubmit(e) {
-    console.log('adminEdit.submit')
+    console.log("adminEdit.submit");
   }
   function handleWaiver(e) {
-    console.log('adminEdit.waiver')
+    console.log("adminEdit.waiver");
   }
 
   return (
@@ -67,23 +74,19 @@ function AdminEdit(props) {
           </tr>
           <tr>
             {/* TODO: Waiver default handling */}
-            <label>Has Waiver:</label>{' '}
-            <input type="checkbox"></input>
+            <label>Has Waiver:</label> <input type="checkbox"></input>
           </tr>
           <tr>
             {/* TODO: Payment default handling */}
-            <label>Has Payed:</label>{' '}
-            <input type="checkbox"></input>
+            <label>Has Payed:</label> <input type="checkbox"></input>
           </tr>
         </tbody>
       </Table>
-    
       {/* TODO: Add button functionality */}
-      <Button onClick={handleWaiver}>?Upload Waiver?</Button>{' '}
-      <Button onClick={handleSubmit}>?Submit?</Button>{' '}
-      <Button onClick={handleCancel}>?Cancel?</Button>{' '}
+      <Button onClick={handleWaiver}>?Upload Waiver?</Button>{" "}
+      <Button onClick={handleSubmit}>?Submit?</Button>{" "}
+      <Button onClick={handleCancel}>?Cancel?</Button>{" "}
       <Button onClick={handleDelete}>?Delete Student?</Button>
-
       {/* TODO: DEBUG */}
       {JSON.stringify(data)}
     </Jumbotron>

@@ -4,10 +4,22 @@ import Modal from "react-bootstrap/Modal";
 import Table from "react-bootstrap/Table";
 
 function StudentView(props) {
-  let data = props.data ? props.data : {}; // prevents null ptr exception.
+  // DEBUG
+  let data = {
+    id: 8,
+    name: "Bill Euler",
+    img: null,
+    reg: "2019-02-20T00:00:00.000Z",
+    waiver: false,
+    payment: true,
+    username: "beuler1"
+  };
+  // let data = props.data ? props.data : {}; // prevents null ptr exception.
 
   // Handles data conditionals
-
+  // TODO: Use <Image> tag
+  // TODO: Have a default no image
+  // TODO: Format date field
   let img = data.img ? (
     <img src={data.img} alt="Profile Image" />
   ) : (
@@ -16,62 +28,60 @@ function StudentView(props) {
   let waiver = data.waiver ? "Has Waiver" : "Does Not Have Waiver!";
   let payment = data.payment ? "Has Payed" : "Has Not Payed!";
 
+  // TODO: handle buttons
+  function handleBack(e) {
+    console.log("adminView.back");
+  }
+  function handleEdit(e) {
+    console.log("adminView.edit");
+  }
+  function handleWaiver(e) {
+    console.log("adminView.waiver");
+  }
+  function handleContact(e) {
+    console.log("adminView.contact");
+  }
+
   return (
-    <Modal
-      {...props}
-      size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
-      <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">
-          {data.name}
-        </Modal.Title>
-      </Modal.Header>
-
-      <Modal.Body>
-        {/* TODO: format json into nicer html here */}
-
-        {img}
-        <Table responsive>
-          <tbody>
-            <tr>
-              <td>
-                <b>Name:</b>
-              </td>
-              <td>{data.name}</td>
-            </tr>
-            <tr>
-              <td>
-                <b>Registration Date:</b>
-              </td>
-              <td>{data.reg}</td>
-            </tr>
-            <tr>
-              <td>
-                <b>Waiver Status:</b>
-              </td>
-              <td>{waiver}</td>
-            </tr>
-            <tr>
-              <td>
-                <b>Payment Status:</b>
-              </td>
-              <td>{payment}</td>
-            </tr>
-          </tbody>
-        </Table>
-
-        {/* TODO: DEBUG */}
-        {JSON.stringify(data)}
-      </Modal.Body>
-
-      <Modal.Footer>
-        <Button href={waiver}>Download Waiver</Button>
-        <Button onClick={props.onHide}>Email</Button>
-        <Button onClick={props.onHide}>Close</Button>
-      </Modal.Footer>
-    </Modal>
+    <Jumbotron>
+      <h1>{data.name}</h1>
+      {img}
+      <Table responsive>
+        <tbody>
+          <tr>
+            <td>
+              <b>Name:</b>
+            </td>
+            <td>{data.name}</td>
+          </tr>
+          <tr>
+            <td>
+              <b>Registration Date:</b>
+            </td>
+            <td>{data.reg}</td>
+          </tr>
+          <tr>
+            <td>
+              <b>Waiver Status:</b>
+            </td>
+            <td>{waiver}</td>
+          </tr>
+          <tr>
+            <td>
+              <b>Payment Status:</b>
+            </td>
+            <td>{payment}</td>
+          </tr>
+        </tbody>
+      </Table>
+      {/* TODO: Add button functionality */}
+      <Button onClick={handleWaiver}>?Waiver?</Button>{" "}
+      <Button onClick={handleContact}>?Contact?</Button>{" "}
+      <Button onClick={handleEdit}>?Edit?</Button>{" "}
+      <Button onClick={handleBack}>?Back?</Button>
+      {/* TODO: DEBUG */}
+      {JSON.stringify(data)}
+    </Jumbotron>
   );
 }
 

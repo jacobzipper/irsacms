@@ -3,10 +3,17 @@ import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 import { Jumbotron } from "react-bootstrap";
 
-
 function AdminView(props) {
   // DEBUG
-  let data = {"id":8,"name":"Bill Euler","img":null,"reg":"2019-02-20T00:00:00.000Z","waiver":false,"payment":true,"username":"beuler1"}
+  let data = {
+    id: 8,
+    name: "Bill Euler",
+    img: null,
+    reg: "2019-02-20T00:00:00.000Z",
+    waiver: false,
+    payment: true,
+    username: "beuler1"
+  };
   // let data = props.data ? props.data : {}; // prevents null ptr exception.
 
   // Handles data conditionals
@@ -23,16 +30,16 @@ function AdminView(props) {
 
   // TODO: handle buttons
   function handleBack(e) {
-    console.log('adminView.back');
+    console.log("adminView.back");
   }
   function handleEdit(e) {
-    console.log('adminView.edit');
+    console.log("adminView.edit");
   }
   function handleWaiver(e) {
-    console.log('adminView.waiver');
+    console.log("adminView.waiver");
   }
   function handleContact(e) {
-    console.log('adminView.contact');
+    console.log("adminView.contact");
   }
 
   return (
@@ -67,13 +74,11 @@ function AdminView(props) {
           </tr>
         </tbody>
       </Table>
-      
       {/* TODO: Add button functionality */}
-      <Button onClick={handleWaiver}>?Waiver?</Button>{' '}
-      <Button onClick={handleContact}>?Contact?</Button>{' '}
-      <Button onClick={handleEdit}>?Edit?</Button>{' '}
+      <Button onClick={handleWaiver}>?Waiver?</Button>{" "}
+      <Button onClick={handleContact}>?Contact?</Button>{" "}
+      <Button onClick={handleEdit}>?Edit?</Button>{" "}
       <Button onClick={handleBack}>?Back?</Button>
-
       {/* TODO: DEBUG */}
       {JSON.stringify(data)}
     </Jumbotron>
