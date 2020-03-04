@@ -10,7 +10,6 @@ function AdminView(props) {
   // let data = props.data ? props.data : {}; // prevents null ptr exception.
 
   // Handles data conditionals
-
   // TODO: Use <Image> tag
   // TODO: Have a default no image
   let img = data.img ? (
@@ -22,6 +21,18 @@ function AdminView(props) {
   let payment = data.payment ? "Has Payed" : "Has Not Payed!";
 
   // TODO: handle buttons
+  function handleBack(e) {
+    console.log('adminView.back');
+  }
+  function handleEdit(e) {
+    console.log('adminView.edit');
+  }
+  function handleWaiver(e) {
+    console.log('adminView.waiver');
+  }
+  function handleContact(e) {
+    console.log('adminView.contact');
+  }
 
   return (
     <Jumbotron>
@@ -55,13 +66,15 @@ function AdminView(props) {
           </tr>
         </tbody>
       </Table>
+      
+      {/* TODO: Add button functionality */}
+      <Button onClick={handleWaiver}>?Waiver?</Button>{' '}
+      <Button onClick={handleContact}>?Contact?</Button>{' '}
+      <Button onClick={handleEdit}>?Edit?</Button>{' '}
+      <Button onClick={handleBack}>?Back?</Button>
+
       {/* TODO: DEBUG */}
       {JSON.stringify(data)}
-
-      {/* TODO: Add button functionality */}
-      <Button onClick={alert('Waiver')}>?Waiver?</Button>
-      <Button onClick={alert('Email')}>?Email?</Button>
-      <Button onClick={alert('Back')}>?Back?</Button>
     </Jumbotron>
   );
 }
