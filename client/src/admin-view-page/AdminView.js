@@ -12,6 +12,7 @@ function AdminView(props) {
   // Handles data conditionals
   // TODO: Use <Image> tag
   // TODO: Have a default no image
+  // TODO: Format date field
   let img = data.img ? (
     <img src={data.img} alt="Profile Image" />
   ) : (

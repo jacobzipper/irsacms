@@ -3,6 +3,7 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import ProfileEdit from "./ProfileEdit";
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import AdminView from "../admin-view-page/AdminView";
+import AdminEdit from "../admin-edit-page/AdminEdit";
 
 // TODO: make this a functional component
 class CustomerTable extends React.Component {
@@ -118,6 +119,7 @@ class CustomerTable extends React.Component {
         />
 
         <AdminView />
+        <AdminEdit />
       </>
     );
   }
