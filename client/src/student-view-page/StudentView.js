@@ -78,7 +78,7 @@ function StudentView(props) {
       <Button onClick={handleWaiver}>?Waiver?</Button>{" "}
       <Button onClick={handleContact}>?Contact?</Button>{" "}
       <Button onClick={handleEdit}>?Edit?</Button>{" "}
-      <Button onClick={handleBack}>?Back?</Button>
+      <Button onClick={handleBack}>?Back?</Button><br/>
       {/* TODO: DEBUG */}
       {JSON.stringify(data)}
     </Jumbotron>

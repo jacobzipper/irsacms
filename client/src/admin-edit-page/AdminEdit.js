@@ -86,7 +86,7 @@ function AdminEdit(props) {
       <Button onClick={handleWaiver}>?Upload Waiver?</Button>{" "}
       <Button onClick={handleSubmit}>?Submit?</Button>{" "}
       <Button onClick={handleCancel}>?Cancel?</Button>{" "}
-      <Button onClick={handleDelete}>?Delete Student?</Button>
+      <Button onClick={handleDelete}>?Delete Student?</Button><br/>
       {/* TODO: DEBUG */}
       {JSON.stringify(data)}
     </Jumbotron>
