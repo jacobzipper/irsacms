@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
-import { Container } from "react-bootstrap/lib/Tab";
+import { Jumbotron } from "react-bootstrap";
 
 
 function AdminView(props) {
@@ -24,7 +24,7 @@ function AdminView(props) {
   // TODO: handle buttons
 
   return (
-    <Container>
+    <Jumbotron>
       <h1>{data.name}</h1>
       {img}
       <Table responsive>
@@ -62,7 +62,7 @@ function AdminView(props) {
       <Button onClick={alert('Waiver')}>?Waiver?</Button>
       <Button onClick={alert('Email')}>?Email?</Button>
       <Button onClick={alert('Back')}>?Back?</Button>
-    </Container>
+    </Jumbotron>
   );
 }
 
