@@ -118,9 +118,7 @@ class CustomerTable extends React.Component {
           data={this.state.lastSelectedStudent}
         />
 
-        <AdminView 
-          data={this.state[0]}
-        />
+        <AdminView />
       </>
     );
   }
