@@ -6,6 +6,10 @@ import { Button, Jumbotron, Container, Row, Col} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import Cookies from 'universal-cookie';
+
+import { Redirect } from "react-router-dom";
+
+import { Alert } from 'reactstrap';
  
 
 
@@ -17,7 +21,9 @@ class Login extends React.Component {
     this.state = {
       passwordVisible: false,
       email: "",
-      password: ""
+      password: "",
+      // showWarning: false,
+      redirectToReferrer: false
     };
 
     this.handleEmailChange = this.handleEmailChange.bind(this);
@@ -58,7 +64,10 @@ class Login extends React.Component {
       if (res.auth) {
         console.log("login succeeded!");
         cookies.set('loginSuccess', 'true', { path: '/' });
-        console.log(cookies.get('loginSuccess')); // true
+        console.log("cookie.loginSuccess? ", cookies.get('loginSuccess')); // true
+        this.setState((state) => {
+          return {...state, redirectToReferrer: true};
+        });
       }
       else {
         console.log("login failed!");
@@ -67,14 +76,15 @@ class Login extends React.Component {
       }
     });
 
-    // fetch('/api/')
-    //   .then( (res) => { 
-    //     console.log(res);
-    //   }
-    // );
+    console.log("after fetch()")
 
-    console.log(this.state.email);
-    console.log(this.state.password);
+    // console.log("EMAIL & PASS:");
+
+    // console.log(this.state.email);
+    // console.log(this.state.password);
+
+    // console.log("CHECK IT:");
+    // console.log(this.props.location.state);
 
 
     // const cookies = new Cookies();
@@ -85,11 +95,34 @@ class Login extends React.Component {
   }
 
   render() {
+    console.log("this.props.location.state:");
+    console.log(this.props.location.state);
+    const { from } = this.props.location.state || { from: { pathname: '/students' } };
+    const redirectToReferrer = this.state.redirectToReferrer;
+    // console.log("from = ");
+    // console.log(from)
+    // console.log('props:');
+    // console.log(this.props.location.myWarning);
+    if (redirectToReferrer === true) {
+      console.log("REDIRECT TO FROM");
+      console.log("from =");
+      console.log(from);
+      return <Redirect to={from} />
+    }
 
     return (
       <>
         <Container>
         <h1>Login</h1>
+        <div>
+      {from.pathname == "/students" ? (
+              <Alert color="secondary">
+              Log in to view student list!
+            </Alert>
+      ) : (
+        <div></div>
+      )}
+    </div>
           <Jumbotron>
         <Row>
           <Col />

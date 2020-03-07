@@ -1,6 +1,7 @@
 import React from "react";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Route, Switch, Redirect, BrowserRouter as Router } from "react-router-dom";
 
+import HomePage from './home-page/HomePage'
 import StudentPage from './student-page/StudentPage';
 import LoginPage from './login-page/LoginPage';
 import Cookies from 'universal-cookie';
@@ -22,28 +23,28 @@ var isLoggedIn = function() {
 
 }
 
+const PrivateRoute = ({ component: Component, ...rest }) => (
+  <Route {...rest} render={(props) => (
+    cookies.get('loginSuccess') === true
+      ? <Component {...props} />
+      : <Redirect to={{
+        pathname: '/login',
+        state: { from: props.location }
+      }} />
+      //  <Redirect to='/login' render={(props) => <LoginPage {...props} showWarning={true}/>} />
+  )} />
+)
 
 
 export default function Routes() {
   return (
-    <Switch>
+    <Router>
       {/* TODO: make / route to a homepage */}
-      <Route exact path='/home' component={StudentPage} />
-      
-      {/* <Route exact path='/students' component={StudentPage} /> */}
-
-      <Route exact path='/students'
-        render={props =>
-          isLoggedIn() ? (
-            <StudentPage/>
-          ) : (
-            <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
-          )
-        }
-      />
-
+      <PrivateRoute exact path='/' component={HomePage} />
+      {/* <PrivateRoute exact path='/students' component={StudentPage} /> */}
+      <Route exact path='/students' component={StudentPage} />
       <Route exact path='/login' component={LoginPage} />
       {/* <Route component={NotFound} /> */}
-    </Switch>
+    </Router>
   );
 }

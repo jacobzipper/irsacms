@@ -6,8 +6,12 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-d
 import Navbar from "./Navbar";
 import StudentPage from './student-page/StudentPage';
 import LoginPage from './login-page/LoginPage';
+import HomePage from './home-page/HomePage';
+
+import Routes from './Routes'
 
 import Cookies from 'universal-cookie';
+import { DropdownDivider } from 'react-bootstrap/Dropdown';
 const cookies = new Cookies();
 
 
@@ -20,32 +24,29 @@ var isLoggedIn = function() {
 
 }
 
+const PrivateRoute = ({ component: Component, ...rest }) => (
+  <Route {...rest} render={(props) => (
+    isLoggedIn()
+      ? <Component {...props} />
+      : <Redirect to={{
+        pathname: '/login',
+        state: { from: props.location }
+      }} />
+      //  <Redirect to='/login' render={(props) => <LoginPage {...props} showWarning={true}/>} />
+  )} />
+)
+
 function App() {
   const [auth, setAuth] = React.useState(false);
 
   return (
     <Router>
-        {/* This is the Navbar, add more links to places in the app here */}
-        <Navbar /> 
-
-        <Switch>
-          {/* TODO: make / route to a homepage */}
-          <Route exact path='/' component={StudentPage} />
-
-          <Route exact path='/students'
-            render={props =>
-              isLoggedIn() ? (
-                <StudentPage/>
-              ) : (
-                <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
-              )
-            }
-          />
-
-          <Route exact path='/login' component={LoginPage} />
-          {/* <Route component={NotFound} /> */}
-      </Switch>
-
+      <Navbar/>
+      {/* TODO: make / route to a homepage */}
+      <PrivateRoute exact path='/' component={HomePage} />
+      <PrivateRoute exact path='/students' component={StudentPage} />
+      <Route exact path='/login' component={LoginPage} />
+      {/* <Route component={NotFound} /> */}
     </Router>
   );
 }
