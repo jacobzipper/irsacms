@@ -4,6 +4,7 @@ import ProfileEdit from "./ProfileEdit";
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import AdminView from "../admin-view-page/AdminView";
 import AdminEdit from "../admin-edit-page/AdminEdit";
+import { Jumbotron } from "react-bootstrap";
 
 // TODO: make this a functional component
 class CustomerTable extends React.Component {
@@ -101,6 +102,10 @@ class CustomerTable extends React.Component {
       }
     };
 
+    // TODO: TEMP FUNC
+    function check(cell, row) {
+      return `<input type="checkbox"><input>`;
+    }
 
     return (
       <>
@@ -123,6 +128,22 @@ class CustomerTable extends React.Component {
 
         <AdminView />
         <AdminEdit />
+        <Jumbotron>
+        <BootstrapTable
+          keyField='id'
+          data={ this.state.data == undefined ? []: this.state.data }
+          striped
+          hover
+          bootstrap4
+        >
+          <TableHeaderColumn isKey dataField='id'>ID</TableHeaderColumn>
+          <TableHeaderColumn dataField='img'>Image</TableHeaderColumn>
+          <TableHeaderColumn dataField='name'>Name</TableHeaderColumn>
+          <TableHeaderColumn dataField='payment' dataFormat={check}>Attendence</TableHeaderColumn>
+        </BootstrapTable>
+        <Button>Cancel</Button>{' '}
+        <Button>Submit</Button>
+        </Jumbotron>
       </>
     );
   }
