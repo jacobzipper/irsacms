@@ -1,0 +1,165 @@
+swagger: "2.0"
+info:
+  description: "This is the current documentation we have for the IRSA CMS API"
+  version: "1.0.0"
+  title: "IRSA CMS"
+  contact:
+    email: "zipper@gatech.edu"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "irsacms.herokuapp.com"
+basePath: "/api"
+schemes:
+- "https"
+- "http"
+paths:
+  /customers:
+    get:
+      summary: "Get all customers (Admin only)"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "Invalid input"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Student"
+  /profile/{name}:
+    get:
+      summary: "Finds Student by name"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "name"
+        in: "path"
+        description: "Name of student to return"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            items:
+              $ref: "#/definitions/Student"
+  /login:
+    post:
+      summary: "Logs in a user"
+      consumes:
+      - "application/json"
+      - "application/x-www-form-urlencoded"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "username"
+        in: "formData"
+        required: true
+        type: "string"
+      - name: "password"
+        in: "formData"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "object"
+            properties:
+              auth:
+                type: "boolean"
+                description: "Whether login is successful or not"
+  /edituser:
+    post:
+      summary: "Edits a user"
+      consumes:
+      - "application/json"
+      - "application/x-www-form-urlencoded"
+      parameters:
+      - name: "waiverlink"
+        in: "formData"
+        required: true
+        type: "string"
+      - name: "waiver"
+        in: "formData"
+        required: true
+        type: "boolean"
+      - name: "payment"
+        in: "formData"
+        required: true
+        type: "boolean"
+      - name: "name"
+        in: "formData"
+        required: true
+        type: "string"
+      - name: "username"
+        in: "formData"
+        required: true
+        type: "string"
+      - name: "email"
+        in: "formData"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+  /registration:
+    post:
+      summary: "Registers a student"
+      consumes:
+      - "application/json"
+      - "application/x-www-form-urlencoded"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "name"
+        in: "formData"
+        required: true
+        type: "string"
+      - name: "username"
+        in: "formData"
+        required: true
+        type: "string"
+      - name: "email"
+        in: "formData"
+        required: true
+        type: "string"
+      - name: "password"
+        in: "formData"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          
+definitions:
+  Student:
+    type: "object"
+    
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      name:
+        type: "string"
+        example: "Jacob Zipper"
+      img:
+        type: "string"
+        example: "https://upload.wikimedia.org/wikipedia/en/thumb/3/3b/SpongeBob_SquarePants_character.svg/1200px-SpongeBob_SquarePants_character.svg.png"
+      username:
+        type: "string"
+      waiverlink:
+        type: "string"
+      waiver:
+        type: "boolean"
+      payment:
+        type: "boolean"
+      email:
+        type: "string"
+      reg:
+        type: "string"
+        example: "2/20/2020"
+        
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"
