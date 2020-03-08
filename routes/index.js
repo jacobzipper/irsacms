@@ -11,10 +11,28 @@ const pool = new Pool({
   },  
 });
 
-async function verifyUser(username, password) {
+function hashPassword(password) {
+  var salt = crypto.randomBytes(128).toString('base64');
+  var iterations = 10000;
+  var hash = crypto.pbkdf2Sync(password, salt, iterations, 64, 'sha512');
+
+  return {
+      salt: salt,
+      hash: hash.toString('hex')
+  };
+}
+
+async function verifyAdmin(username, password) {
   const admin = await pool.query('SELECT * FROM admins WHERE username=$1', [username]);
   if (!admin.rows.length) return false;
-  var hash = crypto.pbkdf2Sync(password, admin.rows[0].salt, admin.rows[0].iterations, 64, 'sha512');
+  var hash = crypto.pbkdf2Sync(password, admin.rows[0].salt, 10000, 64, 'sha512');
+  return hash.toString('hex') == admin.rows[0].password;
+}
+
+async function verifyUser(username, password) {
+  const student = await pool.query('SELECT * FROM students WHERE username=$1', [username]);
+  if (!student.rows.length) return false;
+  var hash = crypto.pbkdf2Sync(password, student.rows[0].salt, 10000, 64, 'sha512');
   return hash.toString('hex') == admin.rows[0].password;
 }
 
@@ -35,7 +53,7 @@ router.get('/profile/:name', async function(req, res, next) {
 });
 
 router.post('/login', async function(req, res, next){
-  if (await verifyUser(req.body.username, req.body.password)) {
+  if (await verifyAdmin(req.body.username, req.body.password)) {
     res.json({auth: true});
   } else {
     res.json({auth: false});
@@ -45,10 +63,38 @@ router.post('/login', async function(req, res, next){
 router.post('/edituser', async function(req, res, next){
   await pool.query(
     {
-      text: 'UPDATE students SET img=$1, reg=$2, waiver=$3, payment=$4, name=$5 WHERE username=$6',
-      values: [req.body.img, req.body.reg, req.body.waiver, req.body.payment, req.body.name, req.body.username]
+      text: 'UPDATE students SET waiverlink=$1, waiver=$2, payment=$3, name=$4, email=$5 WHERE username=$6',
+      values: [req.body.waiverlink, req.body.waiver, req.body.payment, req.body.name, req.body.email, req.body.username]
     });
   res.sendStatus(200);
+});
+
+router.post('/registration', async (req, res, next) => {
+  
+  if (!req.body.username) {
+    res.status(400).json({error: 1001, msg: 'Username not provided'});
+    return;
+  }
+  if (!req.body.password) {
+    res.status(400).json({error: 1002, msg: 'Password not provided'});
+    return;
+  }
+
+  // Check if Username taken
+  var taken = await pool.query('SELECT * FROM students WHERE username = $1 ', [req.body.username]);
+  if (taken.rows.length > 0) {
+    res.status(400).json({error: 1003, msg: 'Username taken please choose another'});
+    return;
+  }
+
+  var pass = hashPassword(req.body.password);
+
+  var reg = await pool.query('INSERT INTO students (username, password, salt, email, name)' +
+    ' VALUES ($1, $2, $3, $4, $5)',
+    [req.body.username, pass.hash, pass.salt, req.body.email,
+    req.body.name]);
+
+  res.status(200).json({error: 0, msg: 'We gucci'});
 });
 
 module.exports = router;
