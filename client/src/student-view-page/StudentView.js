@@ -1,7 +1,8 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
 import Table from "react-bootstrap/Table";
+// import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
+// import "bootstrap/dist/css/bootstrap.css";
 
 function StudentView(props) {
   // DEBUG

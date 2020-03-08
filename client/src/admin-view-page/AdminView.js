@@ -2,6 +2,8 @@ import React from "react";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 import { Jumbotron } from "react-bootstrap";
+// import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
+// import "bootstrap/dist/css/bootstrap.css";
 
 function AdminView(props) {
   // DEBUG

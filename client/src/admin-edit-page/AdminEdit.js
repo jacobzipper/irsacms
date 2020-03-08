@@ -4,6 +4,8 @@ import Table from "react-bootstrap/Table";
 import InputGroup from "react-bootstrap/InputGroup";
 import Form from "react-bootstrap/Form";
 import { Jumbotron } from "react-bootstrap";
+// import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
+// import "bootstrap/dist/css/bootstrap.css";
 
 function AdminEdit(props) {
   // DEBUG
@@ -52,6 +54,7 @@ function AdminEdit(props) {
       <h1>{data.name}</h1>
       {img}
       <Button onClick={handleImage} className="p-1">Upload Image</Button>
+      {/* TODO: edit date */}
       <Table responsive>
         <tbody>
           <tr>

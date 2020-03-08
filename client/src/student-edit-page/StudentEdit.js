@@ -4,6 +4,8 @@ import Table from "react-bootstrap/Table";
 import InputGroup from "react-bootstrap/InputGroup";
 import Form from "react-bootstrap/Form";
 import { Jumbotron } from "react-bootstrap";
+// import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
+// import "bootstrap/dist/css/bootstrap.css";
 
 function StudentEdit(props) {
   // DEBUG
