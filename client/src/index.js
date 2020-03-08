@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-d
 import Navbar from "./Navbar";
 import StudentPage from './student-page/StudentPage';
 import LoginPage from './login-page/LoginPage';
+import RegistrationPage from './registration-page/RegistrationPage';
 import HomePage from './home-page/HomePage';
 
 import Cookies from 'universal-cookie';
@@ -44,6 +45,8 @@ function App() {
           />
 
           <Route exact path='/login' component={LoginPage} />
+          <Route exact path='/registration' component={RegistrationPage} />
+
           {/* <Route component={NotFound} /> */}
       </Switch>
 

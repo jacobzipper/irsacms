@@ -24,6 +24,10 @@ export default function NavBar() {
           <LinkContainer to="/login">
           <Nav.Link> Login </Nav.Link>
           </LinkContainer> 
+
+          <LinkContainer to="/registration">
+          <Nav.Link> Registration </Nav.Link>
+          </LinkContainer> 
         </Nav>
 
       </Navbar.Collapse>

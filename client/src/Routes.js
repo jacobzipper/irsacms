@@ -3,6 +3,7 @@ import { Route, Switch, Redirect } from "react-router-dom";
 
 import StudentPage from './student-page/StudentPage';
 import LoginPage from './login-page/LoginPage';
+import RegistrationPage from './registration-page/RegistrationPage';
 import Cookies from 'universal-cookie';
 
 
@@ -42,7 +43,8 @@ export default function Routes() {
         }
       />
 
-      <Route exact path='/login' component={LoginPage} />
+<Route exact path='/login' component={LoginPage} />
+<Route exact path='/registration' component={RegistrationPage} />
       {/* <Route component={NotFound} /> */}
     </Switch>
   );
