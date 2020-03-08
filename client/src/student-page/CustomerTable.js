@@ -1,5 +1,5 @@
 import React from "react";
-import BootstrapTable from 'react-bootstrap-table-next';
+import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table-next';
 import ProfileEdit from "./ProfileEdit";
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import AdminView from "../admin-view-page/AdminView";
