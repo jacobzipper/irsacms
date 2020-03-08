@@ -46,6 +46,9 @@ class CustomerTable extends React.Component {
       {
         dataField: 'img',
         text: 'Picture ',
+        formatter: function imageFormatter(cell, row){
+          return (<img src={cell} height='64px' width='64px'/>);
+        }
       }, 
       {
         dataField: 'name',

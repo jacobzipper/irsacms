@@ -8,7 +8,7 @@ function ProfileModal(props) {
 
   // Handles data conditionals
   
-  let img = data.img ? <img src={data.img} alt='Profile Image' /> : <p>No Image Found!</p>;
+  let img = data.img ? <img src={data.img} alt='Profile Image' height='128px' width='128px'/> : <p>No Image Found!</p>;
   let waiver = data.waiver ? 'Has Waiver' : 'Does Not Have Waiver!';
   let payment = data.payment ? 'Has Payed' : 'Has Not Payed!';
 
