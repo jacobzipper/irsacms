@@ -5,6 +5,7 @@ import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import AdminView from "../admin-view-page/AdminView";
 import AdminEdit from "../admin-edit-page/AdminEdit";
 import { Jumbotron } from "react-bootstrap";
+import Button from "react-bootstrap/Button";
 
 // TODO: make this a functional component
 class CustomerTable extends React.Component {
