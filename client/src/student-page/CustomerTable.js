@@ -1,66 +1,64 @@
 import React from "react";
-import BootstrapTable from 'react-bootstrap-table-next';
+import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table-next";
 import ProfileEdit from "./ProfileEdit";
-import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
+import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 import AdminView from "../admin-view-page/AdminView";
 import AdminEdit from "../admin-edit-page/AdminEdit";
 import Button from "react-bootstrap/Button";
 
 // TODO: make this a functional component
 class CustomerTable extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
-      modalShow : false, // needed to toggle modal
-      lastSelectedStudent : null, // needed to pass clicked student to modal
+      modalShow: false, // needed to toggle modal
+      lastSelectedStudent: null // needed to pass clicked student to modal
     };
   }
-  
-  // function used to toggle Profile Modal
-  setModalShow = (bool) => this.setState({
-    ...this,
-    modalShow:bool
-  })
 
-  
+  // function used to toggle Profile Modal
+  setModalShow = bool =>
+    this.setState({
+      ...this,
+      modalShow: bool
+    });
+
   componentDidMount() {
-    fetch('/api/customers')
+    fetch("/api/customers")
       .then(res => res.json())
-      .then( (res) => { 
+      .then(res => {
         this.setState({
           ...this.state,
           data: res
-        })
-      }
-    );
+        });
+      });
   }
 
   render() {
     // column definitions
     const columns = [
       {
-        dataField: 'id',
-        text: 'Customer ID ',
-        sort: true
-      }, 
-      {
-        dataField: 'img',
-        text: 'Picture ',
-        formatter: function imageFormatter(cell, row){
-          return (<img src={cell} height='64px' width='64px'/>);
-        }
-      }, 
-      {
-        dataField: 'name',
-        text: 'Name',
+        dataField: "id",
+        text: "Customer ID ",
         sort: true
       },
       {
-        dataField: 'reg',
-        text: 'Registration Date',
+        dataField: "img",
+        text: "Picture ",
+        formatter: function imageFormatter(cell, row) {
+          return <img src={cell} height="64px" width="64px" />;
+        }
+      },
+      {
+        dataField: "name",
+        text: "Name",
+        sort: true
+      },
+      {
+        dataField: "reg",
+        text: "Registration Date",
         sort: true,
-        
+
         // https://react-bootstrap-table.github.io/react-bootstrap-table2/docs/basic-sort.html
         // sortFunc not necessary -- just sort by original date and format the visual output instead
         // sortFunc: (a, b, order) => {
@@ -69,9 +67,9 @@ class CustomerTable extends React.Component {
         //   console.log(order);
         //   return Math.floor(Math.random() * 99);
         // },
-        
+
         // https://react-bootstrap-table.github.io/react-bootstrap-table2/docs/column-props.html#columnformatter-function
-        formatter: function(cell, row){
+        formatter: function(cell, row) {
           var dateObj = new Date(Date.parse(cell));
           var month = dateObj.getUTCMonth() + 1; //months from 1-12
           var day = dateObj.getUTCDate();
@@ -80,15 +78,15 @@ class CustomerTable extends React.Component {
         }
       },
       {
-        dataField: 'waiver',
-        text: 'Documents Pending?',
+        dataField: "waiver",
+        text: "Documents Pending?",
         sort: true
       },
       {
-        dataField: 'payment',
-        text: 'Payment Pending?',
+        dataField: "payment",
+        text: "Payment Pending?",
         sort: true
-      }, 
+      }
     ];
 
     // event handler for clicking on a row
@@ -96,9 +94,9 @@ class CustomerTable extends React.Component {
       onClick: (e, row, rowIndex) => {
         this.setState({
           ...this,
-          modalShow:true,
-          lastSelectedStudent : row,
-          })
+          modalShow: true,
+          lastSelectedStudent: row
+        });
       }
     };
     
@@ -133,10 +131,10 @@ class CustomerTable extends React.Component {
     return (
       <>
         <BootstrapTable
-          keyField='id'
-          data={ this.state.data == undefined ? []: this.state.data }
-          columns={ columns }
-          rowEvents={ rowEvents }
+          keyField="id"
+          data={this.state.data == undefined ? [] : this.state.data}
+          columns={columns}
+          rowEvents={rowEvents}
           striped
           hover
           bootstrap4
@@ -150,20 +148,28 @@ class CustomerTable extends React.Component {
         />
         <AdminView />
         <AdminEdit />
-        {/*yes*/}
-        <BootstrapTable
-          keyField='id'
-          data={ this.state.data == undefined ? []: this.state.data }
-          columns={ columns2 }
-          striped
-          hover
-          bootstrap4
-        />
-        <Button>Cancel</Button>{' '}
-        <Button>Submit</Button>
+        <Jumbotron>
+          {/* <BootstrapTable
+            keyField="id"
+            data={this.state.data == undefined ? [] : this.state.data}
+            striped
+            hover
+            bootstrap4
+          >
+            <TableHeaderColumn isKey dataField="id">
+              ID
+            </TableHeaderColumn>
+            <TableHeaderColumn dataField="img">Image</TableHeaderColumn>
+            <TableHeaderColumn dataField="name">Name</TableHeaderColumn>
+            <TableHeaderColumn dataField="payment" dataFormat={check}>
+              Attendence
+            </TableHeaderColumn>
+          </BootstrapTable> */}
+          <Button>Cancel</Button> <Button>Submit</Button>
+        </Jumbotron>
       </>
     );
   }
 }
-      
+
 export default CustomerTable;
