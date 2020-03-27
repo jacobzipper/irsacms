@@ -27,7 +27,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 
 
 /*
-this component selectively renders the page components
+This component selectively renders the page components
 based on current url path
 */
 export default function Routes() {

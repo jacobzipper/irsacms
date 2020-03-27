@@ -1,5 +1,10 @@
 To add a new page:
 
+    0) make sure to have src/Navbar be a top lvl subcomponent
+        of the page you are trying to add
+            (sorry for the hack, couldnt find a better way)
+    
+
     1) make a new subdirectory with naming scheme page-name.
     2) make all components for that page in that directory.
 
