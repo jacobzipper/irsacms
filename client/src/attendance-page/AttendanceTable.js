@@ -35,8 +35,8 @@ class AttendanceTable extends React.Component {
     );
   }
 
-  updateAttendance() {
-    alert("Updated attendance!");
+  updateAttendance  = () => {
+    console.log(this.node.selectionContext.selected);
   }
 
 
@@ -69,14 +69,14 @@ class AttendanceTable extends React.Component {
         dataField: 'name',
         text: 'Name',
         sort: true
-      },
-      {
-        dataField: 'attendance',
-        text: 'Attendance',
-        formatter: function check(cell, row) {
-          return (<input type="checkbox"></input>);
-        },
-        isDummyField: true
+      // },
+      // {
+      //   dataField: 'attendance',
+      //   text: 'Attendance',
+      //   formatter: function check(cell, row) {
+      //     return (<input type="checkbox"></input>);
+      //   },
+      //   isDummyField: true
       }
     ];
 
@@ -92,10 +92,7 @@ class AttendanceTable extends React.Component {
           bootstrap4
         />
         <Button>Cancel</Button>{' '}
-        <Button onClick={() => {
-            alert("Updated attendance!");
-          }
-        }>Submit</Button>
+        <Button onClick={ this.updateAttendance }>Submit</Button>
       </>
     );
   }
