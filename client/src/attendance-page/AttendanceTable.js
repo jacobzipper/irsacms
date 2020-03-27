@@ -86,6 +86,7 @@ class AttendanceTable extends React.Component {
           keyField='id'
           data={ this.state.data == undefined ? []: this.state.data }
           columns={ columns }
+          selectRow={ { mode: 'checkbox', clickToSelect: true } }
           striped
           hover
           bootstrap4
