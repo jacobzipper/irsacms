@@ -83,6 +83,7 @@ class AttendanceTable extends React.Component {
     return (
       <>
         <BootstrapTable
+          ref={ n => this.node = n }
           keyField='id'
           data={ this.state.data == undefined ? []: this.state.data }
           columns={ columns }
