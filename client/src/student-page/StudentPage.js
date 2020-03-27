@@ -4,12 +4,14 @@ import "bootstrap/dist/css/bootstrap.css";
 import CustomerTable from './CustomerTable'
 import Jumbotron from "react-bootstrap/Jumbotron";
 import Container from 'react-bootstrap/Container'
-
+import Navbar from "../Navbar";
 
 // TODO: refactor this as students page, and make app be the routing with navbar page
 function StudentPage() {
   return (
-  
+    
+    <>
+    <Navbar/>
     <Container>
       <Jumbotron>
         <h1>IRSA Client Management System, sprint 2</h1>
@@ -25,7 +27,7 @@ function StudentPage() {
       <CustomerTable />
       
     </Container>
-    
+    </>
    
   );
 }

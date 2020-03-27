@@ -1,7 +1,9 @@
 import React from "react";
 
 import Form from "react-bootstrap/Form";
+import { Redirect } from "react-router-dom";
 
+// import { Alert } from 'reactstrap';
 import { Button, Jumbotron, Container, Row, Col} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -17,7 +19,8 @@ class Login extends React.Component {
     this.state = {
       passwordVisible: false,
       email: "",
-      password: ""
+      password: "",
+      redirectToReferrer: false
     };
 
     this.handleEmailChange = this.handleEmailChange.bind(this);
@@ -58,8 +61,10 @@ class Login extends React.Component {
       if (res.auth) {
         console.log("login succeeded!");
         cookies.set('loginSuccess', 'true', { path: '/' });
-        console.log(cookies.get('loginSuccess')); // true
-        alert("Logged in! You can now navigate to other parts of the app.")
+        console.log(cookies.get('loginSuccess')); // true	      
+        this.setState((state) => {
+          return {...state, redirectToReferrer: true};
+        });
       }
       else {
         console.log("login failed!");
@@ -87,6 +92,17 @@ class Login extends React.Component {
   }
 
   render() {
+    console.log("this.props.location.state:");
+    console.log(this.props.location.state);
+    const { from } = this.props.location.state || { from: { pathname: '/' } };
+    const redirectToReferrer = this.state.redirectToReferrer;
+    
+    if (redirectToReferrer === true) {
+      console.log("REDIRECT TO FROM");
+      console.log("from =");
+      console.log(from);
+      return <Redirect to={from} />
+    }
 
     return (
       <>

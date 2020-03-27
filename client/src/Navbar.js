@@ -1,37 +1,44 @@
 import React from 'react';
 import { LinkContainer } from "react-router-bootstrap";
-import { Nav, Navbar} from "react-bootstrap";
+import { Nav, Navbar, Button} from "react-bootstrap";
+import Cookies from 'universal-cookie';
 
-// note: need to call it NavBar instead of Navbar because of import 'Navbar"
-// from react bootstrap. However, this is not necessary outside of this module.
+const cookies = new Cookies();
+
+
+const logout = () => {
+  cookies.set('loginSuccess', 'false', { path: '/' });
+}
+
 export default function NavBar() {
   return (
 
     <Navbar bg="dark" variant="dark" expand="lg">
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
-    
       <Navbar.Collapse id="basic-navbar-nav">
-
-        <Nav>
+        
+        <Nav> 
+        {/* Add Link Containers in this Nav*/}
           <LinkContainer to="/">
-          <Nav.Link>IRSA Client Manager</Nav.Link>
+            <Nav.Link>IRSA Client Manager</Nav.Link>
           </LinkContainer>
           
           <LinkContainer to="/students">
-          <Nav.Link> Students </Nav.Link>
+            <Nav.Link> Students </Nav.Link>
           </LinkContainer>
-          
-          <LinkContainer to="/login">
-          <Nav.Link> Login </Nav.Link>
-          </LinkContainer> 
 
-          <LinkContainer to="/registration">
-          <Nav.Link> Registration </Nav.Link>
-          </LinkContainer> 
+          {/* <LinkContainer to="/YOURPATHHERE">
+            <Nav.Link> YOUR PAGE HERE </Nav.Link>
+          </LinkContainer> */}
+        </Nav>
+
+        <Nav className="justify-content-end" justify="true">
+          <LinkContainer to="/login">
+            <Button variant="dark" onClick={logout}>Logout</Button>
+          </LinkContainer>
         </Nav>
 
       </Navbar.Collapse>
-    
     </Navbar>  
     
   );

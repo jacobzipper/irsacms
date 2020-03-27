@@ -1,51 +1,42 @@
+// framework imports
 import React from "react";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
 
+// webpage imports
+import HomePage from './home-page/HomePage'
 import StudentPage from './student-page/StudentPage';
 import LoginPage from './login-page/LoginPage';
-import RegistrationPage from './registration-page/RegistrationPage';
+
+// other stuff
 import Cookies from 'universal-cookie';
-
-
-// const isLoggedIn = false; //AuthService.isLoggedIn()
-
-
-
 const cookies = new Cookies();
-// console.log(cookies.get('myCat')); // how to get it to read from the cookie created in LoginPage.js?
-
-var isLoggedIn = function() {
-  var b = cookies.get('loginSuccess');
-  console.log("b: " + b);
-  console.log("b == 'true':" + (b=='true'));
-  console.log(cookies.getAll());
-  return (b == "true")
-
-}
 
 
+// wrapper for <Route> component to make it impossible to access without auth cookie
+const PrivateRoute = ({ component: Component, ...rest }) => (
+  <Route {...rest} render={(props) => (
+    cookies.get('loginSuccess').localeCompare('true') === 0 ?
+      <Component {...props} /> :
+      <Redirect to={{
+        pathname: '/login',
+        state: { from: props.location }
+        }} />
+      
+  )} />
+)
 
+
+/*
+this component selectively renders the page components
+based on current url path
+*/
 export default function Routes() {
   return (
-    <Switch>
-      {/* TODO: make / route to a homepage */}
-      <Route exact path='/home' component={StudentPage} />
-      
-      {/* <Route exact path='/students' component={StudentPage} /> */}
-
-      <Route exact path='/students'
-        render={props =>
-          isLoggedIn() ? (
-            <StudentPage/>
-          ) : (
-            <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
-          )
-        }
-      />
-
-<Route exact path='/login' component={LoginPage} />
-<Route exact path='/registration' component={RegistrationPage} />
-      {/* <Route component={NotFound} /> */}
-    </Switch>
+    <Router>
+        <PrivateRoute exact path='/' component={HomePage} />
+        <PrivateRoute exact path='/students' component={StudentPage} />
+        <Route exact path='/login' component={LoginPage} />
+      </Router>
+    
   );
 }
