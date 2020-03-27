@@ -1,26 +1,19 @@
 import React from "react";
-
-import Form from "react-bootstrap/Form";
 import { Redirect } from "react-router-dom";
-
-// import { Alert } from 'reactstrap';
-import { Button, Jumbotron, Container, Row, Col} from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
-
+import { Button, Jumbotron, Container, Row, Col, Form} from "react-bootstrap";
 import Cookies from 'universal-cookie';
  
 
-
-
-// TODO: make this a functional component
 class Login extends React.Component {
+
+  // setting up state
   constructor(props) {
     super(props);
     this.state = {
       passwordVisible: false,
-      email: "",
-      password: "",
-      redirectToReferrer: false
+      email: "",                // credential field
+      password: "",             // credential field
+      redirectToReferrer: false // used to trigger redirect upon succ login
     };
 
     this.handleEmailChange = this.handleEmailChange.bind(this);
@@ -28,118 +21,111 @@ class Login extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  componentDidMount() {
-    console.log("login mounted!");
-  }
-
+  
+  // basic function to update state with typing in username textbox
   handleEmailChange(event) {
     this.setState({email: event.target.value});
   }
 
+
+  
+  // basic function to update state with typing in password textbox
   handlePasswordChange(event) {
       this.setState({password: event.target.value});
   }
 
+
+
+  //function to handle checking credentials + redirecting if success
   handleSubmit(event) {
     event.preventDefault();
 
-    var data = {username: this.state.email, password: this.state.password};
-    // test code
+    var credentials = {username: this.state.email, password: this.state.password};
+    
     fetch("/api/login", {
       method: 'POST', 
-      credentials: 'same-origin', // include, *same-origin, omit
+      credentials: 'same-origin',
       headers: {
         'Content-Type': 'application/json'
-        // 'Content-Type': 'application/x-www-form-urlencoded',
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(credentials),
     })
-    .then(res => res.json())
-    .then(res => {
-      console.log(res);
+    .then( res => res.json() )
+    .then( res => {
+
       const cookies = new Cookies();
-      if (res.auth) {
-        console.log("login succeeded!");
-        cookies.set('loginSuccess', 'true', { path: '/' });
-        console.log(cookies.get('loginSuccess')); // true	      
-        this.setState((state) => {
+
+      if (res.auth) { // if login credentials correct
+        cookies.set('loginSuccess', 'true', { path: '/' }); // set browser cookie     
+        this.setState((state) => {                          // trigger rerender
           return {...state, redirectToReferrer: true};
         });
       }
-      else {
-        console.log("login failed!");
+      else {  // else, wrong credentials
         cookies.set('loginSuccess', 'false', { path: '/' });
-        console.log(cookies.get('loginSuccess')); // true
         alert("Incorrect Username or Password")
       }
+
     });
-
-    // fetch('/api/')
-    //   .then( (res) => { 
-    //     console.log(res);
-    //   }
-    // );
-
-    console.log(this.state.email);
-    console.log(this.state.password);
-
-
-    // const cookies = new Cookies();
-    // cookies.set('loginSuccess', 'true', { path: '/' });
-    // console.log(cookies.get('loginSuccess')); // true
-
     
-  }
+  } //handleSubmit()
+
+
 
   render() {
-    console.log("this.props.location.state:");
-    console.log(this.props.location.state);
+    
+    // from = "where we came FROM", will redirect to FROM if success auth
     const { from } = this.props.location.state || { from: { pathname: '/' } };
+    // redirectToReferrer init to false, set to true in handleSubmit() if succ auth
     const redirectToReferrer = this.state.redirectToReferrer;
     
+    // if redirect, go to FROM
     if (redirectToReferrer === true) {
-      console.log("REDIRECT TO FROM");
-      console.log("from =");
-      console.log(from);
-      return <Redirect to={from} />
+      return (<Redirect to={from} />);
     }
 
+    // else, show login page. TODO: make this prettier.
     return (
-      <>
         <Container>
-        <h1>Login</h1>
+        <h1>IRSA Admin Portal Login</h1>
           <Jumbotron>
-        <Row>
-          <Col />
-          <Col xs={6}>
-          <Form onSubmit={this.handleSubmit}>
-            <Form.Group controlId="formBasicEmail">
-              <Form.Label>Email address</Form.Label>
-              <Form.Control placeholder="Enter email" value={this.state.email} onChange={this.handleEmailChange}/>
-              <Form.Text className="text-muted">
-                We'll never share your email with anyone else.
-              </Form.Text>
-            </Form.Group>
+            <Row>
+              <Col />
+              <Col xs={6}>
 
-            <Form.Group controlId="formBasicPassword">
-              <Form.Label>Password</Form.Label>
-              <Form.Control type="password" placeholder="Password" value={this.state.password} onChange={this.handlePasswordChange} />
-            </Form.Group>
-            <Form.Group controlId="formBasicCheckbox">
-              <Form.Check type="checkbox" label="Check me out" />
-            </Form.Group>
-            <Button variant="primary" type="submit">
-              Submit
-            </Button>
-          </Form>
-          </Col>
-          <Col />
-        </Row>
-        </Jumbotron>
+                <Form onSubmit={this.handleSubmit}>
+
+                  <Form.Group controlId="formBasicEmail">
+                    <Form.Label>Email address</Form.Label>
+                    <Form.Control placeholder="Enter email" value={this.state.email} onChange={this.handleEmailChange}/>
+                    <Form.Text className="text-muted">
+                      We'll never share your email with anyone else.
+                    </Form.Text>
+                  </Form.Group>
+
+                  <Form.Group controlId="formBasicPassword">
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control type="password" placeholder="Password" value={this.state.password} onChange={this.handlePasswordChange} />
+                  </Form.Group>
+
+                  <Form.Group controlId="formBasicCheckbox">
+                    <Form.Check type="checkbox" label="Check me out" />
+                  </Form.Group>
+
+                  <Button variant="primary" type="submit"> Submit </Button>
+
+                </Form>
+
+              </Col>
+              <Col />
+            </Row>
+          </Jumbotron>
         </Container>
-      </>
     );
-  }
+  } //render()
+  
 }
+
+
 
 export default Login;
