@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
 // webpage imports
 import HomePage from './home-page/HomePage'
 import StudentPage from './student-page/StudentPage';
+import AttendancePage from './attendance-page/AttendancePage';
 import LoginPage from './login-page/LoginPage';
 
 // other stuff
@@ -35,6 +36,7 @@ export default function Routes() {
     <Router>
         <PrivateRoute exact path='/' component={HomePage} />
         <PrivateRoute exact path='/students' component={StudentPage} />
+        <PrivateRoute exact path='/attendance' component={AttendancePage} />
         <Route exact path='/login' component={LoginPage} />
       </Router>
     

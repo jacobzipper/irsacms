@@ -27,6 +27,10 @@ export default function NavBar() {
             <Nav.Link> Students </Nav.Link>
           </LinkContainer>
 
+          <LinkContainer to="/attendance">
+            <Nav.Link> Attendance </Nav.Link>
+          </LinkContainer>
+
           {/* <LinkContainer to="/YOURPATHHERE">
             <Nav.Link> YOUR PAGE HERE </Nav.Link>
           </LinkContainer> */}
