@@ -36,6 +36,8 @@ class AttendanceTable extends React.Component {
   }
 
   updateAttendance  = () => {
+    // Gives IDs of currently selected rows as an array
+    // Array is ordered by order of which the checkbox is clicked
     console.log(this.node.selectionContext.selected);
   }
 
