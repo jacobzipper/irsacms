@@ -10,11 +10,16 @@ function AdminView(props) {
   let data = {
     id: 8,
     name: "Bill Euler",
-    img: null,
+    img:
+      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
     reg: "2019-02-20T00:00:00.000Z",
-    waiver: false,
     payment: true,
-    username: "beuler1"
+    username: "beuler1",
+    email: null,
+    waiverlink: null,
+    waiver: true,
+    salt: null,
+    password: null
   };
   // let data = props.data ? props.data : {}; // prevents null ptr exception.
 
@@ -27,7 +32,7 @@ function AdminView(props) {
   ) : (
     <p>No Image Found!</p>
   );
-  let waiver = data.waiver ? "Has Waiver" : "Does Not Have Waiver!";
+  let waiverText = data.waiver ? "Has Waiver" : "Does Not Have Waiver!";
   let payment = data.payment ? "Has Payed" : "Has Not Payed!";
 
   // TODO: handle buttons
@@ -66,7 +71,13 @@ function AdminView(props) {
             <td>
               <b>Waiver Status:</b>
             </td>
-            <td>{waiver}</td>
+            <td>{waiverText}</td>
+          </tr>
+          <tr>
+            <td>
+              <b>Waiver Link:</b>
+            </td>
+            <td><a href='#'>example.com </a></td>
           </tr>
           <tr>
             <td>
@@ -77,10 +88,11 @@ function AdminView(props) {
         </tbody>
       </Table>
       {/* TODO: Add button functionality */}
-      <Button onClick={handleWaiver}>?Waiver?</Button>{" "}
-      <Button onClick={handleContact}>?Contact?</Button>{" "}
-      <Button onClick={handleEdit}>?Edit?</Button>{" "}
-      <Button onClick={handleBack}>?Back?</Button><br/>
+      <Button onClick={handleWaiver}>Waiver</Button>{" "}
+      <Button onClick={handleContact}>Contact</Button>{" "}
+      <Button onClick={handleEdit}>Edit</Button>{" "}
+      <Button onClick={handleBack}>Back</Button>
+      <br />
       {/* TODO: DEBUG */}
       {JSON.stringify(data)}
     </Jumbotron>
