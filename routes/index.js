@@ -97,4 +97,17 @@ router.post('/registration', async (req, res, next) => {
   res.status(200).json({error: 0, msg: 'We gucci'});
 });
 
+router.post('/attendance', async function(req, res, next){
+  const date = new Date().toISOString();
+  for(var i = 0; i < req.body.students.length; i++) {
+    await pool.query(
+      {
+        text: 'INSERT INTO attendance (username, date) VALUES ($1, $2)',
+        values: [req.body.students[i], date]
+      });
+  }
+  
+  res.sendStatus(200);
+});
+
 module.exports = router;
