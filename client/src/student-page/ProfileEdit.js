@@ -10,12 +10,33 @@ function ProfileEdit(props) {
 
   // Handles data conditionals
   let img = data.img ? (
-    <img src={data.img} alt="Profile Image" />
+    <img src={data.img} alt="Profile Image" height='128px' width='128px'/>
   ) : (
     <p>No Image Found!</p>
   );
+
+
+  function dateFormatter(dt) {
+    var dateObj = new Date(Date.parse(dt));
+    var month = dateObj.getUTCMonth() + 1; //months from 1-12
+    var day = dateObj.getUTCDate();
+    var year = dateObj.getUTCFullYear();
+    return year + "/" + month + "/" + day;
+  }
+
+  function IdiomaticReactList(arr) {
+    return (
+      <div>
+        {arr.map((item, index) => (
+          <div key={item}>{dateFormatter(item)}</div>
+        ))}
+      </div>
+    );
+  }
+
   let waiver = data.waiver ? "Has Waiver" : "Does Not Have Waiver!";
   let payment = data.payment ? "Has Payed" : "Has Not Payed!";
+  let attendance = data.date ? IdiomaticReactList(data.date) : "Not yet attended";
 
   //   TODO: Handle pushing data
   // Handle route to profile
@@ -76,6 +97,10 @@ function ProfileEdit(props) {
                 <Form.Control id="Email" placeholder={null} />
               </InputGroup>
             </tr>
+            <div>
+              <td><b>Attendance: </b></td>
+              <td>{attendance}</td>
+            </div>
             <tr>
               {/* TODO: Waiver and Payment buttons */}
             </tr>

@@ -22,8 +22,25 @@ function AdminEdit(props) {
 
   // Handles data conditionals
   // TODO: Use <Image> tag
-  // TODO: Have a default no image
-  // TODO: Checkbox default
+
+  function dateFormatter(dt) {
+    var dateObj = new Date(Date.parse(dt));
+    var month = dateObj.getUTCMonth() + 1; //months from 1-12
+    var day = dateObj.getUTCDate();
+    var year = dateObj.getUTCFullYear();
+    return year + "/" + month + "/" + day;
+  }
+
+  function IdiomaticReactList(arr) {
+    return (
+      <div>
+        {arr.map((item, index) => (
+          <div key={item}>{dateFormatter(item)}</div>
+        ))}
+      </div>
+    );
+  }
+
   let img = data.img ? (
     <img src={data.img} alt="Profile Image" />
   ) : (
@@ -31,6 +48,7 @@ function AdminEdit(props) {
   );
   let waiver = data.waiver ? "Has Waiver" : "Does Not Have Waiver!";
   let payment = data.payment ? "Has Payed" : "Has Not Payed!";
+  let attendance = data.date ? IdiomaticReactList(data.date) : "Not yet attended";
 
   // TODO: Handle buttons
   function handleCancel(e) {

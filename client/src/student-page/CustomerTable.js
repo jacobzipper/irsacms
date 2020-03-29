@@ -31,7 +31,7 @@ class CustomerTable extends React.Component {
         this.setState({
           ...this.state,
           data: res
-        })
+        });
       }
     );
   }
@@ -151,16 +151,6 @@ class CustomerTable extends React.Component {
         <AdminView />
         <AdminEdit />
         {/*yes*/}
-        <BootstrapTable
-          keyField='id'
-          data={ this.state.data == undefined ? []: this.state.data }
-          columns={ columns2 }
-          striped
-          hover
-          bootstrap4
-        />
-        <Button>Cancel</Button>{' '}
-        <Button>Submit</Button>
       </>
     );
   }

@@ -12,6 +12,10 @@ function AdminView(props) {
     name: "Bill Euler",
     img: null,
     reg: "2019-02-20T00:00:00.000Z",
+    date: [
+      "2020-03-28T04:00:00.000Z",
+      "2020-03-29T04:00:00.000Z"
+    ],
     waiver: false,
     payment: true,
     username: "beuler1"
@@ -20,8 +24,25 @@ function AdminView(props) {
 
   // Handles data conditionals
   // TODO: Use <Image> tag
-  // TODO: Have a default no image
-  // TODO: Format date field
+
+  function dateFormatter(dt) {
+    var dateObj = new Date(Date.parse(dt));
+    var month = dateObj.getUTCMonth() + 1; //months from 1-12
+    var day = dateObj.getUTCDate();
+    var year = dateObj.getUTCFullYear();
+    return year + "/" + month + "/" + day;
+  }
+
+  function IdiomaticReactList(arr) {
+    return (
+      <div>
+        {arr.map((item, index) => (
+          <div key={item}>{dateFormatter(item)}</div>
+        ))}
+      </div>
+    );
+  }
+
   let img = data.img ? (
     <img src={data.img} alt="Profile Image" />
   ) : (
@@ -29,6 +50,7 @@ function AdminView(props) {
   );
   let waiver = data.waiver ? "Has Waiver" : "Does Not Have Waiver!";
   let payment = data.payment ? "Has Payed" : "Has Not Payed!";
+  let attendance = data.date ? IdiomaticReactList(data.date) : "Not yet attended";
 
   // TODO: handle buttons
   function handleBack(e) {
@@ -61,6 +83,12 @@ function AdminView(props) {
               <b>Registration Date:</b>
             </td>
             <td>{data.reg}</td>
+          </tr>
+          <tr>
+            <td>
+              <b>Attendance:</b>
+            </td>
+            <td>{attendance}</td>
           </tr>
           <tr>
             <td>

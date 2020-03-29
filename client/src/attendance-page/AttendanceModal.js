@@ -3,7 +3,8 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Table from 'react-bootstrap/Table'
 
-function ProfileModal(props) {
+
+function AttendanceModal(props) {
   let data = props.data ? props.data : {}; // prevents null ptr exception.
 
   
@@ -28,8 +29,6 @@ function ProfileModal(props) {
 
   // Handles data conditionals
   let img = data.img ? <img src={data.img} alt='Profile Image' height='128px' width='128px'/> : <p>No Image Found!</p>;
-  let waiver = data.waiver ? 'Has Waiver' : 'Does Not Have Waiver!';
-  let payment = data.payment ? 'Has Payed' : 'Has Not Payed!';
   let attendance = data.date ? IdiomaticReactList(data.date) : "Not yet attended";
 
   return (
@@ -63,14 +62,6 @@ function ProfileModal(props) {
               <td><b>Attendance:</b></td>
               <td>{attendance}</td>
             </tr>
-            <tr>
-              <td><b>Waiver Status:</b></td>
-              <td>{waiver}</td>
-            </tr>
-            <tr>
-              <td><b>Payment Status:</b></td>
-              <td>{payment}</td>
-            </tr>
           </tbody>
         </Table>
 
@@ -78,10 +69,10 @@ function ProfileModal(props) {
       </Modal.Body>
 
       <Modal.Footer>
-        <Button href={waiver}>Download Waiver</Button> <Button onClick={props.onHide}>Email</Button><Button onClick={props.onHide}>Close</Button>
+        <Button onClick={props.onHide}>Close</Button>
       </Modal.Footer>
     </Modal>
   );
 }
 
-export default ProfileModal;
+export default AttendanceModal;
