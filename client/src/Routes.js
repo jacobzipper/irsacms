@@ -16,7 +16,7 @@ const cookies = new Cookies();
 // wrapper for <Route> component to make it impossible to access without auth cookie
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={(props) => (
-    cookies.get('loginSuccess').localeCompare('true') === 0 ?
+    (cookies.get('loginSuccess') && cookies.get('loginSuccess').localeCompare('true') === 0) ?
       <Component {...props} /> :
       <Redirect to={{
         pathname: '/login',
