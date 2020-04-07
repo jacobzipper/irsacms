@@ -134,7 +134,7 @@ class AttendanceTable extends React.Component {
                 dismissible
                 onClose={() => this.setAlertShow(false)}
               >
-                  Succesfully updated attendance record of {this.state.numUpdates} student(s)!
+                  Succesfully updated attendance record of {this.state.numUpdates} student(s)! Please refresh the page to see changes.
               </Alert>) :
               (<Alert
                 variant="info"
