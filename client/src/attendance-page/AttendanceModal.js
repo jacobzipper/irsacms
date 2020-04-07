@@ -3,30 +3,31 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Table from 'react-bootstrap/Table'
 
+import CalendarHeatmap from 'react-calendar-heatmap';
+import 'react-calendar-heatmap/dist/styles.css';
+
+
 function AttendanceModal(props) {
   let data = props.data ? props.data : {}; // prevents null ptr exception.
   
-  function dateFormatter(dt) {
-    var dateObj = new Date(Date.parse(dt));
-    var month = dateObj.getUTCMonth() + 1; //months from 1-12
-    var day = dateObj.getUTCDate();
-    var year = dateObj.getUTCFullYear();
-    return year + "/" + month + "/" + day;
-  }
-
-  function IdiomaticReactList(arr) {
-    return (
-      <div>
-        {arr.map((item, index) => (
-          <div key={item}>{dateFormatter(item)}</div>
-        ))}
-      </div>
-    );
-  }
 
   // Handles data conditionals
+
+  // formatting reg date
+  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  let regDate = new Date(data.reg).toLocaleDateString(undefined, options)
+
+  // formatting picture
   let img = data.img ? <img src={data.img} alt='Profile Image' height='128px' width='128px'/> : <p>No Image Found!</p>;
-  let attendance = data.date ? IdiomaticReactList(data.date) : "Not yet attended";
+
+  // formatting attendance heatmap
+  let weekdaylabels = ["M","Tu","W","Th","F","Sa","Su"];
+  // let startDate = new Date(data.reg);
+  let startDate = new Date().setMonth( (new Date().getMonth() - 6) );
+  let endDate = new Date();
+  // let attendance = data.date ? data.date.map(d => { let t = {date: new Date(d)}; return t; }) : [];
+  let attendance = data.date ? data.date.map(d => new Object( {date: new Date(d)} ) ) : [];
+      
 
   return (
     <Modal
@@ -51,11 +52,20 @@ function AttendanceModal(props) {
             </tr>
             <tr>
               <td><b>Registration Date:</b></td>
-              <td>{data.reg}</td>
+              <td>{regDate}</td>
             </tr>
             <tr>
               <td><b>Attendance:</b></td>
-              <td>{attendance}</td>
+              {/* <td>{attendance}</td> */}
+              <td>
+                  <CalendarHeatmap
+                    startDate={startDate}
+                    endDate={endDate}
+                    values = {attendance}
+                    showWeekdayLabels = {true}
+                    weekdayLabels = {weekdaylabels}
+                  />
+              </td>
             </tr>
           </tbody>
         </Table>
