@@ -14,6 +14,7 @@ class AttendanceTable extends React.Component {
     this.state = {
       modalShow : false, // needed to toggle modal
       lastSelectedStudent : null, // needed to pass clicked student to modal
+      attendanceUpdated : false // a variable used to refresh the table if attenance is updated
     };
   }
   
@@ -37,9 +38,34 @@ class AttendanceTable extends React.Component {
   }
 
   updateAttendance  = () => {
-    // Gives IDs of currently selected rows as an array
-    // Array is ordered by order of which the checkbox is clicked
-    console.log(this.node.selectionContext.selected);
+    // sends post req to /api/attendance,
+    // with the body having a list of the users selected in table
+
+    // this.node.selectionContext is an array of the id's of currently selected customers
+    // we transofrm that array into the array of usernames of corresponding user ids
+    // ie [id1, id2, ..] => [username(id1), username(id2), ..]
+    // eg. [1, 4, 7] =? [jackmolby1234, ...]
+
+    let username_list = this.node.selectionContext.selected.map( userId => {
+      return this.state.data.filter(user => user.id == userId)[0].username;
+    });
+
+
+    let username_list_payload = {"students" : username_list};
+    fetch("/api/attendance", {
+      method: 'POST', 
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(username_list_payload),
+    });
+
+    this.setState({
+      ...this,
+      attendanceUpdated: !this.attendanceUpdated
+    })
+
   }
 
 
