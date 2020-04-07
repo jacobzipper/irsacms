@@ -128,14 +128,21 @@ class AttendanceTable extends React.Component {
           <Row>
 
             <Col sm={10}>
-              <Alert
+              {this.state.alertShow ? (<Alert
                 variant="success"
                 show={this.state.alertShow}
                 dismissible
                 onClose={() => this.setAlertShow(false)}
               >
                   Succesfully updated attendance record of {this.state.numUpdates} student(s)!
-              </Alert>
+              </Alert>) :
+              (<Alert
+                variant="info"
+                show={!this.state.alertShow}
+              >
+                  Please select students to update attendance.
+              </Alert>)
+              }
             </Col>
 
             <Col>
