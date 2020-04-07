@@ -1,12 +1,20 @@
-import React from "react";
+import React from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
-import AdminView from "../admin-view-page/AdminView";
-import AdminEdit from "../admin-edit-page/AdminEdit";
-import Button from "react-bootstrap/Button";
+// import AdminView from "../admin-view-page/AdminView";
+// import AdminEdit from "../admin-edit-page/AdminEdit";
 import AttendanceModal from "./AttendanceModal";
 
-// TODO: make this a functional component
+import Button from "react-bootstrap/Button";
+import Alert from 'react-bootstrap/Alert';
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+
+
+
+
+
 class AttendanceTable extends React.Component {
 
   constructor(props) {
@@ -14,7 +22,8 @@ class AttendanceTable extends React.Component {
     this.state = {
       modalShow : false, // needed to toggle modal
       lastSelectedStudent : null, // needed to pass clicked student to modal
-      attendanceUpdated : false // a variable used to refresh the table if attenance is updated
+      alertShow : false, // needed to toggle submit confirmation alert
+      numUpdates : 0  // used in the confirmation alert to show how many students were updated
     };
   }
   
@@ -24,7 +33,16 @@ class AttendanceTable extends React.Component {
     modalShow:bool
   })
 
-  
+  setAlertShow = (bool) => this.setState({
+    ...this,
+    alertShow: bool
+  })
+
+  setNumUpdates = (i) => this.setState({
+    ...this,
+    numUpdates : i
+  })
+
   componentDidMount() {
     fetch('/api/customers')
       .then(res => res.json())
@@ -61,11 +79,12 @@ class AttendanceTable extends React.Component {
       body: JSON.stringify(username_list_payload),
     });
 
-    this.setState({
-      ...this,
-      attendanceUpdated: !this.attendanceUpdated
-    })
-
+    // this.setState({
+    //   ...this,
+    //   attendanceUpdated: !this.state.attendanceUpdated
+    // })
+    this.setNumUpdates(username_list.length)
+    this.setAlertShow(true);
   }
 
 
@@ -103,6 +122,44 @@ class AttendanceTable extends React.Component {
 
     return (
       <>
+        
+        
+        <Container>
+          <Row>
+
+            <Col sm={10}>
+              <Alert
+                variant="success"
+                show={this.state.alertShow}
+                dismissible
+                onClose={() => this.setAlertShow(false)}
+              >
+                  Succesfully updated attendance record of {this.state.numUpdates} student(s)!
+              </Alert>
+            </Col>
+
+            <Col>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}>
+                  <Button onClick={ this.updateAttendance }>Confirm</Button>
+                </div>
+                <p></p>
+            </Col>
+
+          </Row>
+        </Container>
+        {/* <Container>
+          <Row>
+            <Col></Col>
+        <Button onClick={ this.updateAttendance }>Confirm</Button>
+        </Row>
+        {/* <Row> <p></p></Row> */}
+        
+
         <BootstrapTable
           ref={ n => this.node = n }
           keyField='id'
@@ -119,8 +176,7 @@ class AttendanceTable extends React.Component {
           onHide={() => this.setModalShow(false)}
           data={this.state.lastSelectedStudent}
         />
-        <Button>Cancel</Button>{' '}
-        <Button onClick={ this.updateAttendance }>Submit</Button>
+
       </>
     );
   }
