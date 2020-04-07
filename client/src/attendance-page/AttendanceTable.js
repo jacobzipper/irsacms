@@ -46,13 +46,13 @@ class AttendanceTable extends React.Component {
   render() {
     // event handler for clicking on a row
     const rowEvents = {
-      // onClick: (e, row, rowIndex) => {
-      //   this.setState({
-      //     ...this,
-      //     modalShow:true,
-      //     lastSelectedStudent : row,
-      //     })
-      // }
+      onClick: (e, row, rowIndex) => {
+        this.setState({
+          ...this,
+          modalShow:true,
+          lastSelectedStudent : row,
+          })
+      }
     };
     
     const columns = [
@@ -72,14 +72,6 @@ class AttendanceTable extends React.Component {
         dataField: 'name',
         text: 'Name',
         sort: true
-      // },
-      // {
-      //   dataField: 'attendance',
-      //   text: 'Attendance',
-      //   formatter: function check(cell, row) {
-      //     return (<input type="checkbox"></input>);
-      //   },
-      //   isDummyField: true
       }
     ];
 
@@ -95,11 +87,11 @@ class AttendanceTable extends React.Component {
           hover
           bootstrap4
         />
-        {/* <AttendanceModal
+        <AttendanceModal
           show={this.state.modalShow}
           onHide={() => this.setModalShow(false)}
           data={this.state.lastSelectedStudent}
-        /> */}
+        />
         <Button>Cancel</Button>{' '}
         <Button onClick={ this.updateAttendance }>Submit</Button>
       </>

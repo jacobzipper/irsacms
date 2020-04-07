@@ -99,9 +99,9 @@ class CustomerTable extends React.Component {
     };
 
     // TODO: add page route to student-view here
-    toStudentView(data) {
+    // toStudentView(data) {
 
-    }
+    // }
 
     return (
       <>
