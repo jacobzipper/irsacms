@@ -119,11 +119,15 @@ router.post('/registration', async (req, res, next) => {
 router.post('/attendance', async function(req, res, next){
   const date = new Date().toISOString();
   for(var i = 0; i < req.body.students.length; i++) {
+    try {
     await pool.query(
       {
         text: 'INSERT INTO attendance (username, date) VALUES ($1, $2)',
         values: [req.body.students[i], date]
       });
+    } catch (error) {
+      // do nothing
+    }
   }
   
   res.sendStatus(200);
