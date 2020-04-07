@@ -3,12 +3,9 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Table from 'react-bootstrap/Table'
 
-
 function AttendanceModal(props) {
   let data = props.data ? props.data : {}; // prevents null ptr exception.
-
   
-
   function dateFormatter(dt) {
     var dateObj = new Date(Date.parse(dt));
     var month = dateObj.getUTCMonth() + 1; //months from 1-12
@@ -45,8 +42,6 @@ function AttendanceModal(props) {
       </Modal.Header>
 
       <Modal.Body>
-        {/* TODO: format json into nicer html here */}
-        
         {img}
         <Table responsive>
           <tbody>
@@ -64,10 +59,8 @@ function AttendanceModal(props) {
             </tr>
           </tbody>
         </Table>
-
         {/* {JSON.stringify(data)} */}
       </Modal.Body>
-
       <Modal.Footer>
         <Button onClick={props.onHide}>Close</Button>
       </Modal.Footer>

@@ -4,7 +4,7 @@ import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import AdminView from "../admin-view-page/AdminView";
 import AdminEdit from "../admin-edit-page/AdminEdit";
 import Button from "react-bootstrap/Button";
-// import AttendanceModal from "./AttendanceModal";
+import AttendanceModal from "./AttendanceModal";
 
 // TODO: make this a functional component
 class AttendanceTable extends React.Component {
@@ -83,6 +83,7 @@ class AttendanceTable extends React.Component {
           data={ this.state.data == undefined ? []: this.state.data }
           columns={ columns }
           selectRow={ { mode: 'checkbox', clickToSelect: true } }
+          rowEvents={ rowEvents }
           striped
           hover
           bootstrap4
