@@ -5,8 +5,7 @@ import Form from "react-bootstrap/Form";
 import { Button, Jumbotron, Container, Row, Col} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import Cookies from 'universal-cookie';
- 
+import Navbar from "../Navbar";
 
 
 
@@ -22,6 +21,8 @@ class RegistrationPage extends React.Component {
 
     this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
+    this.handleUsernameChange = this.handleUsernameChange.bind(this);
+    this.handleNameChange = this.handleNameChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -37,59 +38,48 @@ class RegistrationPage extends React.Component {
       this.setState({password: event.target.value});
   }
 
+  handleUsernameChange(event) {
+    this.setState({username: event.target.value});
+  }
+
+  handleNameChange(event) {
+      this.setState({name: event.target.value});
+  }
+
   handleSubmit(event) {
-    // event.preventDefault();
-
-    // var data = {username: this.state.email, password: this.state.password};
-    // // test code
-    // fetch("/api/login", {
-    //   method: 'POST', 
-    //   credentials: 'same-origin', // include, *same-origin, omit
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //     // 'Content-Type': 'application/x-www-form-urlencoded',
-    //   },
-    //   body: JSON.stringify(data),
-    // })
-    // .then(res => res.json())
-    // .then(res => {
-    //   console.log(res);
-    //   const cookies = new Cookies();
-    //   if (res.auth) {
-    //     console.log("login succeeded!");
-    //     cookies.set('loginSuccess', 'true', { path: '/' });
-    //     console.log(cookies.get('loginSuccess')); // true
-    //     alert("Logged in! You can now navigate to other parts of the app.")
-    //   }
-    //   else {
-    //     console.log("login failed!");
-    //     cookies.set('loginSuccess', 'false', { path: '/' });
-    //     console.log(cookies.get('loginSuccess')); // true
-    //     alert("Incorrect Username or Password")
-    //   }
-    // });
-
-    // fetch('/api/')
-    //   .then( (res) => { 
-    //     console.log(res);
-    //   }
-    // );
-
-    // console.log(this.state.email);
-    // console.log(this.state.password);
-
-
-    // const cookies = new Cookies();
-    // cookies.set('loginSuccess', 'true', { path: '/' });
-    // console.log(cookies.get('loginSuccess')); // true
-
-    
+    event.preventDefault();
+    console.log(this.state.username,this.state.email,this.state.password,this.state.name);
+    var data = {username: this.state.username, email: this.state.email,
+                password: this.state.password, name: this.state.name};
+    // test code
+    fetch("/api/registration", {
+      method: 'POST', 
+      credentials: 'same-origin', // include, *same-origin, omit
+      headers: {
+        'Content-Type': 'application/json'
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: JSON.stringify(data),
+    })
+    .then(res => res.json())
+    .then(res => {
+      console.log(res);
+      if (res.error == 0) {
+        console.log("registration succeeded!");
+        alert("NICE REGISTRATION!");
+      }
+      else {
+        console.log("registration failed!");
+        alert("Failure...");
+      }
+    });
   }
 
   render() {
 
     return (
       <>
+        <Navbar/>
         <Container>
         <h1>Registration</h1>
           <Jumbotron>
