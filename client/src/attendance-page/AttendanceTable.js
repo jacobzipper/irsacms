@@ -46,7 +46,9 @@ class AttendanceTable extends React.Component {
   componentDidMount() {
     fetch('/api/customers')
       .then(res => res.json())
-      .then( (res) => { 
+      .then( (res) => {
+        console.log("HELP ME");
+        console.log(res);
         this.setState({
           ...this.state,
           data: res

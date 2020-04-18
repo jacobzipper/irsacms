@@ -158,10 +158,7 @@ class CustomerTable extends React.Component {
       {
         dataField: 'attendance',
         text: 'Attendance',
-        formatter: function check(cell, row) {
-          return (<input type="checkbox"></input>);
-        },
-        isDummyField: true
+        sort: true
       }
     ];
 

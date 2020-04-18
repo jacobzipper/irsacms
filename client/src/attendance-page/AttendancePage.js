@@ -5,6 +5,7 @@ import AttendanceTable from './AttendanceTable'
 import Jumbotron from "react-bootstrap/Jumbotron";
 import Container from 'react-bootstrap/Container'
 import Navbar from "../Navbar";
+import md5 from "md5";
 
 // TODO: refactor this as students page, and make app be the routing with navbar page
 function AttendancePage() {
@@ -21,6 +22,7 @@ function AttendancePage() {
         <p>
           Click on the checkboxes to select a student who attended todays class, and press "Update" at the bottom of the page to confirm attendance.
         </p>
+        <p>The attendance code for today is: {new Date().toLocaleString().split(',')[0]}</p>
       </Jumbotron>
     
       <AttendanceTable />
