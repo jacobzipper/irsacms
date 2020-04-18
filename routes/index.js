@@ -38,27 +38,9 @@ async function verifyUser(username, password) {
 
 /* GET home page. */
 router.get('/customers', async function(req, res, next) {
-  const students = await pool.query('SELECT students.*, attendance.date from students full join attendance on students.username = attendance.username');
-  students.rows.map(x => {
-    x.date = [x.date];
-    return x;
-  })
-  var studentschanged = [];
-  for (var i = 0; i < students.rows.length; i++) {
-    var found = -1;
-    for (var j = 0; j < studentschanged.length; j++) {
-      if (studentschanged[j].username == students.rows[i].username) {
-        found = j;
-        break;
-      }
-    }
-    if (found == -1) {
-      studentschanged.push(students.rows[i]);
-    } else {
-      studentschanged[found].date.push(students.rows[i].date[0]);
-    }
-  }
-  res.json(studentschanged);
+  const students = await pool.query('SELECT * from students');
+  
+  res.json(students.rows);
 });
 
 /* GET profile page. */
@@ -122,8 +104,8 @@ router.post('/attendance', async function(req, res, next){
     try {
     await pool.query(
       {
-        text: 'INSERT INTO attendance (username, date) VALUES ($1, $2)',
-        values: [req.body.students[i], date]
+        text: 'UPDATE students SET attendance=(SELECT attendance FROM students WHERE username=$1) + 1 WHERE username=$2',
+        values: [req.body.students[i], req.body.students[i]]
       });
     } catch (error) {
       // do nothing
@@ -133,13 +115,3 @@ router.post('/attendance', async function(req, res, next){
   res.sendStatus(200);
 });
 
-router.get('/attendance', async function(req, res, next){
-  await pool.query({
-    text: 'SELECT students.*, attendance.date from students full join attendance on students.username = ',
-    values: [req.body.students[i], date]
-  });
-  
-  res.sendStatus(200);
-});
-
-module.exports = router;
