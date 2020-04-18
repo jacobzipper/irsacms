@@ -115,3 +115,22 @@ router.post('/attendance', async function(req, res, next){
   res.sendStatus(200);
 });
 
+router.post('/studentattendance', async function(req, res, next){
+  const code = crypto.createHash('md5').update(new Date().toLocaleString().split(',')[0]).digest("hex").substring(0, 4);
+  console.log(code);
+  if (req.body.code == code) {
+    try {
+      await pool.query({
+        text: 'UPDATE students SET attendance=(SELECT attendance FROM students WHERE username=$1) + 1 WHERE username=$2',
+        values: [req.body.username, req.body.username]
+      });
+      res.status(200).json({error: 0, msg: 'We gucci'});
+    } catch (error) {
+      // do nothing
+    }
+  } else {
+    res.status(200).json({error: 1, msg: 'Bad code'});
+  }
+});
+
+module.exports = router;
