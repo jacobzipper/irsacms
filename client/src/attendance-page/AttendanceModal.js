@@ -3,9 +3,6 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Table from 'react-bootstrap/Table'
 
-import CalendarHeatmap from 'react-calendar-heatmap';
-import 'react-calendar-heatmap/dist/styles.css';
-
 
 function AttendanceModal(props) {
   let data = props.data ? props.data : {}; // prevents null ptr exception.
@@ -26,7 +23,8 @@ function AttendanceModal(props) {
   let startDate = new Date().setMonth( (new Date().getMonth() - 6) );
   let endDate = new Date();
   // let attendance = data.date ? data.date.map(d => { let t = {date: new Date(d)}; return t; }) : [];
-  let attendance = data.date ? data.date.map(d => new Object( {date: new Date(d)} ) ) : [];
+  // let attendance = data.date ? data.date.map(d => new Object( {date: new Date(d)} ) ) : [];
+  let attendance = data.attendance;
       
 
   return (
@@ -58,13 +56,13 @@ function AttendanceModal(props) {
               <td><b>Attendance:</b></td>
               {/* <td>{attendance}</td> */}
               <td>
-                  <CalendarHeatmap
-                    startDate={startDate}
-                    endDate={endDate}
-                    values = {attendance}
-                    showWeekdayLabels = {true}
-                    weekdayLabels = {weekdaylabels}
-                  />
+                {(() => {
+                  switch (attendance) {
+                    case 0: return "Not yet attended"
+                    case 1:   return `${attendance} time`;
+                    default:  return `${attendance} times`;
+                  }
+                })()}
               </td>
             </tr>
           </tbody>

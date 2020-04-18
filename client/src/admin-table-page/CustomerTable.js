@@ -27,6 +27,8 @@ class CustomerTable extends React.Component {
     fetch('/api/customers')
       .then(res => res.json())
       .then( (res) => { 
+        console.log("HELLOOO");
+        console.log(res);
         this.setState({
           ...this.state,
           data: res
