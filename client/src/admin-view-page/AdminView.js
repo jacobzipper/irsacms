@@ -66,6 +66,11 @@ function AdminView(props) {
     console.log("adminView.contact");
   }
 
+  function onChangeHandler(e) {
+    console.log(e.target.files[0])
+    console.log("!!!!")
+  }
+
   return (
     <Jumbotron>
       <h1>{data.name}</h1>
@@ -108,7 +113,13 @@ function AdminView(props) {
       <Button onClick={handleWaiver}>?Waiver?</Button>{" "}
       <Button onClick={handleContact}>?Contact?</Button>{" "}
       <Button onClick={handleEdit}>?Edit?</Button>{" "}
-      <Button onClick={handleBack}>?Back?</Button><br/>
+      <Button onClick={handleBack}>?Back?</Button>
+      <input type="file" name="file" onChange={onChangeHandler}/><br/>
+      {/* <Button type="file" onChange={onChangeHandler}></Button> */}
+      {/* <label>
+          <input type="file" multiple onChange={onChangeHandler} />
+          Attach Img
+        </label> */}
       {/* TODO: DEBUG */}
       {JSON.stringify(data)}
     </Jumbotron>

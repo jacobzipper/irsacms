@@ -10,6 +10,7 @@ import LoginPage from './login-page/LoginPage';
 
 // other stuff
 import Cookies from 'universal-cookie';
+import RegistrationPage from "./registration-page/RegistrationPage";
 const cookies = new Cookies();
 
 
@@ -38,6 +39,7 @@ export default function Routes() {
         <PrivateRoute exact path='/students' component={StudentPage} />
         <PrivateRoute exact path='/attendance' component={AttendancePage} />
         <Route exact path='/login' component={LoginPage} />
+        <Route exact path='/registration' component={RegistrationPage} />
       </Router>
     
   );

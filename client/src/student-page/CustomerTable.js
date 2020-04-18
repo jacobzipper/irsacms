@@ -14,7 +14,12 @@ class CustomerTable extends React.Component {
     this.state = {
       modalShow : false, // needed to toggle modal
       lastSelectedStudent : null, // needed to pass clicked student to modal
+      toEmail : [], // for contacting a list of students,
     };
+
+    this.contactUnpaid = this.contactUnpaid.bind(this);
+    this.contactUnsigned = this.contactUnsigned.bind(this);
+    this.contactSelectedStudents = this.contactSelectedStudents.bind(this);
   }
   
   // function used to toggle Profile Modal
@@ -23,6 +28,36 @@ class CustomerTable extends React.Component {
     modalShow:bool
   })
 
+  contactUnpaid = function(e) {
+    console.log("-contactUnpaid-");
+    const result = this.state.data.filter(student => student.payment == false || true);
+    console.log(result);
+    this.state.toEmail = result.map(student => student.email);
+    // this.state.toEmail = this.state.toEmail.filter(email => email != null);
+    console.log(this.state.toEmail);
+    var mailtoString = this.state.toEmail.join(',');
+    window.location.href = "mailto:" + mailtoString + "?subject=Italian Renaissance Swordsmanship Academy - Reminder&body=Hi there, it's Tony. Plz pay me.";
+  }
+
+  contactUnsigned = function(e) {
+    console.log("-contactUnsigned-");
+    const result = this.state.data.filter(student => student.waiver == false || true);
+    console.log(result);
+    this.state.toEmail = result.map(student => student.email);
+    // this.state.toEmail = this.state.toEmail.filter(email => email != null);
+    console.log(this.state.toEmail);
+    var mailtoString = this.state.toEmail.join(',');
+    window.location.href = "mailto:" + mailtoString + "?subject=Italian Renaissance Swordsmanship Academy - Reminder&body=Hi there, it's Tony. Sign.";
+  }
+
+  contactSelectedStudents = function(e) {
+    this.state.toEmail = this.node.selectionContext.selected.map( userId => {
+      return this.state.data.filter(user => user.id == userId)[0].email;
+    });
+    console.log(this.state.toEmail);
+    var mailtoString = this.state.toEmail.join(',');
+    window.location.href = "mailto:" + mailtoString + "?subject=Italian Renaissance Swordsmanship Academy - Reminder&body=Hi there, it's Tony. Sign.";
+  }
   
   componentDidMount() {
     fetch('/api/customers')
@@ -132,10 +167,15 @@ class CustomerTable extends React.Component {
 
     return (
       <>
+        <Button onClick={this.contactSelectedStudents}>Contact selected students</Button>
+        <Button onClick={this.contactUnpaid}>Contact unpaid students</Button>
+        <Button onClick={this.contactUnsigned}>Contact unsigned students</Button>
         <BootstrapTable
           keyField='id'
+          ref={ n => this.node = n }
           data={ this.state.data == undefined ? []: this.state.data }
           columns={ columns }
+          selectRow={ { mode: 'checkbox', clickToSelect: true } }
           rowEvents={ rowEvents }
           striped
           hover
