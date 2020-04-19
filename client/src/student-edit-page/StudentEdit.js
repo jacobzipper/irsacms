@@ -53,7 +53,7 @@ function StudentEdit(props) {
     <Jumbotron>
       <h1>{data.name}</h1>
       {img}
-      <Button onClick={handleImage} className="p-1">Upload Image</Button>
+      <Button disabled onClick={handleImage} className="p-1">Upload Image</Button>
       <Table responsive>
         <tbody>
           <tr>

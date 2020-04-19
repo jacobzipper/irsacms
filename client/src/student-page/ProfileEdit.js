@@ -164,7 +164,7 @@ function dataURLtoBlob(dataurl) {
 
       <Modal.Body>
         {img}
-        <Button onClick={props.onHide}>Upload Image</Button>
+        <Button disabled onClick={props.onHide}>Upload Image</Button>
         {/* TODO: Upload image button */}
         <div>
           <object 
