@@ -86,11 +86,6 @@ function StudentView(props) {
       <Button onClick={handleContact}>?Contact?</Button>{" "}
       <Button onClick={handleEdit}>?Edit?</Button>{" "}
       <Button onClick={handleBack}>?Back?</Button><br/>
-      {/* <Button><input type="file" name="file" onChange={onChangeHandler}/></Button> */}
-      <label>
-          <input type="file" multiple onChange={onChangeHandler} />
-          Attach Img
-        </label>
       {/* TODO: DEBUG */}
       {JSON.stringify(data)}
     </Jumbotron>

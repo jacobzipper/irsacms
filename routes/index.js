@@ -61,12 +61,18 @@ router.post('/login', async function(req, res, next){
   }
 });
 
-router.post('/edituser', async function(req, res, next){
-  await pool.query(
-    {
-      text: 'UPDATE students SET waiverlink=$1, waiver=$2, payment=$3, name=$4, email=$5 WHERE username=$6',
-      values: [req.body.waiverlink, req.body.waiver, req.body.payment, req.body.name, req.body.email, req.body.username]
+router.post('/edituser', async function(req, res, next) {
+  if (req.files.waiver) {
+    await pool.query({
+      text: 'UPDATE students SET waiverbytes=$1, waiver=$2, payment=$3, name=$4, email=$5 WHERE username=$6',
+      values: [req.files.waiver.bytes, req.body.waiver, req.body.payment, req.body.name, req.body.email, req.body.username]
     });
+  } else {
+    await pool.query({
+      text: 'UPDATE students SET waiver=$1, payment=$2, name=$3, email=$4 WHERE username=$5',
+      values: [req.body.waiver, req.body.payment, req.body.name, req.body.email, req.body.username]
+    });
+  }
   res.sendStatus(200);
 });
 

@@ -77,6 +77,15 @@ function ProfileEdit(props) {
         {img}
         <Button onClick={props.onHide}>Upload Image</Button>
         {/* TODO: Upload image button */}
+        <div>
+          <object 
+            style={{width: '100%', height: '200pt'}} 
+            type="application/pdf" 
+            data={'data:application/pdf;base64,' + waiverbytes}>
+          </object>
+        </div>
+        <Button onClick={props.onHide}>Upload Waiver</Button>
+        {/* TODO: Upload image button */}
         <Table responsive>
           <tbody>
             <tr>
