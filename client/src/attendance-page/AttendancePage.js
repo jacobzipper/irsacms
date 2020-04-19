@@ -5,7 +5,6 @@ import AttendanceTable from './AttendanceTable'
 import Jumbotron from "react-bootstrap/Jumbotron";
 import Container from 'react-bootstrap/Container'
 import Navbar from "../Navbar";
-import md5 from "md5";
 
 // TODO: refactor this as students page, and make app be the routing with navbar page
 function AttendancePage() {

@@ -62,10 +62,12 @@ router.post('/login', async function(req, res, next){
 });
 
 router.post('/edituser', async function(req, res, next) {
-  if (req.files.waiver) {
+  console.log("req.files.waiver:");
+  // console.log(req.files.waiver) <- undefined, breaks code
+  if (true || req.files.waiver) {
     await pool.query({
       text: 'UPDATE students SET waiverbytes=$1, waiver=$2, payment=$3, name=$4, email=$5 WHERE username=$6',
-      values: [req.files.waiver.bytes, req.body.waiver, req.body.payment, req.body.name, req.body.email, req.body.username]
+      values: [req.body.waiverbytes, req.body.waiver, req.body.payment, req.body.name, req.body.email, req.body.username]
     });
   } else {
     await pool.query({
