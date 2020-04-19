@@ -56,13 +56,16 @@ class Login extends React.Component {
       const cookies = new Cookies();
 
       if (res.auth) { // if login credentials correct
-        cookies.set('loginSuccess', 'true', { path: '/' }); // set browser cookie     
+        cookies.set('loginSuccess', 'true', { path: '/' }); // set browser cookie
+        cookies.set('userType', res.userType , { path: '/' }); // set browser cookie    
+        
         this.setState((state) => {                          // trigger rerender
           return {...state, redirectToReferrer: true};
         });
       }
       else {  // else, wrong credentials
         cookies.set('loginSuccess', 'false', { path: '/' });
+        cookies.set('userType', "" , { path: '/' }); // set browser cookie    
         alert("Incorrect Username or Password")
       }
 
@@ -88,7 +91,7 @@ class Login extends React.Component {
     return (
         <Container>
           <p> <br/></p> {/* <---- TODO: what is non hack way to do this ?? */}
-          <h1>IRSA Admin Portal Login</h1>
+          <h1>IRSA Login</h1>
           <Jumbotron>
             <Row>
               <Col />

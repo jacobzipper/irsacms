@@ -8,6 +8,7 @@ const cookies = new Cookies();
 
 const logout = () => {
   cookies.set('loginSuccess', 'false', { path: '/' });
+  cookies.set('userType', '', { path: '/' });
 }
 
 export default function NavBar() {
@@ -34,6 +35,10 @@ export default function NavBar() {
           {/* <LinkContainer to="/YOURPATHHERE">
             <Nav.Link> YOUR PAGE HERE </Nav.Link>
           </LinkContainer> */}
+
+          <LinkContainer to="/registration">
+              <Nav.Link> Register </Nav.Link>
+          </LinkContainer>
         </Nav>
 
         <Nav className="justify-content-end" justify="true">
@@ -42,9 +47,7 @@ export default function NavBar() {
           </LinkContainer>
         </Nav>
 
-        <LinkContainer to="/registration">
-            <Nav.Link> Register </Nav.Link>
-        </LinkContainer>
+        
 
       </Navbar.Collapse>
     </Navbar>  
