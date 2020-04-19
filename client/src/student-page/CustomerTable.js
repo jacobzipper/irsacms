@@ -1,5 +1,6 @@
 import React from "react";
 import BootstrapTable from 'react-bootstrap-table-next';
+import ProfileModal from "./ProfileModal";
 import ProfileEdit from "./ProfileEdit";
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import AdminView from "../admin-view-page/AdminView";
@@ -14,12 +15,15 @@ class CustomerTable extends React.Component {
     this.state = {
       modalShow : false, // needed to toggle modal
       lastSelectedStudent : null, // needed to pass clicked student to modal
-      toEmail : [], // for contacting a list of students,
+      toEmail : [], // for contacting a list of students
+      modalSwitch : 0, // 0 for ProfileModal, 1 for ProfileEdit
     };
 
     this.contactUnpaid = this.contactUnpaid.bind(this);
     this.contactUnsigned = this.contactUnsigned.bind(this);
     this.contactSelectedStudents = this.contactSelectedStudents.bind(this);
+    this.handler = this.handler.bind(this);
+    this.editPageHandle = this.editPageHandle.bind(this);
   }
   
   // function used to toggle Profile Modal
@@ -58,6 +62,21 @@ class CustomerTable extends React.Component {
     var mailtoString = this.state.toEmail.join(',');
     // TODO: &body=Hi there, it's Tony. Sign.
     window.location.href = "mailto:" + mailtoString + "?subject=Italian Renaissance Swordsmanship Academy - Reminder";
+  }
+
+  handler() {
+    this.setState({
+      ...this,
+      modalSwitch: 1 - this.state.modalSwitch
+    });
+  }
+
+  editPageHandle() {
+    this.setState({
+      ...this,
+      modalSwitch: 1 - this.state.modalSwitch,
+      modalShow: false
+    });
   }
   
   componentDidMount() {
@@ -181,11 +200,27 @@ class CustomerTable extends React.Component {
         />
 
         {/* Change to ProfileModal for alternate look */}
-        <ProfileEdit
-          show={this.state.modalShow}
-          onHide={() => this.setModalShow(false)}
-          data={this.state.lastSelectedStudent}
-        />
+        {this.state.modalSwitch == 0 ? (
+            <ProfileModal
+            handler={this.handler}
+            show={this.state.modalShow}
+            onHide={() => this.setModalShow(false)}
+            data={this.state.lastSelectedStudent}
+          />
+        ) : (
+            <AdminEdit
+            handler={this.editPageHandle}
+            show={this.state.modalShow}
+            onHide={() => this.setModalShow(false)}
+            data={this.state.lastSelectedStudent}
+            />
+          //   <ProfileEdit
+          //   handler = {this.editPageHandle}
+          //   show={this.state.modalShow}
+          //   onHide={() => this.setModalShow(false)}
+          //   data={this.state.lastSelectedStudent}
+          // />
+        )}
         <AdminView />
         <AdminEdit />
         {/*yes*/}
