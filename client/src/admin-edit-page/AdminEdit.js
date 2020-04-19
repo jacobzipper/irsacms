@@ -1,27 +1,20 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
 import Table from "react-bootstrap/Table";
 import InputGroup from "react-bootstrap/InputGroup";
 import Form from "react-bootstrap/Form";
-import { Jumbotron } from "react-bootstrap";
-// import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
-// import "bootstrap/dist/css/bootstrap.css";
 
 function AdminEdit(props) {
-  // DEBUG
-  let data = {
-    id: 8,
-    name: "Bill Euler",
-    img: null,
-    reg: "2019-02-20T00:00:00.000Z",
-    waiver: false,
-    payment: true,
-    username: "beuler1"
-  };
-  // let data = props.data ? props.data : {}; // prevents null ptr exception.
+  let data = props.data ? props.data : {}; // prevents null ptr exception.
 
   // Handles data conditionals
-  // TODO: Use <Image> tag
+  let img = data.img ? (
+    <img src={data.img} alt="Profile Image" height='128px' width='128px'/>
+  ) : (
+    <p>No Image Found!</p>
+  );
+
 
   function dateFormatter(dt) {
     var dateObj = new Date(Date.parse(dt));
@@ -41,76 +34,241 @@ function AdminEdit(props) {
     );
   }
 
-  let img = data.img ? (
-    <img src={data.img} alt="Profile Image" />
-  ) : (
-    <p>No Image Found!</p>
-  );
-  let waiver = data.waiver ? "Has Waiver" : "Does Not Have Waiver!";
-  let payment = data.payment ? "Has Payed" : "Has Not Payed!";
+  // let waiverText = data.waiver ? "Has Waiver" : "Does Not Have Waiver!";
+  // let paymentText = data.payment ? "Has Payed" : "Has Not Payed!";
+  let waiver = data.waiver ? data.waiver : null;
+  let payment = data.payment ? data.payment : null;
   let attendance = data.date ? IdiomaticReactList(data.date) : "Not yet attended";
+  let waiverbytes = data.waiverbytes ? data.waiverbytes : null;
+  var updatedName = null;
+  var updatedEmail = null;
+  var updatedWaiverCheckbox = null;
+  var updatedPaymentCheckbox = null;
+  // let name = data.name ? data.name : null;
+  // let email = data.email ? data.email : null;
+  // let username = data.username ? data.username : null;
 
-  // TODO: Handle buttons
-  function handleCancel(e) {
-    console.log("adminEdit.cancel");
+  //   TODO: Handle pushing data
+  // Handle route to profile
+  function toProfile() {
+
   }
-  function handleDelete(e) {
-    console.log("adminEdit.delete");
+
+  // Tries to send the edits to the backend
+  function submitEdit() {
+
   }
-  function handleImage(e) {
-    console.log("adminEdit.image");
+
+  // Will display a modal for link for now
+  function imageHandle() {
+
   }
-  function handleSubmit(e) {
-    console.log("adminEdit.submit");
+
+  // TODO: PDF Upload?
+  function waiverHandle() {
+    return null
   }
-  function handleWaiver(e) {
-    console.log("adminEdit.waiver");
+
+  function _arrayBufferToBase64( buffer ) {
+    var res = "";
+    var len = buffer.length;
+    for (var i = 0; i < len; i++) {
+        res += String.fromCharCode(buffer[i]);
+    }
+    return res;
+}
+
+function showFile(blob) {
+  // It is necessary to create a new blob object with mime-type explicitly set
+  // otherwise only Chrome works like it should
+  var newBlob = new Blob([blob], {type: "application/pdf"})
+
+  // IE doesn't allow using a blob object directly as link href
+  // instead it is necessary to use msSaveOrOpenBlob
+  if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+    window.navigator.msSaveOrOpenBlob(newBlob);
+    return;
+  } 
+
+  // For other browsers: 
+  // Create a link pointing to the ObjectURL containing the blob.
+  const blobdata = window.URL.createObjectURL(newBlob);
+  var link = document.createElement('a');
+  link.href = blobdata;
+  link.download=data.name;
+  link.click();
+  setTimeout(function(){
+    // For Firefox it is necessary to delay revoking the ObjectURL
+    window.URL.revokeObjectURL(blobdata);
+  }, 100);
+}
+
+function dataURLtoBlob(dataurl) {
+  var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+      bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+  while(n--){
+      u8arr[n] = bstr.charCodeAt(n);
+  }
+  return new Blob([u8arr], {type:mime});
+}
+
+  function openPDF() {
+    var dataurl = _arrayBufferToBase64(waiverbytes.data);
+    var blob = dataURLtoBlob(dataurl);
+    showFile(blob);
+
+    
+    // open in new tab (not fully functional)
+    // // var imageurl = "<img src='" + dataurl + "'/>"
+    // var pdfurl = "<iframe src='" + dataurl + "' width='100%' height='100%' />";
+    // var w = window.open("");
+    // w.document.write(pdfurl);
+  }
+
+  function onAddFile(e) {
+
+    var reader = new FileReader();
+    reader.onload = function(){
+      var dataURL = reader.result;
+      console.log("dataURL:");
+      console.log(dataURL);
+      var postData = {"waiverbytes": dataURL, "waiver": data.waiver, "payment": data.payment, "name": data.name, "email": data.email, "username": data.username};
+
+      console.log(postData);
+      fetch("/api/edituser", {
+        method: 'POST', 
+        credentials: 'same-origin',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(postData),
+      })
+      .then( res => res.json() )
+      .then( res => {
+        console.log('attempted to add file');
+      });
+    };
+    reader.readAsDataURL(e.target.files[0]);
+
+  }
+
+  function handleSubmit() {
+
+    let postEmail = data.email;
+    if (updatedEmail && updatedEmail.length > 0) { // && validFormat(updatedEmail) 
+      postEmail = updatedEmail;
+    }
+    let postName = data.name;
+    if (updatedName && updatedName.length > 0) { // && validFormat(updatedName) 
+      postName = updatedName;
+    }
+
+    var postData = {"waiver": updatedWaiverCheckbox, "payment": updatedPaymentCheckbox, "name": postName, "email": postEmail, "username": data.username};
+    console.log("POSTDATA:");
+    console.log(postData);
+    fetch("/api/edituser", {
+      method: 'POST', 
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(postData),
+    })
+    .then( res => res.json() )
+    .then( res => {
+      console.log('attempted to edit userr');
+    });
+    props.handler();
+  }
+
+  function handleNameChange(event) {
+    updatedName = event.target.value;
+  }
+
+  function handleEmailChange(event) {
+    updatedEmail = event.target.value;
+  }
+
+  function handleWaiverChange(event) {
+    updatedWaiverCheckbox = event.target.checked;
+  }
+
+  function handlePaymentChange(event) {
+    updatedPaymentCheckbox = event.target.checked;
+  }
+
+  function closeModal() {
+    props.handler();
   }
 
   return (
-    <Jumbotron>
-      <h1>{data.name}</h1>
-      {img}
-      <Button onClick={handleImage} className="p-1">Upload Image</Button>
-      {/* TODO: edit date */}
-      <Table responsive>
-        <tbody>
-          <tr>
-            {/* Name */}
-            <InputGroup className="mb-3">
-              <InputGroup.Prepend>
-                <InputGroup.Text id="basic-addon3">Name:</InputGroup.Text>
-              </InputGroup.Prepend>
-              <Form.Control id="Name" placeholder={data.name} />
-            </InputGroup>
-          </tr>
-          <tr>
-            {/* Email */}
-            <InputGroup className="mb-3">
-              <InputGroup.Prepend>
-                <InputGroup.Text id="basic-addon3">Email:</InputGroup.Text>
-              </InputGroup.Prepend>
-              <Form.Control id="Email" placeholder={data.username} />
-            </InputGroup>
-          </tr>
-          <tr>
+    <Modal
+      {...props}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+      onHide={closeModal}
+    >
+      {/* TODO: Handle route to prifile page */}
+      <Modal.Header closeButton>
+        <Modal.Title id="contained-modal-title-vcenter">
+          {data.name}
+        </Modal.Title>
+      </Modal.Header>
+
+      <Modal.Body>
+        {img}
+        <Button disabled onClick={props.onHide}>Upload Image</Button>
+        {/* TODO: Upload image button */}
+        <Button onClick={props.onHide}>Upload Waiver</Button>
+        {/* TODO: Upload image button */}
+        <Table responsive>
+          <tbody>
+            <tr>
+              {/* Name */}
+              <InputGroup className="mb-3">
+                <InputGroup.Prepend>
+                  <InputGroup.Text id="basic-addon3">Name:</InputGroup.Text>
+                </InputGroup.Prepend>
+                <Form.Control id="Name" placeholder={data.name} onChange={handleNameChange}/>
+              </InputGroup>
+            </tr>
+            <tr>
+              {/* Email */}
+              <InputGroup className="mb-3">
+                <InputGroup.Prepend>
+                  <InputGroup.Text id="basic-addon3">Email:</InputGroup.Text>
+                </InputGroup.Prepend>
+                <Form.Control id="Email" onChange={handleEmailChange} placeholder={null} />
+              </InputGroup>
+              <tr>
             {/* TODO: Waiver default handling */}
-            <label>Has Waiver: </label> <input type="checkbox"></input>
-          </tr>
-          <tr>
-            {/* TODO: Payment default handling */}
-            <label>Has Payed: </label> <input type="checkbox"></input>
-          </tr>
-        </tbody>
-      </Table>
-      {/* TODO: Add button functionality */}
-      <Button onClick={handleWaiver}>?Upload Waiver?</Button>{" "}
-      <Button onClick={handleSubmit}>?Submit?</Button>{" "}
-      <Button onClick={handleCancel}>?Cancel?</Button>{" "}
-      <Button onClick={handleDelete}>?Delete Student?</Button><br/>
-      {/* TODO: DEBUG */}
-      {JSON.stringify(data)}
-    </Jumbotron>
+            <label>Has Waiver: </label> <input onChange={handleWaiverChange} defaultChecked={waiver} type="checkbox"></input>
+            </tr>
+            <tr>
+              {/* TODO: Payment default handling */}
+              <label>Has Payed: </label> <input onChange={handlePaymentChange} defaultChecked={payment} type="checkbox"></input>
+            </tr>
+              {/* TODO: Waiver and Payment buttons */}
+            </tr>
+          </tbody>
+        </Table>
+
+        {/* TODO: DEBUG */}
+        {JSON.stringify(data)}
+      </Modal.Body>
+
+      <Modal.Footer>
+        {/* TODO: Handle waiver */}
+        {/* <a href={waiverbytes} target='_blank'>HELLOPLEZ</a> */}
+        <input type="file" name="file" onChange={onAddFile}/><br/>
+        <Button onClick={openPDF}>Download Waiver</Button>
+        {/* TODO: Handle server call and route to profile page */}
+        <Button onClick={handleSubmit}>Submit</Button>
+        {/* TODO: Handle route to prifile page */}
+        <Button onClick={closeModal}>Close</Button>
+      </Modal.Footer>
+    </Modal>
   );
 }
 

@@ -38,6 +38,8 @@ function ProfileEdit(props) {
   let payment = data.payment ? "Has Payed" : "Has Not Payed!";
   let attendance = data.date ? IdiomaticReactList(data.date) : "Not yet attended";
   let waiverbytes = data.waiverbytes ? data.waiverbytes : null;
+  var updatedName = null;
+  var updatedEmail = null;
   // let name = data.name ? data.name : null;
   // let email = data.email ? data.email : null;
   // let username = data.username ? data.username : null;
@@ -112,7 +114,7 @@ function dataURLtoBlob(dataurl) {
     showFile(blob);
 
     
-
+    // open in new tab (not fully functional)
     // // var imageurl = "<img src='" + dataurl + "'/>"
     // var pdfurl = "<iframe src='" + dataurl + "' width='100%' height='100%' />";
     // var w = window.open("");
@@ -121,7 +123,6 @@ function dataURLtoBlob(dataurl) {
 
   function onAddFile(e) {
     console.log(e.target.files[0]);
-    console.log("!!!!");
 
     var reader = new FileReader();
     reader.onload = function(){
@@ -141,11 +142,51 @@ function dataURLtoBlob(dataurl) {
       })
       .then( res => res.json() )
       .then( res => {
-        console.log('hmm. i wonder if it worked.');
+        console.log('attempted to add file');
       });
     };
     reader.readAsDataURL(e.target.files[0]);
 
+  }
+
+  function handleSubmit() {
+
+    let postEmail = data.email;
+    if (updatedEmail && updatedEmail.length > 0) { // && validFormat(updatedEmail) 
+      postEmail = updatedEmail;
+    }
+    let postName = data.name;
+    if (updatedName && updatedName.length > 0) { // && validFormat(updatedName) 
+      postName = updatedName;
+    }
+
+    var postData = {"waiverbytes": data.waiverbytes, "waiver": data.waiver, "payment": data.payment, "name": postName, "email": postEmail, "username": data.username};
+    fetch("/api/edituser", {
+      method: 'POST', 
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(postData),
+    })
+    .then( res => res.json() )
+    .then( res => {
+      console.log('attempted to edit userr');
+    });
+    props.handler();
+  }
+
+  function handleNameChange(event) {
+    updatedName = event.target.value;
+  }
+
+  function handleEmailChange(event) {
+    updatedEmail = event.target.value;
+  }
+
+  function closeModal() {
+    props.onHide();
+    props.handler();
   }
 
   return (
@@ -166,13 +207,6 @@ function dataURLtoBlob(dataurl) {
         {img}
         <Button disabled onClick={props.onHide}>Upload Image</Button>
         {/* TODO: Upload image button */}
-        <div>
-          <object 
-            style={{width: '100%', height: '200pt'}} 
-            type="application/pdf" 
-            data={'data:application/pdf;base64,' + waiverbytes}>
-          </object>
-        </div>
         <Button onClick={props.onHide}>Upload Waiver</Button>
         {/* TODO: Upload image button */}
         <Table responsive>
@@ -183,7 +217,7 @@ function dataURLtoBlob(dataurl) {
                 <InputGroup.Prepend>
                   <InputGroup.Text id="basic-addon3">Name:</InputGroup.Text>
                 </InputGroup.Prepend>
-                <Form.Control id="Name" placeholder={data.name} />
+                <Form.Control id="Name" placeholder={data.name} onChange={handleNameChange}/>
               </InputGroup>
             </tr>
             <tr>
@@ -192,7 +226,7 @@ function dataURLtoBlob(dataurl) {
                 <InputGroup.Prepend>
                   <InputGroup.Text id="basic-addon3">Email:</InputGroup.Text>
                 </InputGroup.Prepend>
-                <Form.Control id="Email" placeholder={null} />
+                <Form.Control id="Email" onChange={handleEmailChange} placeholder={null} />
               </InputGroup>
             </tr>
             <div>
@@ -215,9 +249,9 @@ function dataURLtoBlob(dataurl) {
         <input type="file" name="file" onChange={onAddFile}/><br/>
         <Button onClick={openPDF}>Download Waiver</Button>
         {/* TODO: Handle server call and route to profile page */}
-        <Button onClick={props.onHide}>Submit</Button>
+        <Button onClick={handleSubmit}>Submit</Button>
         {/* TODO: Handle route to prifile page */}
-        <Button onClick={props.onHide}>Close</Button>
+        <Button onClick={closeModal}>Close</Button>
       </Modal.Footer>
     </Modal>
   );
