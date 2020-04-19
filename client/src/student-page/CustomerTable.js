@@ -36,7 +36,7 @@ class CustomerTable extends React.Component {
     // this.state.toEmail = this.state.toEmail.filter(email => email != null);
     console.log(this.state.toEmail);
     var mailtoString = this.state.toEmail.join(',');
-    window.location.href = "mailto:" + mailtoString + "?subject=Italian Renaissance Swordsmanship Academy - Reminder&body=Hi there, it's Tony. Plz pay me.";
+    window.location.href = "mailto:" + mailtoString + "?subject=Italian Renaissance Swordsmanship Academy - Reminder";
   }
 
   contactUnsigned = function(e) {
@@ -47,7 +47,7 @@ class CustomerTable extends React.Component {
     // this.state.toEmail = this.state.toEmail.filter(email => email != null);
     console.log(this.state.toEmail);
     var mailtoString = this.state.toEmail.join(',');
-    window.location.href = "mailto:" + mailtoString + "?subject=Italian Renaissance Swordsmanship Academy - Reminder&body=Hi there, it's Tony. Sign.";
+    window.location.href = "mailto:" + mailtoString + "?subject=Italian Renaissance Swordsmanship Academy - Reminder";
   }
 
   contactSelectedStudents = function(e) {
@@ -56,7 +56,8 @@ class CustomerTable extends React.Component {
     });
     console.log(this.state.toEmail);
     var mailtoString = this.state.toEmail.join(',');
-    window.location.href = "mailto:" + mailtoString + "?subject=Italian Renaissance Swordsmanship Academy - Reminder&body=Hi there, it's Tony. Sign.";
+    // TODO: &body=Hi there, it's Tony. Sign.
+    window.location.href = "mailto:" + mailtoString + "?subject=Italian Renaissance Swordsmanship Academy - Reminder";
   }
   
   componentDidMount() {
