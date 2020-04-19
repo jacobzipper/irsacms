@@ -3,6 +3,7 @@ import { Redirect } from "react-router-dom";
 import { Button, Jumbotron, Container, Row, Col, Form} from "react-bootstrap";
 import Cookies from 'universal-cookie';
  
+// TODO: URGENT: add link to registration page here
 
 class Login extends React.Component {
 
@@ -58,14 +59,15 @@ class Login extends React.Component {
       if (res.auth) { // if login credentials correct
         cookies.set('loginSuccess', 'true', { path: '/' }); // set browser cookie
         cookies.set('userType', res.userType , { path: '/' }); // set browser cookie    
-        
+        cookies.set('username', this.state.email);
         this.setState((state) => {                          // trigger rerender
           return {...state, redirectToReferrer: true};
         });
       }
       else {  // else, wrong credentials
         cookies.set('loginSuccess', 'false', { path: '/' });
-        cookies.set('userType', "" , { path: '/' }); // set browser cookie    
+        cookies.set('userType', "user" , { path: '/' }); // set browser cookie    
+        cookies.set('username', '');
         alert("Incorrect Username or Password")
       }
 
@@ -87,7 +89,9 @@ class Login extends React.Component {
       return (<Redirect to={from} />);
     }
 
-    // else, show login page. TODO: make this prettier.
+    // else, show login page.
+    // TODO: URGENT
+    // add registration link here
     return (
         <Container>
           <p> <br/></p> {/* <---- TODO: what is non hack way to do this ?? */}
@@ -110,10 +114,6 @@ class Login extends React.Component {
                   <Form.Group controlId="formBasicPassword">
                     <Form.Label>Password</Form.Label>
                     <Form.Control type="password" placeholder="Password" value={this.state.password} onChange={this.handlePasswordChange} />
-                  </Form.Group>
-
-                  <Form.Group controlId="formBasicCheckbox">
-                    <Form.Check type="checkbox" label="Check me out" />
                   </Form.Group>
 
                   <Button variant="primary" type="submit"> Submit </Button>
