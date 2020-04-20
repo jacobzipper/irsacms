@@ -53,6 +53,15 @@ router.get('/profile/:name', async function(req, res, next) {
   res.json(student.rows[0]);
 });
 
+router.post('/deleteuser', async function(req, res, next) {
+  const student = await pool.query(
+    {
+      text: 'DELETE FROM STUDENTS WHERE username=$1',
+      values: [req.body.username]
+    });
+  res.status(200);
+});
+
 router.post('/login', async function(req, res, next){
   if (await verifyAdmin(req.body.username, req.body.password)) {
     res.json({auth: true, userType: "admin"});

@@ -20,6 +20,7 @@ class CustomerTable extends React.Component {
       toEmail : [], // for contacting a list of students
       modalSwitch : 0, // 0 for ProfileModal, 1 for ProfileEdit
       alertShow : false,
+      showDeleteModal: false
     };
 
     this.contactUnpaid = this.contactUnpaid.bind(this);
@@ -28,6 +29,7 @@ class CustomerTable extends React.Component {
     this.handler = this.handler.bind(this);
     this.editPageHandle = this.editPageHandle.bind(this);
     this.refreshPage = this.refreshPage.bind(this);
+    this.handleDeleteModal = this.handleDeleteModal.bind(this);
   }
   
   // function used to toggle Profile Modal
@@ -35,6 +37,19 @@ class CustomerTable extends React.Component {
     ...this,
     modalShow:bool
   })
+
+  //not proud of this
+  handleDeleteModal(bool) {
+    console.log(this.state.showDeleteModal);
+    this.setState({
+      ...this,
+      showDeleteModal: bool
+    });
+    this.setState({       ...this,
+      showDeleteModal: bool }, () => {
+      console.log(this.state.showDeleteModal);
+    });
+  }
 
   contactUnpaid = function(e) {
     console.log("-contactUnpaid-");
@@ -205,29 +220,17 @@ class CustomerTable extends React.Component {
     return (
       <>
         <Button onClick={this.contactSelectedStudents}>Contact selected students</Button>
+        {/* i beg of you to find a better way */}
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <Button onClick={this.contactUnpaid}>Contact unpaid students</Button>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <Button onClick={this.contactUnsigned}>Contact unsigned students</Button>
-
-
-        <Col sm={10}>
-            {this.state.alertShow ? (<Alert
-              variant="success"
-              show={this.state.alertShow}
-              dismissible
-              onClose={() => this.setAlertShow(false)}
-            >
-                Succesfully updated attendance record of {this.state.numUpdates} student(s)! Please refresh the page to see changes.
-            </Alert>) :
-            (<Alert
-              variant="info"
-              show={!this.state.alertShow}
-            >
-                Please select students to update attendance.
-            </Alert>)
-            }
-        </Col>
 
         <BootstrapTable
           keyField='id'
@@ -252,6 +255,8 @@ class CustomerTable extends React.Component {
         ) : (
             <AdminEdit
             handler={this.editPageHandle}
+            deleteModalHandler={this.handleDeleteModal}
+            showDeleteModal={this.state.showDeleteModal}
             show={this.state.modalShow}
             onHide={() => this.setModalShow(false)}
             data={this.state.lastSelectedStudent}
