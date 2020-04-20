@@ -1,11 +1,12 @@
 import React from "react";
 
 import Form from "react-bootstrap/Form";
+import { Redirect} from "react-router-dom";
 
 import { Button, Jumbotron, Container, Row, Col} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import Navbar from "../Navbar";
+
 
 
 
@@ -16,7 +17,8 @@ class RegistrationPage extends React.Component {
     this.state = {
       passwordVisible: false,
       email: "",
-      password: ""
+      password: "",
+      redirect: false
     };
 
     this.handleEmailChange = this.handleEmailChange.bind(this);
@@ -65,16 +67,22 @@ class RegistrationPage extends React.Component {
       console.log(res);
       if (res.error == 0) {
         console.log("registration succeeded!");
-        alert("NICE REGISTRATION!");
+        alert("Registration Succesful.");
+        this.setState({... this.state, redirect: true});
       }
       else {
         console.log("registration failed!");
         alert("Failure...");
       }
     });
+
   }
 
   render() {
+
+    if(this.state.redirect === true) {
+      return (<Redirect to={'/login'} />);
+    }
 
     return (
       <>
