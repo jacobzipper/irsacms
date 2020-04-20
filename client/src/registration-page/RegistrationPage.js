@@ -78,7 +78,6 @@ class RegistrationPage extends React.Component {
 
     return (
       <>
-        <Navbar/>
         <Container>
         <h1>Registration</h1>
           <Jumbotron>
