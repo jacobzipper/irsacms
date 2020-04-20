@@ -1,7 +1,8 @@
 import React from "react";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import { Button, Jumbotron, Container, Row, Col, Form} from "react-bootstrap";
 import Cookies from 'universal-cookie';
+
  
 // TODO: URGENT: add link to registration page here
 
@@ -117,12 +118,13 @@ class Login extends React.Component {
                   </Form.Group>
 
                   <Button variant="primary" type="submit"> Submit </Button>
-
                 </Form>
-
+                <Link to="/Registration">Don't have an account? Register Here.</Link>
               </Col>
               <Col />
             </Row>
+
+
           </Jumbotron>
         </Container>
     );
