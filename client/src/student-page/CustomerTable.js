@@ -6,8 +6,8 @@ import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import AdminView from "../admin-view-page/AdminView";
 import AdminEdit from "../admin-edit-page/AdminEdit";
 import Button from "react-bootstrap/Button";
+import { Row, Col} from "react-bootstrap";
 import Alert from 'react-bootstrap/Alert';
-import Col from 'react-bootstrap/Col'
 
 // TODO: make this a functional component
 class CustomerTable extends React.Component {
@@ -233,18 +233,41 @@ class CustomerTable extends React.Component {
 
     return (
       <>
-        <Button onClick={this.contactSelectedStudents}>Contact selected students</Button>
+      <Row>
+        <Col>
+          <Button onClick={this.contactSelectedStudents}>Contact selected</Button>
+          <p></p>
+        </Col>
+        <Col>
+          <Button onClick={this.contactSelectedStudents}>Contact unpaid</Button>
+          <p></p>
+        </Col>
+        <Col>
+          <Button onClick={this.contactSelectedStudents}>Contact unsigned</Button>
+          <p></p>
+        </Col>
+
+        <Col>
+        </Col>
+
+        <Col>
+        </Col>
+
+        <Col>
+        </Col>
+      </Row>
+        {/* <Button onClick={this.contactSelectedStudents}>Contact selected students</Button> */}
         {/* i beg of you to find a better way */}
+        {/* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */}
+        {/* <Button onClick={this.contactUnpaid}>Contact unpaid students</Button> */}
+        {/* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <Button onClick={this.contactUnpaid}>Contact unpaid students</Button>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <Button onClick={this.contactUnsigned}>Contact unsigned students</Button>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */}
+        {/* <Button onClick={this.contactUnsigned}>Contact unsigned students</Button> */}
 
         <BootstrapTable
           keyField='id'

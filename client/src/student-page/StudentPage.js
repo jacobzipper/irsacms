@@ -28,10 +28,7 @@ function StudentPage() {
     <Navbar/>
     <Container>
       <Jumbotron>
-        <h1>IRSA Client Management System, sprint 2</h1>
-        <p>
-          Welcome to the second prototype 
-        </p>
+        <h1>IRSA Client Management System</h1>
         <p>
           Clicking on a row will pull up the interface that will allow you to edit a students
           information, contact them, or download their documents.

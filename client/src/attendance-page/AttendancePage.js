@@ -106,7 +106,7 @@ class AttendancePage extends React.Component {
       <Container>
 
         <Jumbotron>
-          <h1>IRSA Client Management System, Sprint 4</h1>
+          <h1>IRSA Client Management System</h1>
           <h2> Todays Attendance Code: {code} </h2>
           <p> Click on a row to see attendance of that student. </p>
           <p> Click on the checkboxes to select a student who attended todays class, and press "Update" at the bottom of the page to confirm attendance. </p>
