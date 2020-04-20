@@ -8,6 +8,11 @@ import Form from "react-bootstrap/Form";
 function AdminEdit(props) {
   let data = props.data ? props.data : {}; // prevents null ptr exception.
 
+  var showDeleteModal = props.showDeleteModal ? props.showDeleteModal : null;
+  console.log(showDeleteModal);
+  console.log(props.showDeleteModal);
+
+
   // Handles data conditionals
   let img = data.img ? (
     <img src={data.img} alt="Profile Image" height='128px' width='128px'/>
@@ -67,6 +72,12 @@ function AdminEdit(props) {
   // TODO: PDF Upload?
   function waiverHandle() {
     return null
+  }
+
+  function setDeleteModalShow(bool){
+    console.log("...!");
+    console.log(bool);
+    props.deleteModalHandler(bool)
   }
 
   function _arrayBufferToBase64( buffer ) {
@@ -201,7 +212,29 @@ function dataURLtoBlob(dataurl) {
     props.handler(false);
   }
 
+  function deleteStudent() {
+
+    var postData = {"username": data.username};
+    fetch("/api/deleteuser", {
+      method: 'POST', 
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(postData),
+    })
+    .then( res => res.json() )
+    .then( res => {
+      console.log('attempted to DELETE user');
+      setDeleteModalShow(false);
+      closeModal();
+    });
+
+
+  }
+
   return (
+    <>
     <Modal
       {...props}
       size="lg"
@@ -257,6 +290,7 @@ function dataURLtoBlob(dataurl) {
       <Modal.Footer>
         {/* TODO: Handle waiver */}
         {/* <a href={waiverbytes} target='_blank'>HELLOPLEZ</a> */}
+        <Button variant="danger" onClick={() => setDeleteModalShow(true)}>Delete Student</Button>
         <input type="file" name="file" onChange={onAddFile}/><br/>
         <Button onClick={openPDF}>Download Waiver</Button>
         {/* TODO: Handle server call and route to profile page */}
@@ -265,6 +299,23 @@ function dataURLtoBlob(dataurl) {
         <Button onClick={closeModal}>Close</Button>
       </Modal.Footer>
     </Modal>
+
+    <Modal show={props.showDeleteModal} onHide={() => setDeleteModalShow(false)}>
+      <Modal.Header closeButton>
+        <Modal.Title id="contained-modal-title-vcenter">
+          DELETE STUDENT
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+      <div>⚠️This action cannot be undone. Would you like to delete this student?</div>
+      <b>{data.name}</b>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="danger" onClick={deleteStudent}>Do it.</Button>
+        <Button onClick={() => setDeleteModalShow(false)}>Cancel</Button>
+      </Modal.Footer>
+    </Modal>
+    </>
   );
 }
 

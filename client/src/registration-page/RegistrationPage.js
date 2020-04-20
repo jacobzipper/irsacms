@@ -48,7 +48,6 @@ class RegistrationPage extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    console.log(this.state.username,this.state.email,this.state.password,this.state.name);
     var data = {username: this.state.username, email: this.state.email,
                 password: this.state.password, name: this.state.name};
     // test code
