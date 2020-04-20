@@ -185,8 +185,11 @@ class CustomerTable extends React.Component {
     return (
       <>
         <Button onClick={this.contactSelectedStudents}>Contact selected students</Button>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <Button onClick={this.contactUnpaid}>Contact unpaid students</Button>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <Button onClick={this.contactUnsigned}>Contact unsigned students</Button>
+
         <BootstrapTable
           keyField='id'
           ref={ n => this.node = n }

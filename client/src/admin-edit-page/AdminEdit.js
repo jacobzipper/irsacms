@@ -42,8 +42,8 @@ function AdminEdit(props) {
   let waiverbytes = data.waiverbytes ? data.waiverbytes : null;
   var updatedName = null;
   var updatedEmail = null;
-  var updatedWaiverCheckbox = null;
-  var updatedPaymentCheckbox = null;
+  var updatedWaiverCheckbox = data.waiver ? data.waiver : null;
+  var updatedPaymentCheckbox = data.payment ? data.payment : null;
   // let name = data.name ? data.name : null;
   // let email = data.email ? data.email : null;
   // let username = data.username ? data.username : null;
