@@ -171,13 +171,27 @@ class CustomerTable extends React.Component {
       },
       {
         dataField: 'waiver',
-        text: 'Documents Pending?',
-        sort: true
+        text: 'Has waiver?',
+        sort: true,
+        formatter: function(cell, row) {
+          if (cell) {
+            return <img src="https://i.imgur.com/k8tbSRk.png" width="30px" margin="auto" padding="0"/>
+          } else {
+            return <img src="https://i.imgur.com/FSQ35Yq.png" width="30px" margin="auto" padding="0"/>
+          }
+        }
       },
       {
         dataField: 'payment',
-        text: 'Payment Pending?',
-        sort: true
+        text: 'Has paid?',
+        sort: true,
+        formatter: function(cell, row) {
+          if (cell) {
+            return <img src="https://i.imgur.com/k8tbSRk.png" width="30px" margin="auto" padding="0"/>
+          } else {
+            return <img src="https://i.imgur.com/FSQ35Yq.png" width="30px" margin="auto" padding="0"/>
+          }
+        }
       }, 
     ];
 

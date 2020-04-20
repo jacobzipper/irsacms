@@ -59,7 +59,7 @@ router.post('/deleteuser', async function(req, res, next) {
       text: 'DELETE FROM STUDENTS WHERE username=$1',
       values: [req.body.username]
     });
-  res.status(200);
+  res.status(200).json({error: 0, msg: 'We gucci'});
 });
 
 router.post('/login', async function(req, res, next){

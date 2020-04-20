@@ -75,8 +75,7 @@ function AdminEdit(props) {
   }
 
   function setDeleteModalShow(bool){
-    console.log("...!");
-    console.log(bool);
+    console.log("-setDeleteModalShow-");
     props.deleteModalHandler(bool)
   }
 
@@ -225,9 +224,9 @@ function dataURLtoBlob(dataurl) {
     })
     .then( res => res.json() )
     .then( res => {
+      console.log(res);
       console.log('attempted to DELETE user');
-      setDeleteModalShow(false);
-      closeModal();
+      window.location.reload();
     });
 
 
