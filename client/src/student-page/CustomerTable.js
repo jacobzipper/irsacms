@@ -6,6 +6,8 @@ import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import AdminView from "../admin-view-page/AdminView";
 import AdminEdit from "../admin-edit-page/AdminEdit";
 import Button from "react-bootstrap/Button";
+import Alert from 'react-bootstrap/Alert';
+import Col from 'react-bootstrap/Col'
 
 // TODO: make this a functional component
 class CustomerTable extends React.Component {
@@ -17,6 +19,7 @@ class CustomerTable extends React.Component {
       lastSelectedStudent : null, // needed to pass clicked student to modal
       toEmail : [], // for contacting a list of students
       modalSwitch : 0, // 0 for ProfileModal, 1 for ProfileEdit
+      alertShow : false,
     };
 
     this.contactUnpaid = this.contactUnpaid.bind(this);
@@ -24,6 +27,7 @@ class CustomerTable extends React.Component {
     this.contactSelectedStudents = this.contactSelectedStudents.bind(this);
     this.handler = this.handler.bind(this);
     this.editPageHandle = this.editPageHandle.bind(this);
+    this.refreshPage = this.refreshPage.bind(this);
   }
   
   // function used to toggle Profile Modal
@@ -71,13 +75,29 @@ class CustomerTable extends React.Component {
     });
   }
 
-  editPageHandle() {
-    this.setState({
-      ...this,
-      modalSwitch: 1 - this.state.modalSwitch,
-      modalShow: false
-    });
+  refreshPage() {
+    window.location.reload(false);
   }
+
+  editPageHandle(isSubmit) {
+    if (isSubmit) {
+      this.setState({
+        ...this,
+        modalSwitch: 1 - this.state.modalSwitch,
+        modalShow: false,
+        alertShow: true
+      });
+      this.refreshPage();
+    }
+    else {
+      this.setState({
+        ...this,
+        modalSwitch: 1 - this.state.modalSwitch,
+        modalShow: false
+      });
+    }
+  }
+
   
   componentDidMount() {
     fetch('/api/customers')
@@ -190,6 +210,25 @@ class CustomerTable extends React.Component {
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <Button onClick={this.contactUnsigned}>Contact unsigned students</Button>
 
+
+        <Col sm={10}>
+            {this.state.alertShow ? (<Alert
+              variant="success"
+              show={this.state.alertShow}
+              dismissible
+              onClose={() => this.setAlertShow(false)}
+            >
+                Succesfully updated attendance record of {this.state.numUpdates} student(s)! Please refresh the page to see changes.
+            </Alert>) :
+            (<Alert
+              variant="info"
+              show={!this.state.alertShow}
+            >
+                Please select students to update attendance.
+            </Alert>)
+            }
+        </Col>
+
         <BootstrapTable
           keyField='id'
           ref={ n => this.node = n }
@@ -224,9 +263,6 @@ class CustomerTable extends React.Component {
           //   data={this.state.lastSelectedStudent}
           // />
         )}
-        <AdminView />
-        <AdminEdit />
-        {/*yes*/}
       </>
     );
   }
