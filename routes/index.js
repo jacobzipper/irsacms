@@ -33,7 +33,7 @@ async function verifyUser(username, password) {
   const student = await pool.query('SELECT * FROM students WHERE username=$1', [username]);
   if (!student.rows.length) return false;
   var hash = crypto.pbkdf2Sync(password, student.rows[0].salt, 10000, 64, 'sha512');
-  return hash.toString('hex') == admin.rows[0].password;
+  return hash.toString('hex') == student.rows[0].password;
 }
 
 /* GET home page. */
@@ -55,9 +55,14 @@ router.get('/profile/:name', async function(req, res, next) {
 
 router.post('/login', async function(req, res, next){
   if (await verifyAdmin(req.body.username, req.body.password)) {
-    res.json({auth: true});
+    res.json({auth: true, userType: "admin"});
   } else {
-    res.json({auth: false});
+    if(await verifyUser(req.body.username, req.body.password)) {
+      res.json({auth: true, userType: "user"});
+    } else {
+      res.json({auth: false, userType: ""});
+    }
+    
   }
 });
 

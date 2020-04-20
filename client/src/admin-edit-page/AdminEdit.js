@@ -42,8 +42,8 @@ function AdminEdit(props) {
   let waiverbytes = data.waiverbytes ? data.waiverbytes : null;
   var updatedName = null;
   var updatedEmail = null;
-  var updatedWaiverCheckbox = null;
-  var updatedPaymentCheckbox = null;
+  var updatedWaiverCheckbox = data.waiver ? data.waiver : null;
+  var updatedPaymentCheckbox = data.payment ? data.payment : null;
   // let name = data.name ? data.name : null;
   // let email = data.email ? data.email : null;
   // let username = data.username ? data.username : null;
@@ -155,12 +155,12 @@ function dataURLtoBlob(dataurl) {
   function handleSubmit() {
 
     let postEmail = data.email;
-    if (updatedEmail && updatedEmail.length > 0) { // && validFormat(updatedEmail) 
-      postEmail = updatedEmail;
+    if (updatedEmail && updatedEmail.trim().length > 0) { // && validFormat(updatedEmail) 
+      postEmail = updatedEmail.trim();
     }
     let postName = data.name;
-    if (updatedName && updatedName.length > 0) { // && validFormat(updatedName) 
-      postName = updatedName;
+    if (updatedName && updatedName.trim().length > 0) { // && validFormat(updatedName) 
+      postName = updatedName.trim();
     }
 
     var postData = {"waiver": updatedWaiverCheckbox, "payment": updatedPaymentCheckbox, "name": postName, "email": postEmail, "username": data.username};
@@ -178,7 +178,7 @@ function dataURLtoBlob(dataurl) {
     .then( res => {
       console.log('attempted to edit userr');
     });
-    props.handler();
+    props.handler(true);
   }
 
   function handleNameChange(event) {
@@ -198,7 +198,7 @@ function dataURLtoBlob(dataurl) {
   }
 
   function closeModal() {
-    props.handler();
+    props.handler(false);
   }
 
   return (
@@ -220,8 +220,6 @@ function dataURLtoBlob(dataurl) {
         {img}
         <Button disabled onClick={props.onHide}>Upload Image</Button>
         {/* TODO: Upload image button */}
-        <Button onClick={props.onHide}>Upload Waiver</Button>
-        {/* TODO: Upload image button */}
         <Table responsive>
           <tbody>
             <tr>
@@ -239,7 +237,7 @@ function dataURLtoBlob(dataurl) {
                 <InputGroup.Prepend>
                   <InputGroup.Text id="basic-addon3">Email:</InputGroup.Text>
                 </InputGroup.Prepend>
-                <Form.Control id="Email" onChange={handleEmailChange} placeholder={null} />
+                <Form.Control id="Email" onChange={handleEmailChange} placeholder={data.email} />
               </InputGroup>
               <tr>
             {/* TODO: Waiver default handling */}
@@ -254,8 +252,6 @@ function dataURLtoBlob(dataurl) {
           </tbody>
         </Table>
 
-        {/* TODO: DEBUG */}
-        {JSON.stringify(data)}
       </Modal.Body>
 
       <Modal.Footer>

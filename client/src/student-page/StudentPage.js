@@ -6,8 +6,22 @@ import Jumbotron from "react-bootstrap/Jumbotron";
 import Container from 'react-bootstrap/Container'
 import Navbar from "../Navbar";
 
-// TODO: refactor this as students page, and make app be the routing with navbar page
+import { Redirect } from 'react-router-dom'
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
+
+
 function StudentPage() {
+  let userType = cookies.get('userType');
+
+  if(!userType || userType.localeCompare('admin') !== 0) {
+    return <Redirect to={{
+      pathname: '/permissionDenied',
+      state: {}
+      }} />
+  }
+
   return (
     
     <>
@@ -28,8 +42,10 @@ function StudentPage() {
       
     </Container>
     </>
-   
+  
   );
+  
+  
 }
 
 export default StudentPage;
