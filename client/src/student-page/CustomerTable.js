@@ -1,10 +1,13 @@
 import React from "react";
 import BootstrapTable from 'react-bootstrap-table-next';
+import ProfileModal from "./ProfileModal";
 import ProfileEdit from "./ProfileEdit";
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import AdminView from "../admin-view-page/AdminView";
 import AdminEdit from "../admin-edit-page/AdminEdit";
 import Button from "react-bootstrap/Button";
+import { Row, Col} from "react-bootstrap";
+import Alert from 'react-bootstrap/Alert';
 
 // TODO: make this a functional component
 class CustomerTable extends React.Component {
@@ -14,12 +17,19 @@ class CustomerTable extends React.Component {
     this.state = {
       modalShow : false, // needed to toggle modal
       lastSelectedStudent : null, // needed to pass clicked student to modal
-      toEmail : [], // for contacting a list of students,
+      toEmail : [], // for contacting a list of students
+      modalSwitch : 0, // 0 for ProfileModal, 1 for ProfileEdit
+      alertShow : false,
+      showDeleteModal: false
     };
 
     this.contactUnpaid = this.contactUnpaid.bind(this);
     this.contactUnsigned = this.contactUnsigned.bind(this);
     this.contactSelectedStudents = this.contactSelectedStudents.bind(this);
+    this.handler = this.handler.bind(this);
+    this.editPageHandle = this.editPageHandle.bind(this);
+    this.refreshPage = this.refreshPage.bind(this);
+    this.handleDeleteModal = this.handleDeleteModal.bind(this);
   }
   
   // function used to toggle Profile Modal
@@ -27,6 +37,19 @@ class CustomerTable extends React.Component {
     ...this,
     modalShow:bool
   })
+
+  //not proud of this
+  handleDeleteModal(bool) {
+    console.log(this.state.showDeleteModal);
+    this.setState({
+      ...this,
+      showDeleteModal: bool
+    });
+    this.setState({       ...this,
+      showDeleteModal: bool }, () => {
+      console.log(this.state.showDeleteModal);
+    });
+  }
 
   contactUnpaid = function(e) {
     console.log("-contactUnpaid-");
@@ -36,7 +59,7 @@ class CustomerTable extends React.Component {
     // this.state.toEmail = this.state.toEmail.filter(email => email != null);
     console.log(this.state.toEmail);
     var mailtoString = this.state.toEmail.join(',');
-    window.location.href = "mailto:" + mailtoString + "?subject=Italian Renaissance Swordsmanship Academy - Reminder&body=Hi there, it's Tony. Plz pay me.";
+    window.location.href = "mailto:" + mailtoString + "?subject=Italian Renaissance Swordsmanship Academy - Reminder";
   }
 
   contactUnsigned = function(e) {
@@ -47,7 +70,7 @@ class CustomerTable extends React.Component {
     // this.state.toEmail = this.state.toEmail.filter(email => email != null);
     console.log(this.state.toEmail);
     var mailtoString = this.state.toEmail.join(',');
-    window.location.href = "mailto:" + mailtoString + "?subject=Italian Renaissance Swordsmanship Academy - Reminder&body=Hi there, it's Tony. Sign.";
+    window.location.href = "mailto:" + mailtoString + "?subject=Italian Renaissance Swordsmanship Academy - Reminder";
   }
 
   contactSelectedStudents = function(e) {
@@ -56,8 +79,40 @@ class CustomerTable extends React.Component {
     });
     console.log(this.state.toEmail);
     var mailtoString = this.state.toEmail.join(',');
-    window.location.href = "mailto:" + mailtoString + "?subject=Italian Renaissance Swordsmanship Academy - Reminder&body=Hi there, it's Tony. Sign.";
+    // TODO: &body=Hi there, it's Tony. Sign.
+    window.location.href = "mailto:" + mailtoString + "?subject=Italian Renaissance Swordsmanship Academy - Reminder";
   }
+
+  handler() {
+    this.setState({
+      ...this,
+      modalSwitch: 1 - this.state.modalSwitch
+    });
+  }
+
+  refreshPage() {
+    window.location.reload(false);
+  }
+
+  editPageHandle(isSubmit) {
+    if (isSubmit) {
+      this.setState({
+        ...this,
+        modalSwitch: 1 - this.state.modalSwitch,
+        modalShow: false,
+        alertShow: true
+      });
+      this.refreshPage();
+    }
+    else {
+      this.setState({
+        ...this,
+        modalSwitch: 1 - this.state.modalSwitch,
+        modalShow: false
+      });
+    }
+  }
+
   
   componentDidMount() {
     fetch('/api/customers')
@@ -116,13 +171,27 @@ class CustomerTable extends React.Component {
       },
       {
         dataField: 'waiver',
-        text: 'Documents Pending?',
-        sort: true
+        text: 'Has waiver?',
+        sort: true,
+        formatter: function(cell, row) {
+          if (cell) {
+            return <img src="https://i.imgur.com/k8tbSRk.png" width="30px" margin="auto" padding="0"/>
+          } else {
+            return <img src="https://i.imgur.com/FSQ35Yq.png" width="30px" margin="auto" padding="0"/>
+          }
+        }
       },
       {
         dataField: 'payment',
-        text: 'Payment Pending?',
-        sort: true
+        text: 'Has paid?',
+        sort: true,
+        formatter: function(cell, row) {
+          if (cell) {
+            return <img src="https://i.imgur.com/k8tbSRk.png" width="30px" margin="auto" padding="0"/>
+          } else {
+            return <img src="https://i.imgur.com/FSQ35Yq.png" width="30px" margin="auto" padding="0"/>
+          }
+        }
       }, 
     ];
 
@@ -164,9 +233,42 @@ class CustomerTable extends React.Component {
 
     return (
       <>
-        <Button onClick={this.contactSelectedStudents}>Contact selected students</Button>
-        <Button onClick={this.contactUnpaid}>Contact unpaid students</Button>
-        <Button onClick={this.contactUnsigned}>Contact unsigned students</Button>
+      <Row>
+        <Col>
+          <Button onClick={this.contactSelectedStudents}>Contact selected</Button>
+          <p></p>
+        </Col>
+        <Col>
+          <Button onClick={this.contactSelectedStudents}>Contact unpaid</Button>
+          <p></p>
+        </Col>
+        <Col>
+          <Button onClick={this.contactSelectedStudents}>Contact unsigned</Button>
+          <p></p>
+        </Col>
+
+        <Col>
+        </Col>
+
+        <Col>
+        </Col>
+
+        <Col>
+        </Col>
+      </Row>
+        {/* <Button onClick={this.contactSelectedStudents}>Contact selected students</Button> */}
+        {/* i beg of you to find a better way */}
+        {/* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */}
+        {/* <Button onClick={this.contactUnpaid}>Contact unpaid students</Button> */}
+        {/* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */}
+        {/* <Button onClick={this.contactUnsigned}>Contact unsigned students</Button> */}
+
         <BootstrapTable
           keyField='id'
           ref={ n => this.node = n }
@@ -180,14 +282,29 @@ class CustomerTable extends React.Component {
         />
 
         {/* Change to ProfileModal for alternate look */}
-        <ProfileEdit
-          show={this.state.modalShow}
-          onHide={() => this.setModalShow(false)}
-          data={this.state.lastSelectedStudent}
-        />
-        <AdminView />
-        <AdminEdit />
-        {/*yes*/}
+        {this.state.modalSwitch == 0 ? (
+            <ProfileModal
+            handler={this.handler}
+            show={this.state.modalShow}
+            onHide={() => this.setModalShow(false)}
+            data={this.state.lastSelectedStudent}
+          />
+        ) : (
+            <AdminEdit
+            handler={this.editPageHandle}
+            deleteModalHandler={this.handleDeleteModal}
+            showDeleteModal={this.state.showDeleteModal}
+            show={this.state.modalShow}
+            onHide={() => this.setModalShow(false)}
+            data={this.state.lastSelectedStudent}
+            />
+          //   <ProfileEdit
+          //   handler = {this.editPageHandle}
+          //   show={this.state.modalShow}
+          //   onHide={() => this.setModalShow(false)}
+          //   data={this.state.lastSelectedStudent}
+          // />
+        )}
       </>
     );
   }

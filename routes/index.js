@@ -33,7 +33,7 @@ async function verifyUser(username, password) {
   const student = await pool.query('SELECT * FROM students WHERE username=$1', [username]);
   if (!student.rows.length) return false;
   var hash = crypto.pbkdf2Sync(password, student.rows[0].salt, 10000, 64, 'sha512');
-  return hash.toString('hex') == admin.rows[0].password;
+  return hash.toString('hex') == student.rows[0].password;
 }
 
 /* GET home page. */
@@ -53,19 +53,35 @@ router.get('/profile/:name', async function(req, res, next) {
   res.json(student.rows[0]);
 });
 
+router.post('/deleteuser', async function(req, res, next) {
+  const student = await pool.query(
+    {
+      text: 'DELETE FROM STUDENTS WHERE username=$1',
+      values: [req.body.username]
+    });
+  res.status(200).json({error: 0, msg: 'We gucci'});
+});
+
 router.post('/login', async function(req, res, next){
   if (await verifyAdmin(req.body.username, req.body.password)) {
-    res.json({auth: true});
+    res.json({auth: true, userType: "admin"});
   } else {
-    res.json({auth: false});
+    if(await verifyUser(req.body.username, req.body.password)) {
+      res.json({auth: true, userType: "user"});
+    } else {
+      res.json({auth: false, userType: ""});
+    }
+    
   }
 });
 
 router.post('/edituser', async function(req, res, next) {
-  if (req.files.waiver) {
+  console.log("req.files.waiver:");
+  // console.log(req.files.waiver) <- undefined, breaks code
+  if (true || req.files.waiver) {
     await pool.query({
       text: 'UPDATE students SET waiverbytes=$1, waiver=$2, payment=$3, name=$4, email=$5 WHERE username=$6',
-      values: [req.files.waiver.bytes, req.body.waiver, req.body.payment, req.body.name, req.body.email, req.body.username]
+      values: [req.body.waiverbytes, req.body.waiver, req.body.payment, req.body.name, req.body.email, req.body.username]
     });
   } else {
     await pool.query({

@@ -67,8 +67,31 @@ function AdminView(props) {
   }
 
   function onChangeHandler(e) {
-    console.log(e.target.files[0])
-    console.log("!!!!")
+    console.log(e.target.files[0]);
+    console.log("!!!!");
+
+    var reader = new FileReader();
+    reader.onload = function(){
+      var dataURL = reader.result;
+      console.log(dataURL);
+
+      var data = {waiverbytes: dataURL};
+
+      // fetch("/api/customers", {
+      //   method: 'POST', 
+      //   credentials: 'same-origin',
+      //   headers: {
+      //     'Content-Type': 'application/json'
+      //   },
+      //   body: JSON.stringify(data),
+      // })
+      // .then( res => res.json() )
+      // .then( res => {
+      //   console.log('hmm. i wonder if it worked.');
+      // });
+    };
+    reader.readAsDataURL(e.target.files[0]);
+
   }
 
   return (

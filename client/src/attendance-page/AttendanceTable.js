@@ -47,8 +47,6 @@ class AttendanceTable extends React.Component {
     fetch('/api/customers')
       .then(res => res.json())
       .then( (res) => {
-        console.log("HELP ME");
-        console.log(res);
         this.setState({
           ...this.state,
           data: res
@@ -121,7 +119,7 @@ class AttendanceTable extends React.Component {
         sort: true
       }
     ];
-
+    
     return (
       <>
         
@@ -154,7 +152,7 @@ class AttendanceTable extends React.Component {
                   justifyContent: "center",
                   alignItems: "center",
                 }}>
-                  <Button onClick={ this.updateAttendance }>Confirm</Button>
+                  <Button onClick={ this.updateAttendance }>Update</Button>
                 </div>
                 <p></p>
             </Col>

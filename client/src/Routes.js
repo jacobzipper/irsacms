@@ -7,10 +7,11 @@ import HomePage from './home-page/HomePage'
 import StudentPage from './student-page/StudentPage';
 import AttendancePage from './attendance-page/AttendancePage';
 import LoginPage from './login-page/LoginPage';
+import RegistrationPage from "./registration-page/RegistrationPage";
+import PermissionDeniedPage from './permission-denied/PermissionDeniedPage'
 
 // other stuff
 import Cookies from 'universal-cookie';
-import RegistrationPage from "./registration-page/RegistrationPage";
 const cookies = new Cookies();
 
 
@@ -40,6 +41,7 @@ export default function Routes() {
         <PrivateRoute exact path='/attendance' component={AttendancePage} />
         <Route exact path='/login' component={LoginPage} />
         <Route exact path='/registration' component={RegistrationPage} />
+        <Route exact path='/permissionDenied' component={PermissionDeniedPage} />
       </Router>
     
   );

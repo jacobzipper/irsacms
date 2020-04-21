@@ -27,8 +27,6 @@ class CustomerTable extends React.Component {
     fetch('/api/customers')
       .then(res => res.json())
       .then( (res) => { 
-        console.log("HELLOOO");
-        console.log(res);
         this.setState({
           ...this.state,
           data: res
@@ -79,12 +77,17 @@ class CustomerTable extends React.Component {
       },
       {
         dataField: 'waiver',
-        text: 'Documents Pending?',
-        sort: true
+        text: 'Has waiver?',
+        sort: true,
+        formatter: function(cell, row) {
+          if (true) {
+            return '<img src="'+"warning"+".png" +'" />'
+          }
+        }
       },
       {
         dataField: 'payment',
-        text: 'Payment Pending?',
+        text: 'Has paid?',
         sort: true
       }, 
     ];

@@ -37,6 +37,12 @@ function ProfileEdit(props) {
   let waiver = data.waiver ? "Has Waiver" : "Does Not Have Waiver!";
   let payment = data.payment ? "Has Payed" : "Has Not Payed!";
   let attendance = data.date ? IdiomaticReactList(data.date) : "Not yet attended";
+  let waiverbytes = data.waiverbytes ? data.waiverbytes : null;
+  var updatedName = null;
+  var updatedEmail = null;
+  // let name = data.name ? data.name : null;
+  // let email = data.email ? data.email : null;
+  // let username = data.username ? data.username : null;
 
   //   TODO: Handle pushing data
   // Handle route to profile
@@ -59,6 +65,130 @@ function ProfileEdit(props) {
     return null
   }
 
+  function _arrayBufferToBase64( buffer ) {
+    var res = "";
+    var len = buffer.length;
+    for (var i = 0; i < len; i++) {
+        res += String.fromCharCode(buffer[i]);
+    }
+    return res;
+}
+
+function showFile(blob) {
+  // It is necessary to create a new blob object with mime-type explicitly set
+  // otherwise only Chrome works like it should
+  var newBlob = new Blob([blob], {type: "application/pdf"})
+
+  // IE doesn't allow using a blob object directly as link href
+  // instead it is necessary to use msSaveOrOpenBlob
+  if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+    window.navigator.msSaveOrOpenBlob(newBlob);
+    return;
+  } 
+
+  // For other browsers: 
+  // Create a link pointing to the ObjectURL containing the blob.
+  const blobdata = window.URL.createObjectURL(newBlob);
+  var link = document.createElement('a');
+  link.href = blobdata;
+  link.download=data.name;
+  link.click();
+  setTimeout(function(){
+    // For Firefox it is necessary to delay revoking the ObjectURL
+    window.URL.revokeObjectURL(blobdata);
+  }, 100);
+}
+
+function dataURLtoBlob(dataurl) {
+  var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+      bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+  while(n--){
+      u8arr[n] = bstr.charCodeAt(n);
+  }
+  return new Blob([u8arr], {type:mime});
+}
+
+  function openPDF() {
+    var dataurl = _arrayBufferToBase64(waiverbytes.data);
+    var blob = dataURLtoBlob(dataurl);
+    showFile(blob);
+
+    
+    // open in new tab (not fully functional)
+    // // var imageurl = "<img src='" + dataurl + "'/>"
+    // var pdfurl = "<iframe src='" + dataurl + "' width='100%' height='100%' />";
+    // var w = window.open("");
+    // w.document.write(pdfurl);
+  }
+
+  function onAddFile(e) {
+    console.log(e.target.files[0]);
+
+    var reader = new FileReader();
+    reader.onload = function(){
+      var dataURL = reader.result;
+      console.log(dataURL);
+
+      var postData = {"waiverbytes": dataURL, "waiver": data.waiver, "payment": data.payment, "name": data.name, "email": data.email, "username": data.username};
+
+      console.log(postData);
+      fetch("/api/edituser", {
+        method: 'POST', 
+        credentials: 'same-origin',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(postData),
+      })
+      .then( res => res.json() )
+      .then( res => {
+        console.log('attempted to add file');
+      });
+    };
+    reader.readAsDataURL(e.target.files[0]);
+
+  }
+
+  function handleSubmit() {
+
+    let postEmail = data.email;
+    if (updatedEmail && updatedEmail.length > 0) { // && validFormat(updatedEmail) 
+      postEmail = updatedEmail;
+    }
+    let postName = data.name;
+    if (updatedName && updatedName.length > 0) { // && validFormat(updatedName) 
+      postName = updatedName;
+    }
+
+    var postData = {"waiverbytes": data.waiverbytes, "waiver": data.waiver, "payment": data.payment, "name": postName, "email": postEmail, "username": data.username};
+    fetch("/api/edituser", {
+      method: 'POST', 
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(postData),
+    })
+    .then( res => res.json() )
+    .then( res => {
+      console.log('attempted to edit userr');
+    });
+    props.handler();
+  }
+
+  function handleNameChange(event) {
+    updatedName = event.target.value;
+  }
+
+  function handleEmailChange(event) {
+    updatedEmail = event.target.value;
+  }
+
+  function closeModal() {
+    props.onHide();
+    props.handler();
+  }
+
   return (
     <Modal
       {...props}
@@ -75,15 +205,8 @@ function ProfileEdit(props) {
 
       <Modal.Body>
         {img}
-        <Button onClick={props.onHide}>Upload Image</Button>
+        <Button disabled onClick={props.onHide}>Upload Image</Button>
         {/* TODO: Upload image button */}
-        <div>
-          <object 
-            style={{width: '100%', height: '200pt'}} 
-            type="application/pdf" 
-            data={'data:application/pdf;base64,' + waiverbytes}>
-          </object>
-        </div>
         <Button onClick={props.onHide}>Upload Waiver</Button>
         {/* TODO: Upload image button */}
         <Table responsive>
@@ -94,7 +217,7 @@ function ProfileEdit(props) {
                 <InputGroup.Prepend>
                   <InputGroup.Text id="basic-addon3">Name:</InputGroup.Text>
                 </InputGroup.Prepend>
-                <Form.Control id="Name" placeholder={data.name} />
+                <Form.Control id="Name" placeholder={data.name} onChange={handleNameChange}/>
               </InputGroup>
             </tr>
             <tr>
@@ -103,7 +226,7 @@ function ProfileEdit(props) {
                 <InputGroup.Prepend>
                   <InputGroup.Text id="basic-addon3">Email:</InputGroup.Text>
                 </InputGroup.Prepend>
-                <Form.Control id="Email" placeholder={null} />
+                <Form.Control id="Email" onChange={handleEmailChange} placeholder={null} />
               </InputGroup>
             </tr>
             <div>
@@ -122,11 +245,13 @@ function ProfileEdit(props) {
 
       <Modal.Footer>
         {/* TODO: Handle waiver */}
-        <Button href={waiver}>Download Waiver</Button>
+        {/* <a href={waiverbytes} target='_blank'>HELLOPLEZ</a> */}
+        <input type="file" name="file" onChange={onAddFile}/><br/>
+        <Button onClick={openPDF}>Download Waiver</Button>
         {/* TODO: Handle server call and route to profile page */}
-        <Button onClick={props.onHide}>Submit</Button>
+        <Button onClick={handleSubmit}>Submit</Button>
         {/* TODO: Handle route to prifile page */}
-        <Button onClick={props.onHide}>Close</Button>
+        <Button onClick={closeModal}>Close</Button>
       </Modal.Footer>
     </Modal>
   );
