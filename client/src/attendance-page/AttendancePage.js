@@ -51,8 +51,11 @@ class AttendancePage extends React.Component {
     .then( res => {
       if(res.error == 1) {
         // alert("Incorrect Code.")
+        console.log(credentials);
+        console.log("it actually failed..")
         alert("Attendance succesfully updated.")
       } else {
+        console.log(credentials);
         alert("Attendance succesfully updated.")
       }
 
