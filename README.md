@@ -3,6 +3,10 @@
 
 This document serves as documentation for the IRSA CMS. Multiple deployments for this application exist on heroku's servers, but full instructions on how to run the project locally will be provided.
 
+### Release Notes
+
+This is the official alpha 1.0.0 release of the IRSA CMS. Lots of work has gone into providing the features we discussed while doing sprint planning. As of now, we have full account support for both students and admins, admin capabilities to manage students, attendance functionality for both admins and students to record attendance, and waiver support for uploading and downloading. 
+
 ### Pre-requisites
 
 To run this project, you must own a device that can run a modern computer operating system and you must have admin privileges on that device. 
